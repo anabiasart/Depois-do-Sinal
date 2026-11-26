@@ -94,6 +94,7 @@ Antes de abrir um PR, teste o início de uma partida, o progresso narrativo, o B
 ## Créditos e direitos
 
 Projeto criado e mantido por [@anabiasart](https://github.com/anabiasart), com apoio de ferramentas de IA no desenvolvimento e na criação visual. Personagens, narrativa e ambientação pertencem ao universo de Depois do Sinal. Este repositório ainda não declara uma licença de distribuição; a disponibilidade pública do código não implica autorização irrestrita de reutilização das artes ou do jogo.
+Obs: com fins apenas de diversão <3
 
 ---
 
