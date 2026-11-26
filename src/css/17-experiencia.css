@@ -1,0 +1,58 @@
+/* Criação inicial: visual original em destaque, sem loja ou menus avançados. */
+.creator { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); gap: clamp(20px,4vw,48px); align-items: start; }
+.creator-preview {
+    display: grid; gap: 12px; text-align: center; padding: 20px 16px;
+    border: 1px solid #d9bdce; border-radius: 14px; background: radial-gradient(ellipse at 50% 25%,#fffdf8,#e8d4e1);
+}
+.creator-kicker { font-size: 10px; letter-spacing: 1.6px; color: #8b526f; }
+.creator-art { height: clamp(260px,53dvh,560px); display: grid; place-items: center; overflow: hidden; }
+.creator-art svg { max-width: 100%; max-height: 100%; width: auto; height: 100%; }
+.creator-lookname { font: 19px Georgia,serif; color: #754763; }
+.creator-form { min-width: 0; }
+.creator-form h3 { margin: 8px 0 18px; font: 34px Georgia,serif; color: #56374d; }
+.creator-form label { display: block; font-weight: 600; margin-bottom: 6px; }
+.creator-form input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #d9bdce; border-radius: 9px; font: 16px system-ui; }
+.creator-tabs { display: flex; gap: 8px; margin: 18px 0 14px; }
+.creator-tabs button, .creator-swatches button, .creator-looks button {
+    border: 1px solid #e0ccd7; background: #fffdfb; color: #53384f; border-radius: 9px; min-height: 42px;
+}
+.creator-tabs button { flex: 1; padding: 10px; }
+.creator button[aria-pressed=true] { border-color: #925679; box-shadow: inset 0 0 0 1px #925679; background: #f2e2eb; }
+.creator-palette { border: 0; padding: 0; margin: 0 0 14px; min-width: 0; }
+.creator-palette legend { font-weight: 600; padding: 0 0 7px; }
+.creator-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+.creator-swatches button { display: flex; align-items: center; gap: 6px; padding: 6px 10px; }
+.creator-swatches i { width: 19px; height: 19px; border-radius: 50%; border: 1px solid #70546755; }
+.creator-looks { display: grid; grid-template-columns: repeat(auto-fit,minmax(105px,1fr)); gap: 8px; }
+.creator-looks button { padding: 6px; text-align: center; overflow: hidden; }
+.creator-looks img { display: block; width: 100%; height: 126px; object-fit: contain; background: #f2e4eb; border-radius: 5px; }
+.creator-looks b { display: block; font-size: 11px; padding: 7px 1px 3px; }
+.creator-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.creator-actions .primary { flex: 1; min-height: 46px; }
+.creator-warning { font-size: 12px; color: #8a4d36; }
+.creator button:focus-visible, .story-toggle:focus-visible { outline: 2px solid #925679; outline-offset: 2px; }
+
+/* História em primeiro plano. Vínculos podem ser abertos a qualquer momento. */
+.shell12.story-focus .layout { grid-template-columns: 164px minmax(0,1fr); }
+.shell12.story-focus .side { display: none; }
+.shell12 .main { width: 100%; max-width: 1450px; margin-inline: auto; box-sizing: border-box; }
+.shell12 .episode { display: flex; align-items: center; flex-wrap: wrap; }
+.story-toggle { margin-left: auto; border: 1px solid #d7baca; border-radius: 8px; background: #fffaf7; color: #6c425e; padding: 8px 12px; min-height: 36px; font-size: 12px; }
+.shell12 .rail12 .nav button:hover { justify-content: flex-start; }
+.shell12 .scene { height: clamp(210px,48dvh,660px); }
+.shell12 .dialog { padding: clamp(14px,2vw,24px); border-radius: 0 0 14px 14px; }
+.shell12 .dialog p { font-size: clamp(16px,1.5vw,19px); line-height: 1.65; margin: 10px 0 16px; }
+.shell12 .choices { display: grid; gap: 8px; }
+.shell12 .choice { width: 100%; min-height: 46px; text-align: left; padding: 12px 16px; line-height: 1.5; }
+.shell12 .nextrow .primary { min-height: 46px; min-width: 150px; }
+.shell12 .foot { font-size: 11px; }
+@media(max-width:800px) {
+    .creator { grid-template-columns: minmax(0,1fr); gap: 16px; }
+    .creator-preview { padding: 12px; }
+    .creator-art { height: clamp(180px,32dvh,290px); }
+    .creator-form h3 { font-size: 26px; }
+    .shell12.story-focus .layout { grid-template-columns: minmax(0,1fr); }
+    .shell12 .scene { height: clamp(200px,39dvh,440px); }
+    .shell12 .nextrow .primary { width: 100%; }
+    .shell12 .rail12 .nav button { min-height: 44px; }
+}

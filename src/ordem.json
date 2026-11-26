@@ -39,6 +39,7 @@
     "src/js/cidade/36-mapa-interativo.js",
     "src/js/celular/37-bellfeed-dinamico.js",
     "src/js/core/38-integracao-estabilidade.js",
+    "src/js/visual/41-experiencia.js",
     "src/js/core/39-executar.js"
   ],
   "css": [
@@ -57,6 +58,7 @@
     "src/css/13-interface-calendario.css",
     "src/css/14-mapa-e-feed.css",
     "src/css/15-estabilidade.css",
-    "src/css/16-modais.css"
+    "src/css/16-modais.css",
+    "src/css/17-experiencia.css"
   ]
 }
