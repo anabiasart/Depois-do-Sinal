@@ -1,0 +1,43 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editores e arquivos temporários
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# Dependências, builds e testes futuros
+node_modules/
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
+.cache/
+*.log
+
+# Configuração local e credenciais
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Progresso privado e exportações locais
+/saves/
+/backups/
+/exports/
+save.json
+save-*.json
+salvamento*.json
+
+# Pacotes locais gerados
+*.zip
+
+# assets.js, game.js, style.css e index.html são versionados.
+# Não ignorar globalmente JSON, imagens ou áudios: podem ser recursos do projeto.
