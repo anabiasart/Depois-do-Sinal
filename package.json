@@ -1,0 +1,14 @@
+{
+  "name": "depois-do-sinal",
+  "version": "0.14.0",
+  "private": true,
+  "description": "Visual novel de Bellmont — organização de fontes editáveis",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "check": "node --check game.js",
+    "artes": "node scripts/artes.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

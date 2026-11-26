@@ -1,0 +1,222 @@
+/* bellmont-life | v0.14 */
+.wide7{
+  width:min(1020px,100%);
+  max-height:93vh}
+.ward7{
+  display:grid;
+  grid-template-columns:minmax(220px, .85fr) minmax(0,1.15fr);
+  gap:22px}
+.mirror7 .avatar{
+  height:390px;
+  background:radial-gradient(ellipse at top,#fff8f5,#e8d4e5);
+  border:1px solid #e6cfda}
+.mirror7 .avatar svg{
+  height:100%;
+  width:auto;
+  max-width:100%}
+.pose7,.tabs7{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:12px 0}
+.pose7 button[aria-pressed=true],.tabs7 button[aria-pressed=true],.contact7[aria-pressed=true],.outfit7[aria-pressed=true]{
+  background:#efd7e5;
+  outline:2px solid #b75c88}
+.outfits7{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px}
+.outfit7{
+  border:1px solid #e4d2df;
+  background:#fff7fa;
+  border-radius:12px;
+  padding:5px;
+  font-size:11px;
+  min-width:0;
+  line-height:1.3}
+.outfit7>div{
+  height:110px;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  background:#f2e5eb;
+  border-radius:8px;
+  margin-bottom:5px}
+.outfit7 svg{
+  height:100%;
+  width:auto;
+  max-width:100%}
+.phone7{
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  border:1px solid #ead3e0;
+  border-radius:18px;
+  overflow:hidden;
+  min-height:420px}
+.contactlist7{
+  background:#f9edf4;
+  padding:12px;
+  display:grid;
+  align-content:start;
+  gap:8px}
+.contact7{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  text-align:left;
+  padding:7px;
+  border-radius:12px;
+  background:#fff8fa}
+.contact7>span{
+  flex:1;
+  min-width:0}
+.contact7 small{
+  display:block;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  color:#826d7d}
+.contact7 em{
+  font-size:11px;
+  border-radius:20px;
+  padding:5px;
+  background:#b74679;
+  color:white;
+  font-style:normal}
+.face7{
+  width:48px;
+  height:52px;
+  flex-shrink:0;
+  overflow:hidden;
+  border-radius:12px;
+  background:#e8d5e4;
+  display:flex;
+  justify-content:center}
+.face7 svg{
+  height:130px;
+  width:auto;
+  flex-shrink:0}
+.thread7{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:15px;
+  background:linear-gradient(145deg,#fffaf9,#f7e8f1);
+  max-height:64vh;
+  overflow:auto}
+.threadhead7{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:#fff8fa;
+  padding:10px;
+  border-radius:12px}
+.threadhead7 h3{
+  margin:0}
+.bubble7{
+  align-self:flex-start;
+  max-width:92%;
+  background:white;
+  padding:12px 15px;
+  border-radius:4px 16px 16px 16px;
+  border:1px solid #eadbe4;
+  line-height:1.5}
+.mine7{
+  align-self:flex-end;
+  background:#e8cfe1;
+  border-radius:16px 4px 16px 16px}
+.topic7{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center;
+  border-top:1px solid #dec7d7;
+  padding-top:12px;
+  margin-top:8px}
+.thread7 .replychoices{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap}
+.thread7 .replychoices button{
+  font-size:12px}
+.journalcover7{
+  background:linear-gradient(130deg,#f4dbe5,#ece4f7);
+  padding:22px;
+  border-radius:16px}
+.entry7,.relation7{
+  border:1px solid #e8d6e1;
+  background:#fff8fa;
+  padding:13px;
+  border-radius:12px;
+  margin:8px 0}
+.progress7 .entry7{
+  display:flex;
+  justify-content:space-between;
+  gap:10px}
+.entry7 span,.entry7 small{
+  color:#876a7d;
+  font-size:12px}
+.entry7 p{
+  margin:6px 0;
+  line-height:1.4}
+.relation7{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:12px}
+.stat7{
+  margin:6px 0}
+.stat7 .bar{
+  height:7px}
+.notetext7{
+  white-space:pre-wrap}
+#note7{
+  width:100%;
+  height:150px;
+  resize:vertical;
+  border:1px solid #e2c7d8;
+  border-radius:12px;
+  padding:12px;
+  background:#fff;
+  color:#38283b;
+  font:inherit;
+  margin-bottom:12px}
+.overlay{
+  padding:14px}
+.dialog p{
+  animation:dialog7 .2s ease-out}
+@keyframes dialog7{
+  from{
+    opacity:.45;
+    transform:translateY(3px)}
+  to{
+    opacity:1;
+    transform:none}
+  }
+@media(max-width:720px){
+  .ward7{
+    grid-template-columns:1fr}
+  .mirror7 .avatar{
+    height:300px}
+  .phone7{
+    grid-template-columns:1fr}
+  .contactlist7{
+    display:flex;
+    overflow-x:auto;
+    align-items:center}
+  .contact7{
+    min-width:122px;
+    max-width:150px}
+  .contact7 small{
+    display:none}
+  .thread7{
+    max-height:58vh}
+  .outfits7{
+    grid-template-columns:repeat(3,1fr)}
+  .panel{
+    padding:16px}
+  .wide7{
+    max-height:92vh}
+  .progress7 .entry7{
+    flex-wrap:wrap}
+  }

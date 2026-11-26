@@ -1,0 +1,152 @@
+/* conversas | v0.14 */
+/* v0.9.4 chat organization */
+.inbox94{
+  grid-template-columns:minmax(205px,.75fr) minmax(0,1.65fr);
+  align-items:start}
+.inbox94 .bpinboxleft{
+  max-height:60vh;
+  overflow:auto}
+.inbox94 input{
+  width:100%;
+  min-width:0;
+  padding:9px;
+  border:1px solid var(--bp-line);
+  border-radius:10px;
+  background:var(--bp-surface);
+  color:var(--bp-ink);
+  box-sizing:border-box}
+.filters94{
+  margin:9px 0;
+  gap:4px}
+.filters94 .bpbutton{
+  padding:5px 8px;
+  font-size:11px}
+.filters94 button[aria-pressed=true]{
+  background:var(--bp-soft);
+  font-weight:bold}
+.contact94[hidden]{
+  display:none!important}
+.waiting94{
+  color:var(--bp-accent)!important}
+.thread94{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  height:min(58vh,610px);
+  min-height:360px;
+  border:1px solid var(--bp-line);
+  border-radius:14px;
+  overflow:hidden;
+  background:var(--bp-surface)}
+.thread94>.bpthreadhead{
+  margin:0;
+  padding:10px 12px;
+  flex-shrink:0}
+.pending94{
+  margin-left:auto;
+  font-size:10px;
+  color:var(--bp-muted);
+  white-space:nowrap}
+.history94{
+  flex:1;
+  min-height:100px;
+  overflow:auto;
+  padding:10px 13px;
+  background:var(--bp-bg);
+  scrollbar-width:thin}
+.day94{
+  text-align:center;
+  font-size:10px;
+  color:var(--bp-muted);
+  margin:14px 0 10px;
+  letter-spacing:.5px}
+.message94{
+  margin:6px 0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start}
+.message94.own94{
+  align-items:flex-end}
+.message94 .bpbubble{
+  max-width:90%;
+  width:fit-content;
+  margin:2px 0;
+  box-sizing:border-box}
+.msgtools94{
+  display:flex;
+  gap:4px;
+  opacity:.7}
+.msgtools94 .bpbutton{
+  font-size:10px;
+  padding:2px 5px;
+  background:none;
+  border:0;
+  color:var(--bp-muted)}
+.msgtools94:hover,.msgtools94:focus-within{
+  opacity:1}
+.starflag94{
+  color:var(--bp-accent)}
+.composer94{
+  padding:10px 12px;
+  border-top:1px solid var(--bp-line);
+  max-height:55%;
+  overflow:auto;
+  flex-shrink:0}
+.composerhead94{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px}
+.composerhead94 span{
+  color:var(--bp-muted)}
+.quote94{
+  border-left:3px solid var(--bp-accent);
+  padding:6px 9px;
+  margin:6px 0;
+  background:var(--bp-soft);
+  font-size:11px;
+  line-height:1.4;
+  color:var(--bp-ink);
+  overflow-wrap:anywhere}
+.composer94 .bpchoices{
+  gap:4px;
+  margin:6px 0}
+.composer94 .bpchoices button{
+  font-size:12px;
+  padding:7px 9px}
+.composer94 .bpactions{
+  gap:5px}
+.composer94 .bpactions button{
+  font-size:11px;
+  padding:5px 8px}
+.topics94{
+  margin-top:7px;
+  font-size:12px;
+  color:var(--bp-accent)}
+.topics94 summary{
+  cursor:pointer}
+.group94 .history94{
+  min-height:100%}
+.inbox94 .bpface{
+  flex-shrink:0}
+@media(max-width:750px){
+  .inbox94{
+    grid-template-columns:1fr}
+  .inbox94 .bpinboxleft{
+    max-height:210px}
+  .thread94{
+    height:480px;
+    min-height:350px}
+  .inbox94 .contacts94{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:3px}
+  .inbox94 .bpcontact{
+    margin:0}
+  .inbox94 .bpcontact small{
+    font-size:10px}
+  }
+@media(max-width:420px){
+  .inbox94 .contacts94{
+    grid-template-columns:1fr}
+  }

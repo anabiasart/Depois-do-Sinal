@@ -1,0 +1,164 @@
+/* moda | v0.14 */
+.fashionpanel9{
+  width:min(1180px,96vw)!important;
+  max-width:1180px!important}
+.fashionlayout9{
+  display:grid;
+  grid-template-columns:minmax(230px,.82fr) minmax(0,1.18fr);
+  gap:20px;
+  align-items:start}
+.fashionmirror9{
+  position:sticky;
+  top:0;
+  text-align:center;
+  min-width:0}
+.mirrorart9{
+  height:clamp(350px,59vh,680px);
+  border:1px solid #e5ccd9;
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center}
+.mirrorart9 svg{
+  height:100%!important;
+  width:100%!important;
+  max-height:100%;
+  display:block}
+.bg9-rose{
+  background:radial-gradient(ellipse at 50% 35%,#fff9f5,#efdae8)}
+.bg9-night{
+  background:radial-gradient(ellipse at 50% 35%,#776a91,#34304c)}
+.bg9-garden{
+  background:radial-gradient(ellipse at 50% 35%,#f8f7de,#d4e2ce)}
+.fashionmirror9 small{
+  color:#8d7281}
+.fashionoptions9{
+  min-width:0}
+.fashiontabs9,.filter9{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:8px 0}
+.fashiontabs9 .soft,.filter9 .soft{
+  font-size:12px;
+  padding:8px 10px}
+.fashiontabs9 button[aria-pressed=true],.filter9 button[aria-pressed=true],.piece9[aria-pressed=true]{
+  border:2px solid #ac527e;
+  background:#f0dbe8}
+.fashioncatalog9{
+  max-height:53vh;
+  overflow:auto;
+  padding:0 5px 10px}
+.fashioncatalog9 h3{
+  margin:12px 0 8px;
+  font:600 21px Georgia;
+  color:#854769}
+.pieces9{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px}
+.piece9{
+  border:1px solid #e7d4df;
+  border-radius:12px;
+  background:#fff9fb;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:8px;
+  gap:5px;
+  text-align:center;
+  overflow:hidden}
+.piece9 b{
+  font-size:12px;
+  line-height:1.25}
+.piece9 small{
+  font-size:11px;
+  color:#886a7e}
+.piece9:disabled{
+  opacity:.55;
+  cursor:not-allowed}
+.pieceart9{
+  height:110px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f8edf3;
+  border-radius:8px;
+  overflow:hidden}
+.pieceart9 svg{
+  width:100%;
+  height:100%}
+.pieceart9.full9{
+  height:160px}
+.miniicon9{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#845473;
+  font-size:23px}
+.event9{
+  border:1px solid #e8d5e1;
+  background:#fff8fb;
+  padding:12px;
+  border-radius:12px;
+  margin:9px 0}
+.event9 b,.event9 small{
+  display:block}
+.event9 small{
+  color:#8a7180;
+  margin-top:5px}
+.event9 p{
+  margin:6px 0}
+.fashionpanel9 .studiofoot8{
+  position:sticky;
+  bottom:0;
+  background:#fff9fb;
+  z-index:2;
+  padding:10px 0;
+  border-top:1px solid #e8d5df}
+.fashionoptions9 input{
+  width:100%;
+  box-sizing:border-box}
+.fashion9{
+  overflow:hidden!important}
+.scene .sprite.protagonist:has(.fashion9){
+  height:100%;
+  bottom:-4%}
+.duohero .fashion9{
+  height:100%;
+  width:auto}
+@media(max-width:700px){
+  .fashionlayout9{
+    grid-template-columns:1fr}
+  .fashionmirror9{
+    position:static}
+  .mirrorart9{
+    height:360px}
+  .fashioncatalog9{
+    max-height:none}
+  .pieces9{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fashionpanel9 .studiofoot8{
+    flex-wrap:wrap}
+  }
+
+.fashionoptions9>input{
+  border:1px solid #e7d4df;
+  border-radius:9px;
+  background:#fff;
+  padding:10px 12px;
+  color:#392e43;
+  font:inherit;
+  margin:5px 0}
+.fashionoptions9>label{
+  color:#82657b;
+  font-weight:600;
+  font-size:13px}
+.mirrorart9.face9 svg{
+  max-width:90%;
+  max-height:94%}

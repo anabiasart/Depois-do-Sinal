@@ -1,0 +1,184 @@
+/* cenarios-e-perfis | v0.14 */
+/* v0.4 */
+.scene{
+  height:clamp(360px,57vh,630px);
+  background:#eee2ec}
+.scene .bg{
+  filter:none}
+.scene .anime-bg{
+  object-fit:cover}
+.scene:before{
+  background:linear-gradient(90deg,#34213914,transparent 35%,transparent 70%,#34213916)}
+.scene .sprite:has(.anime-sprite){
+  height:103%;
+  bottom:-4%}
+.top{
+  background:linear-gradient(110deg,#fff8f6,#f2dbe5)}
+.dialog{
+  border-top:2px solid #d9a8af;
+  position:relative}
+.dialog:before{
+  content:'✿';
+  position:absolute;
+  right:18px;
+  top:7px;
+  color:#d99bb0;
+  font-size:23px}
+.choice{
+  background:linear-gradient(100deg,#fff9f4,#fff1f5)}
+.choice:hover{
+  border-color:#b78086}
+.place{
+  min-height:170px}
+.place .anime-bg{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  width:100%;
+  height:100%}
+.place span{
+  background:linear-gradient(0deg,#251d35c9,transparent)}
+.map{
+  background:linear-gradient(145deg,#fffaf6,#f5e6ee)}
+.daybar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin:14px 0}
+.daypill{
+  font-size:12px;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#f0dce8;
+  color:#793f65}
+.clues{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:10px 0}
+.clues span{
+  padding:6px 10px;
+  border:1px solid #ddbdce;
+  border-radius:8px;
+  background:#fffaf8;
+  font-size:12px}
+.bonus{
+  background:#fff9f0;
+  border:1px solid #e8d7bb;
+  border-radius:12px;
+  padding:12px 15px;
+  margin:14px 0}
+.bonus b{
+  color:#9d694a}
+.duo .sprite:first-of-type{
+  left:31%}
+.duo .sprite:nth-of-type(2){
+  left:70%}
+.toast{
+  pointer-events:none}
+.coverart .hero:nth-child(n){
+  mask-image:linear-gradient(#000 0 90%,transparent)}
+.memory-label{
+  font-size:10px;
+  color:#8d6580;
+  display:block}
+.side .objective{
+  background:#fff8fa;
+  padding:10px;
+  border:1px solid #eedce6;
+  border-radius:9px}
+.covercopy .tag{
+  color:#9e5175}
+.savelinks{
+  display:grid;
+  gap:10px}
+.savelinks input{
+  max-width:100%}
+.phone .msg{
+  border:1px solid #ebd8e4}
+.cg .pic .anime-bg{
+  height:100%;
+  width:100%}
+@media(max-width:800px){
+  .scene{
+    height:360px}
+  .place{
+    min-height:125px}
+  }
+
+ .girlsgrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px}
+.girlcard{
+  background:#fff7fa;
+  border:1px solid #ead6e2;
+  border-radius:12px;
+  overflow:hidden;
+  padding:10px}
+.girlcard p{
+  font-size:13px;
+  line-height:1.5}
+.girlart{
+  height:230px;
+  display:flex;
+  justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(135deg,#f8dce9,#e5ddeb);
+  border-radius:9px;
+  margin-bottom:8px}
+.girlart svg{
+  height:100%;
+  width:auto}
+.duo5{
+  height:300px!important;
+  position:relative;
+  border-radius:12px;
+  isolation:isolate}
+.duohero,.duoboy{
+  position:absolute;
+  height:98%;
+  bottom:0;
+  display:flex;
+  justify-content:center;
+  z-index:1;
+  width:50%}
+.duohero{
+  left:7%}
+.duoboy{
+  right:7%}
+.duohero svg,.duoboy svg{
+  height:100%;
+  width:auto;
+  max-width:100%}
+.duolabel{
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:4;
+  background:#fff0f5e8;
+  padding:6px 14px;
+  border-radius:20px;
+  white-space:nowrap;
+  color:#9b4672;
+  font:italic 14px Georgia}
+.cg .duo5{
+  height:185px!important}
+.memquote{
+  font:italic 13px/1.5 Georgia;
+  margin:0 10px 12px;
+  color:#8d4b73}
+.ending .duo5{
+  max-width:620px;
+  margin:16px auto}
+.avatar svg{
+  width:auto;
+  max-width:100%}
+ @media(max-width:500px){
+  .girlsgrid{
+    grid-template-columns:1fr}
+  .duo5{
+    height:230px!important}
+  }

@@ -1,0 +1,177 @@
+/* atelie-loja | v0.14 */
+.studioPanel8{
+  width:min(1100px,100%);
+  padding:24px}
+.studiohead8{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:0 0 18px;
+  gap:10px}
+.wallet8{
+  border:1px solid #e2c6a0;
+  border-radius:20px;
+  background:#fff3dd;
+  color:#845b2e;
+  font-weight:700;
+  font-size:13px;
+  padding:8px 14px}
+.studio8{
+  grid-template-columns:minmax(230px,.85fr) minmax(0,1.15fr);
+  gap:24px}
+.studio8 .mirror7 .avatar{
+  height:clamp(290px,48vh,460px);
+  background:radial-gradient(ellipse at 55% 25%,#fff7f3,#ecdde9 75%);
+  border-radius:16px}
+.looklabel8{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+  color:#804665;
+  font-size:13px}
+.looklabel8 span{
+  color:#88758a}
+.tabs8{
+  margin:10px 0 20px;
+  border-bottom:1px solid #eadce4;
+  padding-bottom:10px}
+.tabs8 button{
+  font-size:12px}
+.grid8{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px}
+.card8{
+  padding:8px;
+  text-align:left;
+  min-width:0}
+.card8>div{
+  height:clamp(95px,18vh,160px);
+  background:#f3e5ed}
+.card8 b,.card8 small{
+  display:block;
+  line-height:1.5;
+  overflow-wrap:anywhere}
+.card8 small{
+  color:#876d81}
+.swatches8{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap}
+.swatch8{
+  border:1px solid #eadce4;
+  background:#fff8fa;
+  border-radius:12px;
+  padding:9px;
+  min-width:72px;
+  font-size:12px;
+  display:grid;
+  justify-items:center;
+  gap:6px}
+.swatch8 span{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:1px solid #0002}
+.swatch8[aria-pressed=true],.acc8 button[aria-pressed=true]{
+  outline:2px solid #b75c88;
+  background:#f2dfeb}
+.color8{
+  margin:0 0 20px}
+.accgrid8{
+  display:grid;
+  gap:10px}
+.acc8{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #eadce4;
+  border-radius:14px;
+  padding:10px;
+  background:#fff7fa}
+.acc8>div:nth-child(2){
+  flex:1;
+  min-width:0}
+.acc8 small{
+  display:block;
+  color:#88758a;
+  font-size:12px;
+  margin-top:4px}
+.accicon8{
+  font-size:32px;
+  background:#f4e5ed;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  width:56px;
+  height:56px;
+  color:#9f527b;
+  flex-shrink:0}
+.favportrait8{
+  height:76px;
+  width:56px;
+  overflow:hidden;
+  border-radius:8px;
+  background:#f0e2ea;
+  flex-shrink:0}
+.favportrait8 svg{
+  height:100%;
+  width:100%}
+.favform8{
+  display:flex;
+  gap:8px;
+  margin:12px 0}
+.favform8 input{
+  min-width:0;
+  flex:1}
+.studiofoot8{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:20px;
+  padding-top:14px;
+  border-top:1px solid #e9d8e3}
+.studiofoot8 .primary{
+  flex-shrink:0}
+.studiofoot8 .hint{
+  margin:0}
+.studioPanel8 h3{
+  font-family:Georgia,serif;
+  color:#834569;
+  margin:12px 0}
+.studioPanel8 .pose7{
+  justify-content:center}
+@media(max-width:760px){
+  .studio8{
+    grid-template-columns:1fr}
+  .studioPanel8{
+    padding:15px}
+  .studio8 .mirror7 .avatar{
+    height:280px}
+  .studiofoot8{
+    flex-wrap:wrap}
+  .grid8{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tabs8{
+    gap:5px}
+  .acc8{
+    flex-wrap:wrap}
+  .studiohead8{
+    flex-wrap:wrap}
+  }
+
+
+.studiofoot8{
+  position:sticky;
+  bottom:-24px;
+  background:#fffaf9;
+  padding-bottom:12px;
+  z-index:2}
+.card8>div{
+  height:clamp(90px,15vh,135px)}
+@media(max-width:760px){
+  .studiofoot8{
+    bottom:-15px}
+  }

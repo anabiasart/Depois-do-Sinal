@@ -1,0 +1,270 @@
+/* cidade | v0.14 */
+/* City / ensemble scenes */
+.citypanel10{
+  width:min(1080px,96vw)!important;
+  max-width:1080px!important}
+.city10{
+  color:#523a50}
+.city10 h3{
+  font:25px Georgia,serif;
+  color:#814465;
+  margin:14px 0 8px}
+.cityhero10{
+  padding:22px;
+  background:linear-gradient(130deg,#392b43,#81536d);
+  color:#fff1f5;
+  border-radius:14px;
+  margin-bottom:16px}
+.cityhero10 h3{
+  color:#fff5f9;
+  font-size:33px;
+  margin:8px 0}
+.cityhero10 p{
+  max-width:680px;
+  line-height:1.55}
+.cityhero10 .tag{
+  color:#f0c9dc}
+.citytime10{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  font-size:12px}
+.citytime10 button[aria-pressed=true]{
+  outline:2px solid #f5d8e6;
+  background:#f0c8dc}
+.citygrid10{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px}
+.citycard10{
+  text-align:left;
+  border:1px solid #e5d0db;
+  border-radius:12px;
+  background:#fff9fa;
+  overflow:hidden;
+  padding:0;
+  color:#51354a}
+.citycard10 img{
+  width:100%;
+  height:95px;
+  object-fit:cover;
+  display:block}
+.citycard10 div{
+  padding:10px}
+.citycard10 b,.citycard10 small,.citycard10 span{
+  display:block}
+.citycard10 b{
+  font:18px Georgia;
+  color:#78455e;
+  margin:4px 0}
+.citycard10 small,.citycard10 span{
+  font-size:11px;
+  color:#896b7d}
+.citycard10:disabled{
+  opacity:.55;
+  cursor:not-allowed}
+.citycard10:not(:disabled):hover{
+  outline:2px solid #b75b85}
+.grouplist10{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px}
+.location10{
+  position:relative;
+  overflow:hidden;
+  height:240px;
+  border-radius:14px;
+  background:#4d354b}
+.location10 img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.76}
+.location10 div{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:22px;
+  background:linear-gradient(transparent,#2d1e32db);
+  color:#fff}
+.location10 h3{
+  color:white;
+  font-size:30px}
+.datecard10{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:16px;
+  align-items:center;
+  background:#fbf0f5;
+  border:1px solid #ead1e0;
+  padding:12px;
+  border-radius:12px;
+  margin:16px 0}
+.dateportrait10{
+  height:180px;
+  overflow:hidden;
+  background:radial-gradient(#fff,#ead4e1);
+  border-radius:10px;
+  display:flex;
+  align-items:end;
+  justify-content:center}
+.dateportrait10 svg{
+  height:100%;
+  width:100%}
+.stage10{
+  height:clamp(290px,48vh,480px);
+  position:relative;
+  overflow:hidden;
+  border-radius:14px 14px 0 0;
+  isolation:isolate;
+  background:#584056}
+.stagebg10{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.68) blur(2px);
+  transform:scale(1.025);
+  z-index:-2}
+.stage10:after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(transparent 60%,#281b30aa);
+  z-index:-1}
+.actor10{
+  position:absolute;
+  bottom:0;
+  left:var(--slot);
+  width:39%;
+  height:100%;
+  transform:translateX(-50%);
+  transition:opacity .22s,filter .22s;
+  display:flex;
+  align-items:end;
+  justify-content:center}
+.actorart10{
+  height:93%;
+  width:100%;
+  display:flex;
+  align-items:end;
+  justify-content:center;
+  overflow:hidden;
+  mask-image:linear-gradient(#000 94%,transparent)}
+.actorart10 svg{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%;
+  display:block}
+.actor10 span{
+  position:absolute;
+  bottom:8px;
+  padding:4px 10px;
+  border-radius:10px;
+  background:#302436c9;
+  color:white;
+  font-size:11px}
+.listening10{
+  opacity:.8;
+  filter:brightness(.78) saturate(.83)}
+.speaking10{
+  z-index:2;
+  filter:drop-shadow(0 4px 10px #1b132b55)}
+.sceneTalk10{
+  border:1px solid #e8d0de;
+  border-top:0;
+  background:#fff8fa;
+  padding:18px;
+  border-radius:0 0 14px 14px}
+.sceneTalk10>b{
+  display:block;
+  color:#a34d78;
+  font-size:14px;
+  margin-top:8px}
+.sceneTalk10 p{
+  font-size:17px;
+  line-height:1.65;
+  min-height:54px}
+.sceneTalk10 .soft{
+  margin-top:10px}
+.cggrid10{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px}
+.cgcard10{
+  overflow:hidden;
+  padding:0 0 12px;
+  border:1px solid #e6d1de;
+  border-radius:12px;
+  background:#fff9fc;
+  color:#73425d}
+.cgcard10 img,.cglocked10{
+  width:100%;
+  height:220px;
+  object-fit:contain;
+  background:#392a40;
+  display:block}
+.cglocked10{
+  display:grid;
+  place-items:center;
+  color:#f1c9e0;
+  font-size:55px;
+  background:linear-gradient(135deg,#74536c,#392a40)}
+.cgcard10 b,.cgcard10 small{
+  display:block;
+  margin:7px 6px}
+.cgcard10 small{
+  font-size:11px;
+  color:#826477}
+.cgzoom10,.result10{
+  text-align:center;
+  margin:12px 0}
+.cgzoom10 img,.cgfull10{
+  max-width:100%;
+  max-height:55vh;
+  border-radius:10px;
+  object-fit:contain}
+.resultportrait10{
+  height:220px;
+  background:radial-gradient(#fff,#e9cddd);
+  border-radius:12px}
+.resultportrait10 svg{
+  height:100%;
+  width:100%}
+.result10 p{
+  line-height:1.5}
+.city10>.soft{
+  margin:5px}
+.city10 button:disabled,.sceneTalk10 button:disabled{
+  opacity:.5;
+  cursor:not-allowed}
+@media(max-width:680px){
+  .citygrid10{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .citycard10 img{
+    height:80px}
+  .cggrid10{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cgcard10 img,.cglocked10{
+    height:150px}
+  .stage10{
+    height:300px}
+  .actor10{
+    width:45%}
+  .sceneTalk10 p{
+    font-size:15px}
+  .datecard10{
+    grid-template-columns:90px 1fr}
+  .dateportrait10{
+    height:140px}
+  .cityhero10{
+    padding:15px}
+  .cityhero10 h3{
+    font-size:26px}
+  .citypanel10{
+    padding:13px!important}
+  }

@@ -1,0 +1,239 @@
+/* quarto | v0.14 */
+/* Refúgio de Bellmont: layout editorial, responsive and lightweight. */
+.roomPanel11{
+  width:min(1160px,95vw)!important;
+  max-width:1160px!important}
+.room11{
+  color:#563849}
+.roomHeader11{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin:5px 0 15px}
+.roomHeader11 small{
+  font-size:10px;
+  letter-spacing:2px;
+  color:#96748a}
+.roomHeader11 h3{
+  font:clamp(24px,4vw,40px) Georgia;
+  margin:7px 0;
+  color:#713e5a}
+.roomDay11{
+  text-align:right;
+  color:#8b476b;
+  font-weight:bold}
+.roomDay11 small{
+  display:block;
+  margin-top:5px;
+  letter-spacing:1px}
+.roomStage11{
+  position:relative;
+  isolation:isolate;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:13px;
+  border:1px solid #bd91a8;
+  background:#382633}
+.roomStage11>img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block}
+.morning11 .roomStage11>img{
+  filter:brightness(1.24) saturate(.81) sepia(.08)}
+.roomStage11.lights11:after{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 71% 13%,#ffdca333,transparent 35%)}
+.roomHot11{
+  position:absolute;
+  z-index:3;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  background:#382333dc;
+  color:#fff5f9;
+  border:1px solid #f4cee2;
+  border-radius:30px;
+  box-shadow:0 2px 10px #240e2355;
+  padding:8px 12px;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font:600 13px system-ui}
+.roomHot11 span{
+  font-size:19px;
+  color:#f5c8d8}
+.roomHot11:hover,.roomHot11:focus-visible{
+  background:#a65379;
+  outline:2px solid #f3d6a9}
+.roomActions11{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:12px 0}
+.roomGrid11{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px}
+.roomGrid11 section,.roomDecorGrid11 article{
+  border:1px solid #e8d2dd;
+  border-radius:12px;
+  background:#fff9fb;
+  padding:14px}
+.roomGrid11 h4{
+  font:21px Georgia;
+  margin:0 0 9px;
+  color:#854769}
+.roomGrid11 textarea{
+  width:100%;
+  min-height:100px;
+  border:1px solid #dcc2d1;
+  border-radius:8px;
+  padding:10px;
+  box-sizing:border-box;
+  font:inherit;
+  background:#fff;
+  color:#563849;
+  resize:vertical}
+.roomGrid11 p{
+  font-size:13px;
+  line-height:1.55}
+.roomToggles11{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px}
+.roomToggles11 button[aria-pressed=true],.roomDecorGrid11 button[aria-pressed=true]{
+  background:#e8c8d9;
+  color:#6d3657}
+.roomDecorGrid11{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0}
+.roomDecorGrid11 b{
+  font:20px Georgia}
+.roomFrame11{
+  position:absolute;
+  top:22%;
+  left:61%;
+  width:9%;
+  aspect-ratio:1.65;
+  transform:rotate(-2deg);
+  border:4px solid #b98a56;
+  box-shadow:0 2px 5px #39232f;
+  z-index:2;
+  background:#583744}
+.roomFrame11 img{
+  width:100%;
+  height:100%;
+  object-fit:cover}
+.flower11{
+  position:absolute;
+  z-index:2;
+  left:21%;
+  top:46%;
+  font-size:clamp(15px,3vw,40px);
+  color:#f5b6c3;
+  text-shadow:0 2px 3px #5d263c}
+.bookStack11{
+  position:absolute;
+  left:46%;
+  top:65%;
+  width:7%;
+  z-index:2;
+  transform:rotate(-6deg)}
+.bookStack11 i{
+  display:block;
+  height:5px;
+  background:#ad7d70;
+  border:1px solid #6a3e42;
+  margin:1px}
+.bookStack11 i:nth-child(2){
+  background:#6d465e}
+.bookStack11 i:nth-child(3){
+  background:#c1a77e}
+.rain11{
+  position:absolute;
+  pointer-events:none;
+  z-index:2;
+  inset:0;
+  opacity:.18;
+  background:repeating-linear-gradient(109deg,transparent 0 31px,#e7dcf966 32px,#e7dcf933 33px,transparent 34px 71px);
+  background-size:140px 200px;
+  animation:rain11 1.8s linear infinite}
+.roomStage11 .rain11{
+  inset:0 66% 45% 7%;
+  opacity:.2}
+.film11{
+  isolation:isolate}
+.film11:after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:4;
+  box-shadow:inset 0 0 65px #32172f55;
+  background:linear-gradient(0deg,#2f163826,transparent 38%)}
+.cinema11 .stage10,.cinema11 .scene{
+  animation:filmEnter11 .38s ease-out}
+.cinema11 .actorart10{
+  animation:actorBreathe11 5.5s ease-in-out infinite;
+  transform-origin:center bottom}
+.typeSkip11{
+  font-size:11px;
+  padding:4px 8px;
+  margin:0 0 8px}
+.room11 details{
+  margin-top:10px}
+.room11 details p{
+  white-space:pre-wrap}
+.cgcard10{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 210px}
+@keyframes filmEnter11{
+  from{
+    opacity:.25;
+    transform:translateY(3px)}
+  to{
+    opacity:1;
+    transform:none}
+  }
+@keyframes actorBreathe11{
+  0%,100%{
+    transform:scale(1)}
+  50%{
+    transform:scale(1.008,1.012)}
+  }
+@keyframes rain11{
+  to{
+    background-position:0 200px}
+  }
+@media(max-width:700px){
+  .roomGrid11{
+    grid-template-columns:1fr}
+  .roomHot11{
+    font-size:0;
+    padding:7px}
+  .roomHot11 span{
+    font-size:17px}
+  .roomActions11 button{
+    min-height:40px}
+  .roomHeader11{
+    align-items:flex-start}
+  .roomStage11{
+    aspect-ratio:16/10}
+  .roomDecorGrid11{
+    grid-template-columns:1fr}
+  }
+@media(prefers-reduced-motion:reduce){
+  .rain11,.cinema11 .actorart10,.cinema11 .stage10,.cinema11 .scene{
+    animation:none!important}
+  .rain11{
+    display:none}
+  }

@@ -1,0 +1,29 @@
+/* estabilidade | v0.14 */
+/* v0.14 low-cost interaction and recovery */
+.savewarn14{
+  position:fixed;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:90;
+  background:#fff2d8;
+  color:#704631;
+  border:1px solid #d8b17d;
+  border-radius:10px;
+  padding:9px 15px;
+  max-width:90vw;
+  font:13px system-ui;
+  box-shadow:0 3px 12px #33223333}
+.feed13post,.look83{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 220px}
+.bpfeedart img{
+  max-width:100%}
+.fashioncatalog9,.bpcontent{
+  overscroll-behavior:contain}
+.shell12.low12 *{
+  scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){
+  .typing95 i,.scene .sprite,.roomStage11 *{
+    animation:none!important}
+  }

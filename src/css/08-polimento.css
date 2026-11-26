@@ -1,0 +1,251 @@
+/* polimento | v0.14 */
+/* v0.9.2 polish */
+.fashionpanel9 .studiofoot8{
+  position:sticky!important;
+  bottom:0!important;
+  background:#fffaf9;
+  z-index:4;
+  margin-top:12px;
+  padding:10px 0;
+  box-shadow:0 -6px 15px #fffaf9b0}
+.fashionpanel9 .fashioncatalog9{
+  max-height:none;
+  overflow:visible;
+  contain:layout style}
+.fashionpanel9 .fashionmirror9{
+  position:sticky;
+  top:8px}
+.lookimg83 img{
+  height:100%;
+  width:100%;
+  object-fit:contain;
+  display:block}
+.look83{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 215px}
+.fashionpanel9 .panelhead{
+  position:sticky;
+  top:0;
+  background:#fffaf9;
+  z-index:5}
+.fashionpanel9 .mirrorart9{
+  height:clamp(240px,44vh,520px)}
+.fashionpanel9 .lookimg83{
+  height:clamp(120px,20vh,200px)}
+
+.scene{
+  isolation:isolate}
+.scene:after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:3;
+  background:linear-gradient(0deg,#30223936,transparent 24%),radial-gradient(ellipse at center,transparent 56%,#30223918 100%)}
+.scene .sprite:has(.anime-sprite){
+  height:112%;
+  bottom:-17%;
+  filter:drop-shadow(0 7px 12px #35263845)}
+.scene .sprite.protagonist:has(.anime-sprite){
+  height:108%;
+  bottom:-12%}
+.scene .sprite .anime-sprite{
+  overflow:hidden}
+.duo5 .duohero,.duo5 .duoboy{
+  bottom:-8%}
+.scene .loc,.scene .timechip{
+  z-index:5}
+.portrait svg{
+  transform:scale(1.45)!important;
+  transform-origin:50% 5%!important}
+
+.rel92{
+  margin:13px 0;
+  display:grid;
+  gap:5px}
+.rel92head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:8px;
+  font-size:13px}
+.rel92head b{
+  color:#694052}
+.rel92head strong{
+  font-variant-numeric:tabular-nums}
+.rel92track{
+  height:9px;
+  background:#eddee7;
+  border-radius:8px;
+  position:relative;
+  overflow:hidden}
+.rel92track i{
+  position:absolute;
+  top:0;
+  height:100%;
+  border-radius:8px}
+.rel92track em{
+  position:absolute;
+  left:50%;
+  height:100%;
+  width:1px;
+  background:#8a7085;
+  z-index:1}
+.rel92 small{
+  font-size:11px;
+  color:#816a79}
+.relation92{
+  display:grid;
+  grid-template-columns:90px minmax(0,1fr);
+  gap:14px;
+  padding:14px;
+  background:#fff9fa;
+  border:1px solid #e5d1dc;
+  border-radius:12px;
+  margin:12px 0}
+.relation92 .face7{
+  width:90px;
+  height:126px;
+  overflow:hidden}
+.relation92 .face7 svg{
+  height:100%;
+  width:100%;
+  transform:none}
+.relation92 h3{
+  margin:0;
+  color:#854c6b;
+  font:23px Georgia}
+.letter92{
+  border:1px solid #e5d1d9;
+  background:linear-gradient(135deg,#fffaf3,#fcf0f5);
+  padding:20px;
+  border-radius:10px;
+  margin:12px 0}
+.letter92 h3{
+  font:23px Georgia;
+  color:#874563;
+  margin:8px 0}
+.letter92 p{
+  font:italic 16px/1.65 Georgia;
+  color:#684857;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere}
+.letter92 .tag{
+  font-size:10px}
+.letter92 textarea{
+  width:100%;
+  min-height:100px;
+  margin-top:10px;
+  box-sizing:border-box}
+.letter92 button{
+  margin-top:8px}
+.side .person{
+  width:100%}
+.side .person .rel92track{
+  height:5px}
+.side .person .tiny{
+  font-size:10px}
+.nav{
+  max-width:100%;
+  flex-wrap:wrap}
+.panel{
+  overscroll-behavior:contain}
+.panel button,.nav button{
+  touch-action:manipulation}
+
+@media(max-width:760px){
+  .overlay{
+    padding:8px!important;
+    align-items:center}
+  .panel{
+    max-height:calc(100dvh - 16px)!important;
+    width:100%!important;
+    max-width:100%!important;
+    padding:14px!important;
+    box-sizing:border-box}
+  .fashionpanel9 .fashionmirror9{
+    position:static}
+  .fashionpanel9 .fashioncatalog9{
+    max-height:none}
+  .fashionpanel9 .mirrorart9{
+    height:300px}
+  .fashionpanel9 .collection83{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fashionpanel9 .lookimg83{
+    height:145px}
+  .fashionpanel9 .studiofoot8{
+    position:sticky;
+    bottom:-14px!important;
+    flex-wrap:wrap}
+  .fashionpanel9 .studiofoot8 .primary{
+    width:100%}
+  .top{
+    display:block!important}
+  .nav{
+    display:flex;
+    gap:5px;
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    padding:9px 0}
+  .nav button{
+    white-space:nowrap;
+    min-height:40px;
+    flex-shrink:0}
+  .layout{
+    grid-template-columns:minmax(0,1fr)!important}
+  .main{
+    min-width:0}
+  .scene{
+    height:clamp(240px,43vh,400px)}
+  .dialog p{
+    font-size:16px}
+  .choice,.primary{
+    min-height:44px}
+  .side{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px}
+  .side h3,.side hr,.side>.objective,.side>.tiny{
+    grid-column:1/-1}
+  .side .person{
+    margin:0}
+  .profilehero{
+    grid-template-columns:1fr!important}
+  .profileart{
+    height:300px}
+  .relation92{
+    grid-template-columns:65px minmax(0,1fr);
+    padding:10px;
+    gap:10px}
+  .relation92 .face7{
+    width:65px;
+    height:95px}
+  .cover{
+    flex-direction:column!important;
+    min-height:100dvh;
+    padding:18px}
+  .covercopy,.coverart{
+    width:100%!important;
+    max-width:100%!important}
+  .coverart{
+    height:240px!important}
+  .cover h1{
+    font-size:clamp(54px,13vw,80px)}
+  .coverbuttons{
+    max-width:100%}
+  .cover .coverart:before{
+    letter-spacing:2px}
+  .covercopy p{
+    max-width:100%}
+  .letter92{
+    padding:14px}
+  }
+
+@media(prefers-reduced-motion:reduce){
+  *{
+    scroll-behavior:auto!important}
+  .sprite{
+    animation:none!important}
+  .petals{
+    display:none}
+  }

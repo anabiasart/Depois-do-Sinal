@@ -1,0 +1,73 @@
+/* expressoes | v0.14 */
+/* 0.6.1: consistent waist-up framing, no sprite-sheet overflow. */
+.scene .sprite:has(.anime-sprite),.scene .sprite.protagonist:has(.anime-sprite){
+  height:94%;
+  bottom:0;
+  max-width:88%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  }
+
+.scene .sprite svg.anime-sprite{
+  display:block;
+  height:100%!important;
+  width:auto!important;
+  max-width:100%;
+  overflow:hidden;
+  }
+
+.anime-sprite,.mood-sprite,.protagonist-sprite{
+  overflow:hidden;
+  }
+
+.profilehero .profileart{
+  height:clamp(290px,48vh,460px);
+  min-height:0;
+  align-items:flex-end;
+  }
+
+.profilehero .profileart svg{
+  height:97%;
+  width:auto;
+  max-width:100%;
+  max-height:none;
+  }
+
+.avatar svg.protagonist-sprite{
+  height:100%;
+  width:auto;
+  max-width:100%;
+  }
+
+.expression-panel{
+  margin:18px 0;
+  padding:13px;
+  background:#fff5f8;
+  border:1px solid #ead5e1;
+  border-radius:12px;
+  }
+
+.expression-panel .moods{
+  margin-top:9px;
+  }
+
+.portrait .mood-sprite{
+  transform:scale(1.7);
+  transform-origin:50% 8%;
+  }
+
+@media(max-width:600px){
+  .scene{
+    height:clamp(300px,51vh,480px)}
+  .scene .sprite:has(.anime-sprite){
+    height:93%;
+    max-width:96%}
+  .profilehero .profileart{
+    height:300px}
+  }
+
+@media(prefers-reduced-motion:reduce){
+  .sprite{
+    animation:none}
+  }

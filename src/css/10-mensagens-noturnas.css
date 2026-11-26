@@ -1,0 +1,76 @@
+/* mensagens-noturnas | v0.14 */
+/* BellPhone 0.9.5 */
+.typing95{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:8px 12px;
+  color:var(--bp-muted);
+  font-size:12px;
+  flex-shrink:0}
+.typing95 i{
+  display:inline-block;
+  width:6px;
+  height:6px;
+  background:var(--bp-accent);
+  border-radius:50%;
+  animation:pulse95 1s infinite alternate}
+.typing95 i:nth-of-type(2){
+  animation-delay:.15s}
+.typing95 i:nth-of-type(3){
+  animation-delay:.3s}
+@keyframes pulse95{
+  from{
+    opacity:.25;
+    transform:translateY(2px)}
+  to{
+    opacity:1;
+    transform:translateY(-2px)}
+  }
+.busy95{
+  opacity:.6;
+  pointer-events:none}
+.intimacy95{
+  font-size:11px;
+  color:var(--bp-accent);
+  margin-left:auto}
+.media95{
+  display:grid;
+  gap:7px;
+  margin-top:9px;
+  max-width:360px}
+.media95 audio{
+  width:100%;
+  max-width:310px;
+  height:36px}
+.media95 small,.night95{
+  font-size:11px;
+  color:var(--bp-muted)}
+.media95 details{
+  font-size:12px}
+.media95 details p{
+  margin:5px 0}
+.photo95{
+  padding:0;
+  background:none;
+  border:none;
+  cursor:zoom-in;
+  display:block;
+  max-width:100%}
+.photo95 img,.photoLarge95 img{
+  display:block;
+  max-width:100%;
+  border-radius:10px}
+.photoLarge95 img{
+  max-height:65vh;
+  margin:auto}
+.photoLarge95{
+  text-align:center}
+.night95{
+  margin-top:8px}
+.message94 .bpbubble{
+  max-width:min(85%,520px)}
+@media(prefers-reduced-motion:reduce){
+  .typing95 i{
+    animation:none}
+  }
