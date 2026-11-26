@@ -685,125 +685,74 @@ function stage(id){
   return 'Conhecido'
 }
 
-
-// Controle central de janelas e navegação.
+// Controle central de janelas. O conteúdo continua compatível com os sistemas antigos.
+let modalOpener = null;
 
 function showPanel(title, content) {
     const root = document.getElementById('modal');
     const previous = root.querySelector('.panel');
+    const page = [modalType, title, modalType === 'phone' ? app90 + ':' + chat90 : ''].join('|');
+    const same = previous?.dataset.page === page;
+    const scroll = same ? previous.scrollTop : 0;
+    const navScroll = same ? previous.querySelector('.bpnav')?.scrollLeft || 0 : 0;
+    if (!previous) modalOpener = document.activeElement;
 
-    const page = [
-        modalType,
-        title,
-        modalType === 'phone'
-            ? app90 + ':' + chat90 : ''
-    ].join('|');
-
-    const samePage = previous?.dataset.page === page;
-    const scroll = samePage ? previous.scrollTop : 0;
-    const navScroll = samePage
-        ? previous.querySelector('.bpnav')?.scrollLeft || 0
-        : 0;
-
-    root.innerHTML = `
-        <div class="overlay">
-            <section class="panel"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modalTitle"
-                tabindex="-1">
-
-                <header class="panelhead">
-                    <h2 id="modalTitle">${esc(title)}</h2>
-
-                    <div class="modal-controls">
-                        <button type="button" class="modal-back">
-                            ‹ Voltar
-                        </button>
-
-                        <button type="button"
-                            class="close"
-                            data-act="close"
-                            aria-label="Fechar janela"
-                            title="Fechar janela">
-                            ×
-                        </button>
-                    </div>
-                </header>
-
-                ${content}
-            </section>
-        </div>`;
+    root.innerHTML = `<div class="overlay"><section class="panel" role="dialog"
+        aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+        <header class="panelhead">
+            <button type="button" class="modal-back" aria-label="Voltar">‹ <span>Voltar</span></button>
+            <h2 id="modalTitle">${esc(title)}</h2>
+            <button type="button" class="close" data-act="close" aria-label="Fechar janela">Fechar <span aria-hidden="true">×</span></button>
+        </header>${content}</section></div>`;
 
     const panel = root.querySelector('.panel');
     panel.dataset.page = page;
-
-    panel.querySelector('.modal-back').onclick =
-        () => backModal(title);
-
-    if (!previous) {
-        panel.focus({ preventScroll: true });
-    }
-
-    if (samePage) requestAnimationFrame(() => {
+    panel.dataset.kind = modalType || '';
+    panel.querySelector('.modal-back').onclick = () => backModal(title);
+    if (!same) panel.focus({preventScroll: true});
+    else requestAnimationFrame(() => {
         if (!panel.isConnected) return;
-
         panel.scrollTop = scroll;
-
         const nav = panel.querySelector('.bpnav');
         if (nav) nav.scrollLeft = navScroll;
     });
 }
 
-// Navegação de retorno
 function backModal(title) {
-
-    if (modalType === 'profile') {
-        return modal('cast');
-    }
-
+    if (modalType === 'profile') return modal('cast');
     if (modalType === 'phone') {
         if (app90 === 'feed' && storyOpen13) {
             storyOpen13 = null;
             return phone7();
         }
-
         if (app90 === 'messages' && chat90 !== null) {
             chat90 = null;
             return phone7();
         }
-
         if (app90 !== 'home') {
             app90 = 'home';
             return phone7();
         }
     }
-
-    if (modalType === 'cg10') {
-        if (title !== 'Galeria · Momentos da cidade') {
-            return gallery10();
-        }
-
-        return cityPanel10();
-    }
-
-    if (
-        modalType === 'city10' &&
-        title !== 'Cidade de Bellmont'
-    ) {
-        return cityPanel10();
-    }
-
-    if (
-        modalType === 'room11' &&
-        ['Decoração do quarto', 'Caixa de lembranças']
-            .includes(title)
-    ) {
-        return roomPanel11();
-    }
-
+    if (modalType === 'cg10') return title === 'Galeria · Momentos da cidade' ? cityPanel10() : gallery10();
+    if (modalType === 'city10' && title !== 'Cidade de Bellmont') return cityPanel10();
+    if (modalType === 'room11' && ['Decoração do quarto', 'Caixa de lembranças'].includes(title)) return roomPanel11();
     close();
 }
+
+// Foco de teclado: impede que Tab navegue para trás da janela.
+document.addEventListener('keydown', e => {
+    const panel = document.querySelector('#modal .panel');
+    if (!panel || e.key !== 'Tab') return;
+    const items = [...panel.querySelectorAll('button:not([disabled]), input:not([disabled]), select, textarea, a[href], summary, [tabindex="0"]')]
+        .filter(el => el.getClientRects().length && !el.closest('[hidden]'));
+    if (!items.length) { e.preventDefault(); panel.focus(); return; }
+    const first = items[0], last = items.at(-1), active = document.activeElement;
+    if (!panel.contains(active) || active === panel || (e.shiftKey ? active === first : active === last)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+    }
+});
 
 // episodio-02 | v0.14
 const ep2={
@@ -4403,6 +4352,165 @@ const closeBase14=close;close=function(){finishTyping11();closeBase14()};
 const settingsBase14=settings12;settings12=function(){settingsBase14();document.querySelector('#modal .world12')?.insertAdjacentHTML('beforeend',`<h3>Recuperação de progresso</h3><p>${esc(saveWarning14||'Uma cópia do último salvamento válido é mantida no navegador, quando há espaço disponível.')}</p><button class="soft" data-act="backup14">Restaurar cópia anterior</button><p class="hint">Os arquivos JSON continuam compatíveis com as versões anteriores. Exporte antes de mudar de arquivo ou navegador.</p>`)};
 // Stop invalid imports and continue from safe, validated data. All gameplay handlers remain unchanged.
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=b.dataset.act;if(a==='import14'){e.stopImmediatePropagation();modalType='saves';showPanel('Importar progresso','<p>Escolha seu arquivo JSON exportado de outra versão de Depois do Sinal.</p><label>Salvamento JSON <input type="file" accept=".json,application/json" id="import4"></label>');return}if(a==='backup14'){e.stopImmediatePropagation();try{const s=prepareSave14(JSON.parse(localStorage.getItem(key+':backup14')));if(confirm('Restaurar a cópia anterior?')){commitSave14(s);toast('Cópia recuperada')}}catch{toast('Nenhuma cópia válida disponível.')}return}if(a==='continue'){e.stopImmediatePropagation();try{const s=prepareSave14((!storageOK&&saved)||load()||saved);commitSave14(s);if(recovered14){toast('Progresso recuperado da cópia anterior.');recovered14=false}}catch{toast('Não foi possível abrir o progresso. Importe uma cópia JSON.')}return}},true);
+
+// Experiência de jogo: criação inicial, foco narrativo e atalhos.
+let creatorStep = 'appearance';
+let storyFocus = true;
+
+const creatorTabs = {
+    appearance: 'Aparência',
+    outfit: 'Primeiro look'
+};
+
+function creatorPalette(key, title) {
+    return `<fieldset class="creator-palette"><legend>${title}</legend>
+        <div class="creator-swatches">${palettes9[key].map(([id, name, color]) =>
+            `<button type="button" data-act="creatorColor" data-key="${key}" data-id="${id}"
+                aria-pressed="${draft.look[key] === id}"><i style="background:${color}"></i>${esc(name)}</button>`
+        ).join('')}</div></fieldset>`;
+}
+
+function creatorOptions() {
+    if (creatorStep === 'appearance') return [
+        creatorPalette('hair', 'Cabelo'),
+        creatorPalette('eyes', 'Olhos'),
+        creatorPalette('skin', 'Tom de pele')
+    ].join('');
+    return `<div class="creator-looks">${Object.entries(signatureNames83).map(([id, name]) =>
+        `<button type="button" data-act="creatorOutfit" data-id="${id}" aria-pressed="${draft.look.outfit === id}">
+            ${catalogThumb92(id)}<b>${esc(name)}</b></button>`
+    ).join('')}</div>`;
+}
+
+function creatorPreview() {
+    return compactMedia14(signatureArt83(draft.look, 'neutral'));
+}
+
+function drawCreator() {
+    draft.look = look9({...draft.look, visualMode9: 'signature'});
+    closet9(draft);
+    showPanel('Sua história começa aqui', `
+        <div class="creator">
+            <div class="creator-preview">
+                <span class="creator-kicker">BELLMONT / NOVA ESTUDANTE</span>
+                <div class="creator-art">${creatorPreview()}</div>
+                <b class="creator-lookname">${esc(signatureNames83[draft.look.outfit] || '')}</b>
+            </div>
+            <div class="creator-form">
+                <span class="creator-kicker">PERSONALIZE SUA PROTAGONISTA</span>
+                <h3>Quem é você?</h3>
+                <label for="name">Seu nome</label>
+                <input id="name" maxlength="24" value="${esc(draft.name)}" autocomplete="off">
+                <div class="creator-tabs">${Object.entries(creatorTabs).map(([id, label]) =>
+                    `<button type="button" data-act="creatorTab" data-id="${id}" aria-pressed="${creatorStep === id}">${label}</button>`
+                ).join('')}</div>
+                <div class="creator-options">${creatorOptions()}</div>
+                <p class="hint">Você poderá mudar seu visual e acessar todos os recursos do ateliê durante a história.</p>
+                ${saved ? '<p class="creator-warning">Uma nova partida substituirá o progresso ativo. Exporte ou guarde uma cópia antes de começar.</p>' : ''}
+                <div class="creator-actions">
+                    <button class="soft" data-act="creatorReset">Restaurar visual</button>
+                    <button class="primary" data-act="creatorStart">Começar a história ›</button>
+                </div>
+            </div>
+        </div>`);
+    document.querySelector('#modal .panel')?.classList.add('creator-panel');
+}
+
+const fullAtelier = drawWard7;
+drawWard7 = function () {
+    if (modalType === 'new') return drawCreator();
+    return fullAtelier();
+};
+
+const openBeforeCreator = modal;
+modal = function (type) {
+    if (type === 'new') creatorStep = 'appearance';
+    return openBeforeCreator(type);
+};
+
+function refreshCreator() {
+    const panel = document.querySelector('.creator-panel');
+    if (!panel) return;
+    panel.querySelector('.creator-art').innerHTML = creatorPreview();
+    panel.querySelector('.creator-lookname').textContent = signatureNames83[draft.look.outfit] || '';
+    panel.querySelector('.creator-options').innerHTML = creatorOptions();
+    panel.querySelectorAll('[data-act="creatorTab"]').forEach(b =>
+        b.setAttribute('aria-pressed', String(b.dataset.id === creatorStep)));
+}
+
+// Reaproveita a navegação narrativa e os botões existentes, sem duplicar o motor.
+const renderBeforeFocus = render;
+render = function () {
+    renderBeforeFocus();
+    const app = document.querySelector('.shell12');
+    if (!app || screen !== 'game') return;
+    app.classList.toggle('story-focus', storyFocus);
+    const ep = app.querySelector('.episode');
+    if (ep) ep.insertAdjacentHTML('beforeend', `<button class="story-toggle" data-act="storyFocus"
+        aria-pressed="${storyFocus}">${storyFocus ? 'Ver vínculos' : 'Focar na história'}</button>`);
+    const next = app.querySelector('.dialog [data-act="next"]');
+    if (next) next.textContent = 'Continuar ›';
+};
+
+document.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b || b.disabled) return;
+    const {act, id, key} = b.dataset;
+    if (act === 'next' && !modalType && typing11 && b.closest('.main .dialog')) {
+        e.stopImmediatePropagation();
+        finishTyping11();
+        return;
+    }
+    if (act === 'storyFocus') {
+        storyFocus = !storyFocus;
+        const app = document.querySelector('.shell12');
+        app?.classList.toggle('story-focus', storyFocus);
+        b.textContent = storyFocus ? 'Ver vínculos' : 'Focar na história';
+        b.setAttribute('aria-pressed', String(storyFocus));
+        return;
+    }
+    if (modalType !== 'new' || !draft || !act.startsWith('creator')) return;
+    e.stopImmediatePropagation();
+    keepName8();
+    if (act === 'creatorTab' && creatorTabs[id]) creatorStep = id;
+    if (act === 'creatorColor' && palettes9[key]?.some(x => x[0] === id)) draft.look[key] = id;
+    if (act === 'creatorOutfit' && presets9[id]) {
+        draft.look.outfit = id;
+        draft.look.fashion = {...draft.look.fashion, ...presets9[id]};
+    }
+    if (act === 'creatorReset') draft.look = look9(initial().look);
+    if (act === 'creatorStart') {
+        if (saved && !confirm('Começar uma nova história e substituir o progresso ativo?')) return;
+        // O fluxo original de início continua responsável por normalizar e salvar.
+        const start = document.createElement('button');
+        start.hidden = true;
+        start.dataset.act = 'start';
+        document.querySelector('.creator-actions').append(start);
+        start.click();
+        start.remove();
+        return;
+    }
+    refreshCreator();
+}, true);
+
+const closeBeforeExperience = close;
+close = function () {
+    const opener = modalOpener;
+    modalOpener = null;
+    closeBeforeExperience();
+    if (opener?.isConnected) opener.focus({preventScroll: true});
+};
+
+document.addEventListener('keydown', e => {
+    if (e.defaultPrevented || e.repeat || e.altKey || e.ctrlKey || e.metaKey ||
+        modalType || screen !== 'game' || !state || ![' ', 'Enter'].includes(e.key)) return;
+    if (e.target.closest?.('button,input,textarea,select,a,summary,[contenteditable]')) return;
+    const next = document.querySelector('.main .dialog [data-act="next"]');
+    if (!next || next.disabled) return;
+    e.preventDefault();
+    if (typing11) finishTyping11();
+    else next.click();
+});
 
 // executar | v0.14
 render();
