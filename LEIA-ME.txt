@@ -1,0 +1,6 @@
+Depois do Sinal v0.14
+Extraia todos os arquivos e abra index.html. A versão HTML independente é equivalente.
+assets.js: artes e áudios originais.
+style.css: aparência.
+game.js: motor, sistemas e migrações existentes, mais serviços compartilhados da v0.14.
+O motor ainda é um script clássico para preservar a ordem das extensões e funcionar offline.
