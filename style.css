@@ -294,34 +294,10 @@ button:disabled{
   opacity:.85}
 .place.done{
   opacity:.65}
-.overlay{
-  position:fixed;
-  inset:0;
-  background:#31243899;
-  z-index:10;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  backdrop-filter:blur(4px)}
-.panel{
-  width:min(700px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#fffaf9;
-  border-radius:18px;
-  padding:26px;
-  box-shadow:0 20px 80px #1c142c55}
-.panelhead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px}
-.close{
-  border-radius:50%;
-  background:#f3e4ec;
-  width:36px;
-  height:36px}
+
+
+
+
 .panel p{
   line-height:1.6}
 .phone{
@@ -843,8 +819,7 @@ body{
   background:linear-gradient(135deg,#fff8fa,#f5e8f1)}
 .map h2,.panel h2{
   color:#85476e}
-.panel{
-  border:1px solid #f5e5ed}
+
 .foot{
   color:#806b80}
 .scene .protagonist{
@@ -1355,9 +1330,7 @@ body{
   }
 
 /* bellmont-life | v0.14 */
-.wide7{
-  width:min(1020px,100%);
-  max-height:93vh}
+
 .ward7{
   display:grid;
   grid-template-columns:minmax(220px, .85fr) minmax(0,1.15fr);
@@ -1537,8 +1510,7 @@ body{
   color:#38283b;
   font:inherit;
   margin-bottom:12px}
-.overlay{
-  padding:14px}
+
 .dialog p{
   animation:dialog7 .2s ease-out}
 @keyframes dialog7{
@@ -1569,10 +1541,8 @@ body{
     max-height:58vh}
   .outfits7{
     grid-template-columns:repeat(3,1fr)}
-  .panel{
-    padding:16px}
-  .wide7{
-    max-height:92vh}
+
+
   .progress7 .entry7{
     flex-wrap:wrap}
   }
@@ -1756,9 +1726,7 @@ body{
   }
 
 /* moda | v0.14 */
-.fashionpanel9{
-  width:min(1180px,96vw)!important;
-  max-width:1180px!important}
+
 .fashionlayout9{
   display:grid;
   grid-template-columns:minmax(230px,.82fr) minmax(0,1.18fr);
@@ -2058,9 +2026,7 @@ body{
   position:static}
 .signature83 .lookimg83{
   height:clamp(130px,20vh,220px)}
-.bppanel{
-  width:min(1060px,96vw)!important;
-  max-width:1060px!important}
+
 .bp90{
   --bp-bg:#f9f2f6;
   --bp-surface:#fffbfd;
@@ -2107,7 +2073,7 @@ body{
 .bpshell{
   display:grid;
   grid-template-columns:155px minmax(0,1fr);
-  min-height:460px}
+}
 .bpnav{
   display:flex;
   flex-direction:column;
@@ -2142,8 +2108,8 @@ body{
   margin-left:auto}
 .bpcontent{
   min-width:0;
-  max-height:65vh;
-  overflow:auto;
+
+  
   padding:18px;
   scrollbar-width:thin}
 .bp90 h3{
@@ -2235,7 +2201,7 @@ body{
   display:grid;
   grid-template-columns:minmax(160px, .8fr) minmax(0,1.4fr);
   gap:12px;
-  min-height:370px}
+}
 .bpinboxleft{
   border-right:1px solid var(--bp-line);
   padding-right:10px;
@@ -2428,11 +2394,11 @@ body{
     font-size:16px}
   .bpcontent{
     padding:12px;
-    max-height:63vh}
+}
   .bpinbox{
     grid-template-columns:1fr}
   .bpinboxleft{
-    max-height:165px;
+
     overflow:auto;
     border-right:0;
     border-bottom:1px solid var(--bp-line)}
@@ -2471,11 +2437,7 @@ body{
 .look83{
   content-visibility:auto;
   contain-intrinsic-size:auto 215px}
-.fashionpanel9 .panelhead{
-  position:sticky;
-  top:0;
-  background:#fffaf9;
-  z-index:5}
+
 .fashionpanel9 .mirrorart9{
   height:clamp(240px,44vh,520px)}
 .fashionpanel9 .lookimg83{
@@ -2596,21 +2558,13 @@ body{
 .nav{
   max-width:100%;
   flex-wrap:wrap}
-.panel{
-  overscroll-behavior:contain}
+
 .panel button,.nav button{
   touch-action:manipulation}
 
 @media(max-width:760px){
-  .overlay{
-    padding:8px!important;
-    align-items:center}
-  .panel{
-    max-height:calc(100dvh - 16px)!important;
-    width:100%!important;
-    max-width:100%!important;
-    padding:14px!important;
-    box-sizing:border-box}
+
+
   .fashionpanel9 .fashionmirror9{
     position:static}
   .fashionpanel9 .fashioncatalog9{
@@ -2732,8 +2686,8 @@ body{
   display:flex;
   flex-direction:column;
   min-width:0;
-  height:min(58vh,610px);
-  min-height:360px;
+
+
   border:1px solid var(--bp-line);
   border-radius:14px;
   overflow:hidden;
@@ -2749,7 +2703,7 @@ body{
   white-space:nowrap}
 .history94{
   flex:1;
-  min-height:100px;
+
   overflow:auto;
   padding:10px 13px;
   background:var(--bp-bg);
@@ -2789,7 +2743,7 @@ body{
 .composer94{
   padding:10px 12px;
   border-top:1px solid var(--bp-line);
-  max-height:55%;
+
   overflow:auto;
   flex-shrink:0}
 .composerhead94{
@@ -2825,8 +2779,7 @@ body{
   color:var(--bp-accent)}
 .topics94 summary{
   cursor:pointer}
-.group94 .history94{
-  min-height:100%}
+
 .inbox94 .bpface{
   flex-shrink:0}
 @media(max-width:750px){
@@ -2834,9 +2787,7 @@ body{
     grid-template-columns:1fr}
   .inbox94 .bpinboxleft{
     max-height:210px}
-  .thread94{
-    height:480px;
-    min-height:350px}
+
   .inbox94 .contacts94{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -2930,9 +2881,7 @@ body{
 
 /* cidade | v0.14 */
 /* City / ensemble scenes */
-.citypanel10{
-  width:min(1080px,96vw)!important;
-  max-width:1080px!important}
+
 .city10{
   color:#523a50}
 .city10 h3{
@@ -3195,15 +3144,12 @@ body{
     padding:15px}
   .cityhero10 h3{
     font-size:26px}
-  .citypanel10{
-    padding:13px!important}
+
   }
 
 /* quarto | v0.14 */
 /* Refúgio de Bellmont: layout editorial, responsive and lightweight. */
-.roomPanel11{
-  width:min(1160px,95vw)!important;
-  max-width:1160px!important}
+
 .room11{
   color:#563849}
 .roomHeader11{
@@ -3571,14 +3517,9 @@ body{
   color:#fff}
 .shell12 .foot{
   color:#896a7f}
-.overlay{
-  background:#231b2bc9}
-.panel{
-  border:1px solid #bd8fa966;
-  box-shadow:0 20px 80px #21162955}
-.worldPanel12{
-  width:min(1040px,94vw)!important;
-  max-width:1040px!important}
+
+
+
 .world12{
   color:#53364c}
 .world12 h3,.memory12 h3{
@@ -4130,94 +4071,48 @@ body:has(.shell12.low12) .overlay{
     font-size:25px}
   }
 
-/* estabilidade | v0.14 */
-/* v0.14 low-cost interaction and recovery */
-.savewarn14{
-  position:fixed;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:90;
-  background:#fff2d8;
-  color:#704631;
-  border:1px solid #d8b17d;
-  border-radius:10px;
-  padding:9px 15px;
-  max-width:90vw;
-  font:13px system-ui;
-  box-shadow:0 3px 12px #33223333}
-.feed13post,.look83{
-  content-visibility:auto;
-  contain-intrinsic-size:auto 220px}
-.bpfeedart img{
-  max-width:100%}
-.fashioncatalog9,.bpcontent{
-  overscroll-behavior:contain}
-.shell12.low12 *{
-  scroll-behavior:auto!important}
-@media(prefers-reduced-motion:reduce){
-  .typing95 i,.scene .sprite,.roomStage11 *{
-    animation:none!important}
-  }
 
+/* Estabilidade geral. Modais em 16-modais.css. */
 
-/* =================================
-   RESPONSIVIDADE DAS MODAIS
-   ================================= */
+.savewarn14 {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 120;
 
-.overlay {
-    padding: 12px;
-    overflow-y: auto;
+    background: #fff2d8;
+    color: #704631;
+
+    border: 1px solid #d8b17d;
+    border-radius: 10px;
+    padding: 9px 15px;
+    max-width: 90vw;
+
+    font: 13px system-ui;
+    box-shadow: 0 3px 12px #33223333;
 }
 
-.overlay .panel {
-    box-sizing: border-box;
+.feed13post,
+.look83 {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 220px;
+}
 
-    /* Nunca ultrapassar a largura disponível */
-    min-width: 0;
-    max-width: 100% !important;
+.bpfeedart img {
+    max-width: 100%;
+}
 
-    /* Respeitar a altura da janela */
-    max-height: calc(100vh - 24px);
-    max-height: calc(100dvh - 24px) !important;
-
-    overflow-y: auto;
+.fashioncatalog9,
+.bpcontent {
     overscroll-behavior: contain;
 }
 
-/* Cabeçalho da modal */
-.panelhead {
-    min-width: 0;
-    flex-wrap: wrap;
+.shell12.low12 * {
+    scroll-behavior: auto !important;
 }
 
-.panelhead .close {
-    flex-shrink: 0;
-}
-
-/* Telas pequenas */
-@media (max-width: 768px) {
-
-    .overlay {
-        padding: 8px !important;
-    }
-
-    .overlay .panel {
-        width: 100% !important;
-        max-width: 100% !important;
-        max-height: calc(100dvh - 16px) !important;
-
-        padding: 14px !important;
-        border-radius: 14px;
-    }
-
-    .panelhead h2 {
-        font-size: clamp(18px, 5vw, 24px);
-        overflow-wrap: anywhere;
-    }
-}
-/* Menu principal sem ícones */
-
+/* Menu principal */
 .rail12 .nav button {
     justify-content: flex-start;
     text-align: left;
@@ -4231,4 +4126,314 @@ body:has(.shell12.low12) .overlay{
 
 .navIcon12 {
     display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .typing95 i,
+    .scene .sprite,
+    .roomStage11 * {
+        animation: none !important;
+    }
+}
+
+
+/* Bloqueia a rolagem do fundo */
+body:has(#modal .overlay) {
+    overflow: hidden;
+}
+
+/* Fundo da modal */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: #211829c9;
+    backdrop-filter: blur(4px);
+}
+
+/* Janela principal */
+.panel {
+    --panel-width: 760px;
+    --panel-padding: 20px;
+
+    box-sizing: border-box;
+    width: min(var(--panel-width), 100%);
+    min-width: 0;
+
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+
+    padding: var(--panel-padding);
+    overflow: auto;
+    overscroll-behavior: contain;
+
+    background: #fffaf9;
+    border: 1px solid #d9c2d0;
+    border-radius: 16px;
+    box-shadow: 0 20px 70px #21162955;
+
+    scrollbar-width: thin;
+    scrollbar-color: #b489a3 transparent;
+    overflow-wrap: anywhere;
+}
+
+/* Larguras específicas */
+.panel.wide7,
+.panel.worldPanel12 {
+    --panel-width: 1040px;
+}
+
+.panel.bppanel,
+.panel.citypanel10 {
+    --panel-width: 1080px;
+}
+
+.panel.roomPanel11,
+.panel.fashionpanel9 {
+    --panel-width: 1180px;
+}
+
+.panel:has(.profilehero) {
+    --panel-width: 940px;
+}
+
+.panel:focus {
+    outline: none;
+}
+
+/* Cabeçalho permanente */
+.panelhead {
+    position: sticky;
+    top: calc(-1 * var(--panel-padding));
+    z-index: 30;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin:
+        calc(-1 * var(--panel-padding))
+        calc(-1 * var(--panel-padding))
+        18px;
+
+    padding: 12px var(--panel-padding);
+
+    background: #382b40;
+    color: #fff2f7;
+    border-bottom: 1px solid #72536a;
+    box-shadow: 0 3px 12px #30253922;
+}
+
+.panelhead h2 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    color: #fff2f7;
+    font: normal clamp(19px, 2.6vw, 27px) Georgia, serif;
+}
+
+/* Controles */
+.modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.panelhead .close,
+.modal-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+    padding: 8px 13px;
+
+    border: 1px solid #9b7890;
+    border-radius: 9px;
+    background: #65465f;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.panelhead .close {
+    width: 44px;
+    padding: 0;
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.modal-back:hover,
+.panelhead .close:hover {
+    background: #98617e;
+}
+
+.panelhead button:focus-visible {
+    outline: 2px solid #f5c5dd;
+    outline-offset: 2px;
+}
+
+.toast {
+    z-index: 120;
+}
+
+/* Fichas dos personagens */
+.profilehero {
+    grid-template-columns:
+        minmax(0, .85fr) minmax(0, 1.15fr);
+
+    gap: 22px;
+    align-items: start;
+}
+
+.profilehero > div,
+.profilefacts > div {
+    min-width: 0;
+}
+
+.profilehero .profileart {
+    height: clamp(240px, 48dvh, 440px);
+    min-height: 0;
+}
+
+.profilefacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* BellPhone */
+.bppanel .bp90,
+.bpshell,
+.bpcontent,
+.bpinbox,
+.bpthread {
+    min-width: 0;
+    min-height: 0;
+}
+
+.bpcontent {
+    max-height: none;
+    overflow: visible;
+}
+
+.bpnavbtn {
+    min-height: 44px;
+}
+
+.bpbubble {
+    overflow-wrap: anywhere;
+}
+
+.thread94 {
+    height: clamp(280px, 54dvh, 580px);
+    min-height: 0;
+}
+
+.history94 {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.group94 .history94 {
+    min-height: 0;
+}
+
+.composer94 {
+    max-height: 48%;
+    overflow-y: auto;
+}
+
+/* Responsividade */
+@media (max-width: 800px) {
+    .overlay {
+        padding: 8px;
+    }
+
+    .panel {
+        --panel-padding: 12px;
+        width: 100%;
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
+        border-radius: 12px;
+    }
+
+    .panelhead {
+        gap: 8px;
+        padding-block: 8px;
+    }
+
+    .modal-back {
+        padding-inline: 10px;
+    }
+
+    .profilehero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .profilehero .profileart {
+        height: clamp(210px, 36dvh, 320px);
+    }
+
+    .bpshell,
+    .inbox94 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bpnav {
+        flex-direction: row;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    .bpnavbtn {
+        flex-shrink: 0;
+    }
+
+    .bpcontent {
+        padding: 10px;
+    }
+
+    .inbox94 .bpinboxleft {
+        max-height: none;
+        overflow: visible;
+    }
+
+    /* Esconde os contatos durante a conversa */
+    .inbox94:has(.thread94) .bpinboxleft {
+        display: none;
+    }
+
+    .bpstatus {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px;
+    }
+
+    .pending94 {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 380px) {
+    .panelhead {
+        flex-wrap: wrap;
+    }
+
+    .panelhead h2 {
+        flex-basis: 100%;
+    }
+
+    .modal-controls {
+        width: 100%;
+    }
+
+    .modal-back {
+        flex: 1;
+    }
 }

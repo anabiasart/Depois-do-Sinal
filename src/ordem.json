@@ -11,6 +11,7 @@
     "src/js/historia/09-episodio-01-motor.js",
     "src/js/core/10-controles-base.js",
     "src/js/dados/11-perfis-e-atributos.js",
+    "src/js/core/40-modais.js",
     "src/js/historia/12-episodio-02.js",
     "src/js/historia/13-episodio-03.js",
     "src/js/sistemas/14-som-e-importacao.js",
@@ -55,6 +56,7 @@
     "src/css/12-quarto.css",
     "src/css/13-interface-calendario.css",
     "src/css/14-mapa-e-feed.css",
-    "src/css/15-estabilidade.css"
+    "src/css/15-estabilidade.css",
+    "src/css/16-modais.css"
   ]
 }

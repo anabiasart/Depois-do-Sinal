@@ -536,7 +536,7 @@ function profileKnown(id){
 }
 
 function showProfile(id,mood='neutral'){if(!routes.includes(id))return;activeProfile=id;modalType='profile';const c=chars[id],v=visualProfiles[id],known=profileKnown(id);document.getElementById('modal').innerHTML=`<div class="overlay"><section class="panel" role="dialog" aria-modal="true" aria-label="Ficha de ${c.name}"><div class="panelhead"><h2>${c.name} <small style="color:${v.color}">${v.icon}</small></h2><button class="close" data-act="close" aria-label="Fechar">×</button></div><div class="profilehero"><div class="profileart" style="--cast:${v.color}">${sprite(id,mood)}</div><div><div class="tag">${v.club}</div><h3>${v.title}</h3><p>${known?v.detail:'Conheça este personagem durante o primeiro episódio para desbloquear sua ficha.'}</p>${known?`<p class="profilequote">“${v.quote}”</p><p class="hint">Afinidade: ${state.aff[id]} · Confiança: ${state.trust[id]}</p>`:''}<div class="moods">${[['neutral','Normal'],['smile','Sorriso'],['annoyed','Irritado'],['shy','Tímido'],['surprise','Surpreso']].map(([m,t])=>`<button data-act="mood" data-id="${m}" aria-pressed="${m===mood}">${t}</button>`).join('')}</div></div></div><button class="soft" data-act="cast" style="margin-top:18px">‹ Voltar ao elenco</button></section></div>`}
-function modal(type){modalType=type;let title='',content='';if(type==='new'||type==='wardrobe'){if(type==='new')draft=initial();else draft={name:state.name,look:{...state.look}};title=type==='new'?'Crie sua protagonista':'Guarda-roupa';content=`<p>${type==='new'?'Personalize a sua personagem antes do primeiro dia.':'Mude seu visual quando quiser.'}</p>${fields(draft.look,type==='new')}<p class="hint">A aparência é cosmética. A base anime é fixa; as variações de cor usam filtros aproximados. Nesta versão, a protagonista também muda de expressão durante as cenas.</p>${type==='new'&&saved?'<p class="hint">Iniciar uma nova história substituirá o progresso anterior.</p>':''}<button class="primary" data-act="${type==='new'?'start':'wear'}">${type==='new'?'Começar a história':'Salvar visual'}</button>`;}else if(type==='cast'){title='Os corações de Bellmont';content=`<p>Cinco personalidades, cinco maneiras de complicar o seu primeiro dia.</p><div class="castgrid">${routes.map(id=>{const v=visualProfiles[id];return `<button class="castcard" data-act="profile" data-id="${id}" style="--cast:${v.color}"><div class="castart">${sprite(id)}</div><span class="casttext"><b>${chars[id].name}</b><small>${profileKnown(id)?'✦ Ficha descoberta':v.club+' · Ficha bloqueada'}</small></span></button>`}).join('')}</div>`;}else if(type==='phone'){title='Seu celular';content=`<div class="phone">${state.messages.length?state.messages.map(m=>`<div class="msg"><b>${chars[m.who].name}</b>${esc(m.text)}</div>`).join(''):'<div class="empty">Nenhuma mensagem ainda.</div>'}</div>`;}else if(type==='gallery'){title='Galeria de memórias';content=`<p>As cenas finais são desbloqueadas ao escolher um encontro.</p><div class="gallery">${routes.map(id=>`<div class="cg">${state.gallery.includes(id)?`<div class="pic">${bg(finals[id].loc)}<div class="cgperson">${sprite(id,'smile').replace('<svg ','<svg style="height:100%;width:auto" ')}</div></div>`:'<div class="lock">♡</div>'}<b>${state.gallery.includes(id)?finals[id].title:'Cena bloqueada • '+chars[id].name}</b></div>`).join('')}</div>`;}else if(type==='journal'){title='Diário de Bellmont';content=`<h3>Lembranças</h3>${state.items.length?state.items.map(x=>`<div class="msg">✦ ${esc(x)}</div>`).join(''):'<p class="hint">Nenhuma lembrança encontrada.</p>'}<h3>Escolhas registradas</h3>${state.log.length?state.log.map(x=>`<div class="msg"><b>${chars[x.who].name} • ${x.aff>=0?'+':''}${x.aff} afinidade</b>${esc(x.choice)}</div>`).join(''):'<p class="hint">As escolhas aparecem aqui.</p>'}`;}else{title='Sobre Depois do Sinal';content='<p>Visual novel escolar independente. Quatro episódios jogáveis e agora com expressões dinâmicas em anime para protagonista e pretendentes.</p><p>Explore Bellmont, conheça os cinco pretendentes e decida como terminar o dia. O progresso é salvo no armazenamento local do navegador, quando disponível. Não há servidor, compras ou limite de energia.</p><p>Edição 0.3: retratos anime originais dos cinco pretendentes, fichas expandidas, celular interativo, atributos e segundo episódio. A protagonista, personagens secundárias e cenários continuam com arte vetorial. Os retratos anime têm uma pose fixa.</p>';}document.getElementById('modal').innerHTML=`<div class="overlay"><section class="panel" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="panelhead"><h2>${title}</h2><button class="close" data-act="close" aria-label="Fechar">×</button></div>${content}</section></div>`;}
+function modal(type){modalType=type;let title='',content='';if(type==='new'||type==='wardrobe'){if(type==='new')draft=initial();else draft={name:state.name,look:{...state.look}};title=type==='new'?'Crie sua protagonista':'Guarda-roupa';content=`<p>${type==='new'?'Personalize a sua personagem antes do primeiro dia.':'Mude seu visual quando quiser.'}</p>${fields(draft.look,type==='new')}<p class="hint">A aparência é cosmética. A base anime é fixa; as variações de cor usam filtros aproximados. Nesta versão, a protagonista também muda de expressão durante as cenas.</p>${type==='new'&&saved?'<p class="hint">Iniciar uma nova história substituirá o progresso anterior.</p>':''}<button class="primary" data-act="${type==='new'?'start':'wear'}">${type==='new'?'Começar a história':'Salvar visual'}</button>`;}else if(type==='cast'){title='Os corações de Bellmont';content=`<p>Cinco personalidades, cinco maneiras de complicar o seu primeiro dia.</p><div class="castgrid">${routes.map(id=>{const v=visualProfiles[id];return `<button class="castcard" data-act="profile" data-id="${id}" style="--cast:${v.color}"><div class="castart">${sprite(id)}</div><span class="casttext"><b>${chars[id].name}</b><small>${profileKnown(id)?'✦ Ficha descoberta':v.club+' · Ficha bloqueada'}</small></span></button>`}).join('')}</div>`;}else if(type==='phone'){title='Seu celular';content=`<div class="phone">${state.messages.length?state.messages.map(m=>`<div class="msg"><b>${chars[m.who].name}</b>${esc(m.text)}</div>`).join(''):'<div class="empty">Nenhuma mensagem ainda.</div>'}</div>`;}else if(type==='gallery'){title='Galeria de memórias';content=`<p>As cenas finais são desbloqueadas ao escolher um encontro.</p><div class="gallery">${routes.map(id=>`<div class="cg">${state.gallery.includes(id)?`<div class="pic">${bg(finals[id].loc)}<div class="cgperson">${sprite(id,'smile').replace('<svg ','<svg style="height:100%;width:auto" ')}</div></div>`:'<div class="lock">♡</div>'}<b>${state.gallery.includes(id)?finals[id].title:'Cena bloqueada • '+chars[id].name}</b></div>`).join('')}</div>`;}else if(type==='journal'){title='Diário de Bellmont';content=`<h3>Lembranças</h3>${state.items.length?state.items.map(x=>`<div class="msg">✦ ${esc(x)}</div>`).join(''):'<p class="hint">Nenhuma lembrança encontrada.</p>'}<h3>Escolhas registradas</h3>${state.log.length?state.log.map(x=>`<div class="msg"><b>${chars[x.who].name} • ${x.aff>=0?'+':''}${x.aff} afinidade</b>${esc(x.choice)}</div>`).join(''):'<p class="hint">As escolhas aparecem aqui.</p>'}`;}else{title='Sobre Depois do Sinal';content='<p>Visual novel escolar independente. Quatro episódios jogáveis e agora com expressões dinâmicas em anime para protagonista e pretendentes.</p><p>Explore Bellmont, conheça os cinco pretendentes e decida como terminar o dia. O progresso é salvo no armazenamento local do navegador, quando disponível. Não há servidor, compras ou limite de energia.</p><p>Edição 0.3: retratos anime originais dos cinco pretendentes, fichas expandidas, celular interativo, atributos e segundo episódio. A protagonista, personagens secundárias e cenários continuam com arte vetorial. Os retratos anime têm uma pose fixa.</p>';}showPanel(title,content);}
 function close(){modalType=null;document.getElementById('modal').innerHTML='';draft=null}
 document.addEventListener('change',e=>{
   if(e.target.dataset.look&&draft){
@@ -683,6 +683,126 @@ function stage(id){
   if(state.aff[id]>=20&&state.trust[id]>=10)return 'Interesse';
   if(state.trust[id]>=10)return 'Amizade';
   return 'Conhecido'
+}
+
+
+// Controle central de janelas e navegação.
+
+function showPanel(title, content) {
+    const root = document.getElementById('modal');
+    const previous = root.querySelector('.panel');
+
+    const page = [
+        modalType,
+        title,
+        modalType === 'phone'
+            ? app90 + ':' + chat90 : ''
+    ].join('|');
+
+    const samePage = previous?.dataset.page === page;
+    const scroll = samePage ? previous.scrollTop : 0;
+    const navScroll = samePage
+        ? previous.querySelector('.bpnav')?.scrollLeft || 0
+        : 0;
+
+    root.innerHTML = `
+        <div class="overlay">
+            <section class="panel"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalTitle"
+                tabindex="-1">
+
+                <header class="panelhead">
+                    <h2 id="modalTitle">${esc(title)}</h2>
+
+                    <div class="modal-controls">
+                        <button type="button" class="modal-back">
+                            ‹ Voltar
+                        </button>
+
+                        <button type="button"
+                            class="close"
+                            data-act="close"
+                            aria-label="Fechar janela"
+                            title="Fechar janela">
+                            ×
+                        </button>
+                    </div>
+                </header>
+
+                ${content}
+            </section>
+        </div>`;
+
+    const panel = root.querySelector('.panel');
+    panel.dataset.page = page;
+
+    panel.querySelector('.modal-back').onclick =
+        () => backModal(title);
+
+    if (!previous) {
+        panel.focus({ preventScroll: true });
+    }
+
+    if (samePage) requestAnimationFrame(() => {
+        if (!panel.isConnected) return;
+
+        panel.scrollTop = scroll;
+
+        const nav = panel.querySelector('.bpnav');
+        if (nav) nav.scrollLeft = navScroll;
+    });
+}
+
+// Navegação de retorno
+function backModal(title) {
+
+    if (modalType === 'profile') {
+        return modal('cast');
+    }
+
+    if (modalType === 'phone') {
+        if (app90 === 'feed' && storyOpen13) {
+            storyOpen13 = null;
+            return phone7();
+        }
+
+        if (app90 === 'messages' && chat90 !== null) {
+            chat90 = null;
+            return phone7();
+        }
+
+        if (app90 !== 'home') {
+            app90 = 'home';
+            return phone7();
+        }
+    }
+
+    if (modalType === 'cg10') {
+        if (title !== 'Galeria · Momentos da cidade') {
+            return gallery10();
+        }
+
+        return cityPanel10();
+    }
+
+    if (
+        modalType === 'city10' &&
+        title !== 'Cidade de Bellmont'
+    ) {
+        return cityPanel10();
+    }
+
+    if (
+        modalType === 'room11' &&
+        ['Decoração do quarto', 'Caixa de lembranças']
+            .includes(title)
+    ) {
+        return roomPanel11();
+    }
+
+    close();
 }
 
 // episodio-02 | v0.14
@@ -832,7 +952,7 @@ next=function(){
 const oldCurrent=current;current=function(){if(state.episode!==2)return oldCurrent();const e=ep2[state.loc],f=ep2Final[state.ending2];switch(state.node){case'e2intro':return dialogue('me','Segundo dia. Mabel mandou onze mensagens antes das sete da manhã. Aparentemente, alguém espalhou um rumor sobre o festival de Bellmont.');case'e2mabel':return dialogue('mabel','Tem um bilhete anônimo no mural! Dizem que os clubes estão brigando pelos horários do festival. Qual é o nosso plano?',['Investigar as fofocas.','Verificar os fatos primeiro.','Ajudar os clubes a resolver a confusão.'],'smile');case'e2map':return `<div class="map"><div class="tag">Festival • Segundo dia</div><h2>Rumores em Bellmont</h2><p>Ajude pelo menos três clubes. Suas escolhas desenvolvem os atributos da protagonista e os relacionamentos.</p><div class="places">${Object.entries(ep2).map(([l,x])=>`<button class="place" data-act="visit2" data-id="${l}" ${state.visited2.includes(l)?'disabled':''}>${bg(l)}<span>${locs[l][0]}<small>${state.visited2.includes(l)?'✓ Concluído':chars[x.who].name+' precisa de ajuda'}</small></span></button>`).join('')}<button class="place" data-act="route2" data-id="finish" ${state.visited2.length<3?'disabled':''}>${bg('gate')}<span>Último sinal<small>${state.visited2.length}/3 clubes necessários</small></span></button></div></div>`;case'e2introMeet':return dialogue(null,e.intro);case'e2meet':return dialogue(e.who,e.line,e.choices);case'e2answer':return dialogue(e.who,e.choices[state.sceneChoice][3],null,'smile');case'e2select':return `<div class="map"><div class="tag">Fim de tarde</div><h2>Com quem você quer ficar?</h2><p>Escolha livremente. Afinidade não obriga ninguém a se apaixonar.</p><div class="places">${state.visited2.map(l=>`<button class="place" data-act="route2" data-id="${ep2[l].who}">${bg(l)}<span>${chars[ep2[l].who].name}<small>${stage(ep2[l].who)}</small></span></button>`).join('')}<button class="place" data-act="route2" data-id="solo">${bg('gate')}<span>Ir para casa<small>Meu próprio caminho</small></span></button></div></div>`;case'e2final':return dialogue(state.ending2,f.line,['Quero ficar com você.','Obrigada pelo convite, mas hoje prefiro ir embora.']);case'e2finalanswer':return dialogue(state.ending2,state.sceneChoice===0?f.yes:f.no,null,state.sceneChoice===0?'shy':'neutral');case'e2solo':return dialogue('me','Ajudei os clubes e fiz novas amizades. Não preciso escolher um romance para que o meu dia tenha valido a pena.');case'e2ending':return `<div class="ending"><div class="tag">Episódio 02 concluído</div><h2>${state.ending2==='solo'?'O meu próprio ritmo':state.gallery2.includes(state.ending2)?f.title:'Até outro dia'}</h2><p>O festival começa a ganhar forma. Mas o envelope anônimo no mural promete complicar tudo no próximo episódio.</p><div class="tag">Continua • Episódio 03: Alguém deixou um bilhete</div><p>${state.visited2.length} clubes visitados • ${state.gallery.length+state.gallery2.length} memórias</p><button class="primary" data-act="episode3">Jogar episódio 03 ›</button> <button class="soft" data-act="gallery">Galeria</button> <button class="soft" data-act="home">Menu inicial</button></div>`;default:return oldCurrent()}};
 const oldSide=side;side=function(){if(state.episode!==2)return oldSide();return oldSide().replace('Acompanhe a história e escolha como reagir.',state.node==='e2map'?`Ajude pelo menos três clubes. ${state.visited2.length}/5 concluídos.`:state.node==='e2ending'?'Episódio concluído.':'Acompanhe a história e escolha como reagir.')};
 function statBar(t,v){return `<div class="statline"><div class="pname"><span>${t}</span><span>${v}</span></div><div class="bar"><span style="width:${clamp(v)}%"></span></div></div>`}
-function showPanel(title,content){document.getElementById('modal').innerHTML=`<div class="overlay"><section class="panel" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="panelhead"><h2>${esc(title)}</h2><button class="close" data-act="close" aria-label="Fechar">×</button></div>${content}</section></div>`}
+
 showProfile=function(id,mood='neutral'){if(!routes.includes(id))return;activeProfile=id;modalType='profile';const c=canon[id],v=visualProfiles[id],known=profileKnown(id);let facts=[['Idade',c.age+' anos'],['Altura',c.height],['Aniversário',c.birth],['Signo',c.sign],['Comida',c.food],['Música',c.music],['Lugar favorito',c.place],['Presente ideal',c.gift],['Linguagem do amor',c.love],['Detesta',c.dislike],['Rota',c.route],['Apelido',c.nick]];showPanel(c.full,`<div class="profilehero"><div class="profileart" style="--cast:${v.color}">${sprite(id,mood)}</div><div><div class="tag">${c.club}</div><h3>${v.title}</h3><p>${known?c.bio:'Conheça este personagem para desbloquear a ficha.'}</p><p class="profilequote">“${c.quote}”</p>${known?`<div class="moodlabel">${stage(id)}</div><div class="profilefacts">${facts.map(([k,val])=>`<div><span>${k}</span><b>${val}</b></div>`).join('')}</div>${statBar('Afinidade',state.aff[id])}${statBar('Confiança',state.trust[id])}${statBar('Atração',state.attraction[id])}${statBar('Ciúmes',state.jealousy[id])}<div class="ep2card"><b>Segredo</b><p>${state.trust[id]>=20?c.secret:'Bloqueado • alcance 20 de confiança.'}</p><b>Vulnerabilidade</b><p>${state.trust[id]>=25?c.flaw:'Bloqueada • alcance 25 de confiança.'}</p></div>`:''}</div></div><div class="expression-panel"><div class="tag">Estúdio de expressões</div>${expressionButtons(id,mood)}</div><button class="soft" data-act="cast">‹ Voltar ao elenco</button>`)};
 const oldModal=modal;modal=function(type){if(type==='stats'){modalType=type;showPanel('Meu perfil',`<div class="ward"><div class="avatar">${avatar(state.look)}</div><div><h3>${esc(state.name)}</h3><p>Suas decisões moldam sua personalidade. Novas opções serão abertas nos episódios futuros.</p>${attrs.map(a=>statBar(a,state.attrs[a])).join('')}</div></div>`);return}if(type==='phone'){modalType=type;showPanel('Seu celular',`<div class="phone">${state.messages.length?state.messages.map((m,i)=>`<div class="msg"><b>${chars[m.who].name}</b>${esc(m.text)}${routes.includes(m.who)?state.replied[i]!==undefined?`<div class="sent">Você: ${esc(state.replied[i].text)}<br>${chars[m.who].name}: ${esc(state.replied[i].answer)}</div>`:`<div class="replychoices">${replyOptions(m.who).map((o,j)=>`<button class="soft" data-act="reply" data-i="${i}" data-j="${j}">${esc(o[0])}</button>`).join('')}</div>`:''}</div>`).join(''):'<div class="empty">Nenhuma mensagem ainda.</div>'}</div>`);return}if(type==='gallery'){oldModal(type);let g=document.querySelector('#modal .gallery');if(g)g.insertAdjacentHTML('beforeend',routes.map(id=>`<div class="cg">${state.gallery2.includes(id)?`<div class="pic">${bg(ep2Final[id].loc)}<div class="cgperson">${sprite(id)}</div></div>`:'<div class="lock">♡</div>'}<b>${state.gallery2.includes(id)?ep2Final[id].title:'Episódio 02 • '+chars[id].name}</b></div>`).join(''));return}oldModal(type)};
 function replyOptions(who){
@@ -3526,34 +3646,23 @@ function finishRoutine12(i){let k=activeRoutine12,id=city10[k]?.who,key=roomData
 const profile12=showProfile;showProfile=function(id,m='neutral'){profile12(id,m);if(!people12.includes(id)||!profileKnown(id))return;let q=mem12(id);document.querySelector('#modal .panel')?.insertAdjacentHTML('beforeend',`<div class="memory12"><small>MEMÓRIA EMOCIONAL</small><h3>${esc(emotional12(id))}</h3><p>Agora: ${esc(place12(when12(id)))}</p>${q.preference?`<p>Guardou sua preferência: ${esc(q.preference==='nenhuma'?'sem preferência':q.preference)}.</p>`:''}${q.lastChoice?`<p>Última lembrança: “${esc(q.lastChoice)}”.</p>`:''}<button class="soft" data-act="calendar12">Ver rotina</button></div>`)};
 function memoryPanel12(){modalType='world12';syncMemory12();showPanel('Memórias que ficam',`<div class="world12"><p>Os personagens lembram de escolhas e preferências que você realmente compartilhou. Respeitar limites não reduz afinidade.</p><div class="memoryGrid12">${people12.filter(profileKnown).map(id=>{let m=mem12(id);return `<article class="memory12"><div class="routineFace12">${sprite(id)}</div><h3>${name90(id)}</h3><b>${esc(emotional12(id))}</b><p>${m.preference?'Preferência lembrada: '+esc(m.preference):'Ainda descobrindo seus gostos.'}</p><p>${m.lastChoice?'“'+esc(m.lastChoice)+'”':'Nenhuma lembrança registrada.'}</p><button class="soft" data-act="profile" data-id="${id}">Ver ficha</button></article>`}).join('')||'<p>Conheça os personagens para começar.</p>'}</div></div>`)}
 
-
 // interface-mundo-e-slots | v0.14
-
-// ========================================
 // CLIMA E EFEITOS VISUAIS
-// ========================================
-
 function climate12(root) {
     if (!root || !state) return;
-
     const w = world12();
     const weather = weather12();
     const s = season12();
-
     root.dataset.season12 = s;
     root.dataset.weather12 = weather;
     root.dataset.phase12 = w.phase;
-
     root.classList.toggle('low12', w.low);
-
     for (const el of root.querySelectorAll(
         '.scene,.stage10,.roomStage11,.location10'
     )) {
         el.classList.add('climate12');
-
         el.querySelectorAll('.weather12')
             .forEach(x => x.remove());
-
         if (
             !w.low &&
             roomData11().cinema &&
@@ -3573,92 +3682,53 @@ function climate12(root) {
                 weather === 'Neve' ? 'snow' :
                 s === 'Outono' ? 'leaves' :
                 'petals';
-
             el.querySelectorAll('.rain11')
                 .forEach(x => x.remove());
-
             el.insertAdjacentHTML(
                 'beforeend',
                 `<div class="weather12 ${kind}12"
                     aria-hidden="true">
                 </div>`
             );
-
         } else if (weather !== 'Chuva' || w.low) {
-
             el.querySelectorAll('.rain11')
                 .forEach(x => x.remove());
-
         }
     }
 }
-
-
-// ========================================
 // MODAIS
-// ========================================
-
 const panel12 = showPanel;
-
 showPanel = function (t, c) {
-
     panel12(t, c);
-
     if (state) {
         climate12(
             document.querySelector('#modal .panel')
         );
     }
-
 };
-
-
-// ========================================
 // MODO CINEMATOGRÁFICO
-// ========================================
-
 const cinemaBase12 = cinema11;
-
 cinema11 = function (root) {
-
     if (state && world12().low) {
         finishTyping11();
         return;
     }
-
     cinemaBase12(root);
-
 };
-
-
-// ========================================
 // INTERFACE E MENU PRINCIPAL
-// ========================================
-
 const renderBase12 = render;
-
 render = function () {
-
     renderBase12();
-
     if (!state || screen !== 'game') return;
-
     const root = document.querySelector('.app');
     const nav = root?.querySelector('.nav');
     const layout = root?.querySelector('.layout');
     const top = root?.querySelector('.top');
-
     if (!root || !nav || !layout || !top) return;
-
     root.classList.add('shell12');
-
-
-    // ====================================
     // NOMES DOS BOTÕES
     // Altere os textos aqui.
     // Não altere os identificadores.
-    // ====================================
-
     const labels = {
         room11: 'Meu quarto',
         city10: 'Cidade',
@@ -3673,12 +3743,7 @@ render = function () {
         home: 'Menu inicial',
         gifts5: 'Presentes'
     };
-
-
-    // ====================================
     // ORDEM DOS BOTÕES
-    // ====================================
-
     const ordered = [
         'room11',
         'city10',
@@ -3692,93 +3757,54 @@ render = function () {
         'saves',
         'home'
     ];
-
-
-    // ====================================
     // CRIAÇÃO DO MENU LATERAL
-    // ====================================
-
     const rail = document.createElement('aside');
-
     rail.className = 'rail12';
-
     rail.innerHTML = `
         <div class="railLabel12">
             BELLMONT / VIDA LIVRE
         </div>
     `;
-
     rail.append(nav);
     layout.prepend(rail);
-
-
     // Remove o ícone do botão Presentes
-
     const giftButton = nav.querySelector(
         '[data-act="gifts5"]'
     );
-
     if (giftButton) {
         giftButton.textContent = labels.gifts5;
     }
-
-
-    // ====================================
     // RENDERIZAÇÃO DOS BOTÕES SEM ÍCONES
-    // ====================================
-
     ordered.forEach(id => {
-
         const button = nav.querySelector(
             `[data-act="${id}"]`
         );
-
         if (!button) return;
-
         button.textContent =
             labels[id] ?? button.textContent;
-
-
         // Contador de mensagens do BellPhone
-
         if (id === 'phone') {
-
             const count = unread90();
-
             if (count > 0) {
-
                 const badge = document.createElement('em');
-
                 badge.textContent = String(count);
-
                 button.append(badge);
-
             }
-
         }
-
         nav.append(button);
-
     });
-
-
-    // ====================================
     // BOTÕES ADICIONAIS
-    // ====================================
-
     nav.insertAdjacentHTML(
         'afterbegin',
         `
         <button data-act="calendar12">
             Agenda
         </button>
-
         <button data-act="memory12">
             Memórias
         </button>
         `
     );
-
     nav.insertAdjacentHTML(
         'beforeend',
         `
@@ -3787,121 +3813,76 @@ render = function () {
         </button>
         `
     );
-
-
-    // ====================================
     // BARRA SUPERIOR
-    // ====================================
-
     top.insertAdjacentHTML(
         'beforeend',
         `
         <div class="topStatus12">
-
             <button
                 data-act="calendar12"
                 class="dateBadge12">
-
                 <b>${esc(status12())}</b>
-
                 <small>
                     Dia ${roomData11().day}
                     · ${world12().phase}
                 </small>
-
             </button>
-
             <span class="coins12">
                 ✦ ${wallet8(state).coins} BC
             </span>
-
             <button
                 class="soft"
                 data-act="fullscreen12"
                 aria-label="Tela cheia">
-
                 ⛶
-
             </button>
-
         </div>
         `
     );
-
     climate12(root);
-
 };
-
-
-// ========================================
 // CONFIGURAÇÕES DO JOGO
-// ========================================
-
 function settings12() {
-
     modalType = 'world12';
-
     let w = world12();
-
     showPanel(
         'Configurações',
         `
         <div class="world12">
-
             <h3>Apresentação</h3>
-
             <button
                 class="soft"
                 data-act="low12"
                 aria-pressed="${w.low}">
-
                 Modo desempenho ·
                 ${w.low ? 'Ligado' : 'Desligado'}
-
             </button>
-
             <button
                 class="soft"
                 data-act="fullscreen12">
-
                 Tela cheia
-
             </button>
-
             <p>
                 O modo desempenho remove partículas,
                 animações e desfoques, sem alterar a arte.
             </p>
-
             <button
                 class="soft"
                 data-act="sound">
-
                 Trilha e som
-
             </button>
-
             <button
                 class="soft"
                 data-act="saves">
-
                 Exportar / importar progresso
-
             </button>
-
             <h3>Salvamentos independentes</h3>
-
             <div class="slots12">
-
                 ${[1, 2, 3].map(i => {
-
                     let s = readSlot12(i);
-
                     return `
                         <article>
-
                             <b>Slot ${i}</b>
-
                             <p>
                                 ${
                                     s
@@ -3913,56 +3894,35 @@ function settings12() {
                                     : 'Vazio'
                                 }
                             </p>
-
                             <button
                                 class="soft"
                                 data-act="slotSave12"
                                 data-i="${i}">
-
                                 Salvar
-
                             </button>
-
                             <button
                                 class="soft"
                                 data-act="slotLoad12"
                                 data-i="${i}"
                                 ${s ? '' : 'disabled'}>
-
                                 Carregar
-
                             </button>
-
                         </article>
                     `;
-
                 }).join('')}
-
             </div>
-
             <button
                 class="soft"
                 data-act="history12">
-
                 Histórico de escolhas
-
             </button>
-
         </div>
         `
     );
-
 }
-
-
-// ========================================
 // LEITURA DOS SALVAMENTOS
-// ========================================
-
 function readSlot12(i) {
-
     try {
-
         return prepareSave14(
             JSON.parse(
                 localStorage.getItem(
@@ -3970,149 +3930,87 @@ function readSlot12(i) {
                 )
             )
         );
-
     } catch {
-
         return null;
-
     }
-
 }
-
-
-// ========================================
 // HISTÓRICO DE ESCOLHAS
-// ========================================
-
 function history12() {
-
     modalType = 'world12';
-
     showPanel(
         'Histórico de escolhas',
         `
         <div class="world12">
-
             ${
                 state.log
                     .slice()
                     .reverse()
                     .map(x => `
                         <article class="memory12">
-
                             <b>
                                 ${esc(name90(x.who))}
                             </b>
-
                             <p>
                                 ${esc(x.choice || '')}
                             </p>
-
                         </article>
                     `)
                     .join('')
                 || '<p>Nenhuma escolha registrada.</p>'
             }
-
         </div>
         `
     );
-
 }
-
-
-// ========================================
 // REUTILIZAÇÃO DE RECURSOS
-// ========================================
-
 function reuse12(html) {
-
     return compactMedia14(html);
-
 }
-
-
 const spriteBase12 = sprite;
-
 sprite = function (
     id,
     m = 'neutral',
     custom = null
 ) {
-
     return reuse12(
         spriteBase12(id, m, custom)
     );
-
 };
-
-
 const bgBase12 = bg;
-
 bg = function (id) {
-
     return reuse12(
         bgBase12(id)
     );
-
 };
-
-
-// ========================================
 // CAPA DO JOGO
-// ========================================
-
 const cover12 = cover;
-
 cover = function () {
-
     return cover12().replace(
         /Edição 0\.[0-9.]+[^<]*/,
         'Edição 0.12 • Entre o Acaso e o Amor'
     );
-
 };
-
-
-// ========================================
 // ABERTURA DAS MODAIS
-// ========================================
-
 const modal12 = modal;
-
 modal = function (t) {
-
     if (t === 'calendar12') {
         return calendar12();
     }
-
     if (t === 'memory12') {
         return memoryPanel12();
     }
-
     if (t === 'settings12') {
         return settings12();
     }
-
     return modal12(t);
-
 };
-
-
-// ========================================
 // EVENTOS E AÇÕES DOS BOTÕES
-// ========================================
-
 document.addEventListener('click', e => {
-
     const b = e.target.closest('[data-act]');
-
     if (!b || b.disabled || !state) return;
-
     const a = b.dataset.act;
     const id = b.dataset.id;
     const i = Number(b.dataset.i);
-
     const actions = [
         'calendar12',
         'memory12',
@@ -4129,101 +4027,54 @@ document.addEventListener('click', e => {
         'slotLoad12',
         'history12'
     ];
-
     if (!actions.includes(a)) return;
-
     e.stopImmediatePropagation();
-
     switch (a) {
-
-
         // Agenda
-
         case 'calendar12':
-
             monthOffset12 = 0;
             selectedDay12 = null;
-
             calendar12();
-
             break;
-
-
         // Memórias
-
         case 'memory12':
-
             memoryPanel12();
-
             break;
-
-
         // Configurações
-
         case 'settings12':
-
             settings12();
-
             break;
-
-
         // Alteração de período
-
         case 'phase12': {
-
             const city = modalType === 'city10';
-
             setPhase12(id);
-
             render();
-
             city
                 ? cityPanel10()
                 : calendar12();
-
             break;
-
         }
-
-
         // Avançar horário ou dia
-
         case 'advance12': {
-
             const city = modalType === 'city10';
-
             const idx = phases12.indexOf(
                 world12().phase
             );
-
             if (idx === 2) {
-
                 nextDay12();
-
             } else {
-
                 setPhase12(phases12[idx + 1]);
-
                 render();
-
             }
-
             selectedDay12 = null;
             monthOffset12 = 0;
-
             city
                 ? cityPanel10()
                 : calendar12();
-
             break;
-
         }
-
-
         // Alterar mês
-
         case 'month12':
-
             monthOffset12 = Math.max(
                 -120,
                 Math.min(
@@ -4231,153 +4082,86 @@ document.addEventListener('click', e => {
                     monthOffset12 + i
                 )
             );
-
             calendar12();
-
             break;
-
-
         // Selecionar dia
-
         case 'calpick12':
-
             selectedDay12 = i;
-
             calendar12();
-
             break;
-
-
         // Rotinas
-
         case 'routine12':
-
             routinePanel12(id);
-
             break;
-
-
         // Respostas de rotina
-
         case 'routineReply12':
-
             finishRoutine12(i);
-
             break;
-
-
         // Modo desempenho
-
         case 'low12':
-
             world12().low = !world12().low;
-
             persist();
             render();
             settings12();
-
             break;
-
-
         // Tela cheia
-
         case 'fullscreen12':
-
             try {
-
                 const p = document.fullscreenElement
-
                     ? document.exitFullscreen()
-
                     : document.documentElement
                         .requestFullscreen();
-
                 p?.catch(() =>
                     toast('Tela cheia indisponível.')
                 );
-
             } catch {
-
                 toast('Tela cheia indisponível.');
-
             }
-
             break;
-
-
         // Salvar slot
-
         case 'slotSave12':
-
             if (![1, 2, 3].includes(i)) return;
-
             if (
                 readSlot12(i) &&
                 !confirm('Substituir o conteúdo deste slot?')
             ) return;
-
             try {
-
                 localStorage.setItem(
                     key + ':slot:' + i,
                     JSON.stringify(state)
                 );
-
                 toast('Slot salvo.');
-
                 settings12();
-
             } catch {
-
                 toast(
                     'Armazenamento indisponível. Exporte o progresso.'
                 );
-
             }
-
             break;
-
-
         // Carregar slot
-
         case 'slotLoad12': {
-
             const s = readSlot12(i);
-
             if (
                 !s ||
                 !confirm(
                     'Carregar este slot e substituir a sessão atual?'
                 )
             ) return;
-
             state = normalize(s);
-
             scene10 = null;
             activeRoutine12 = null;
             modalType = null;
-
             document.getElementById('modal')
                 .innerHTML = '';
-
             persist();
             render();
-
             break;
-
         }
-
-
         // Histórico de escolhas
-
         case 'history12':
-
             history12();
-
             break;
-
     }
-
 }, true);
 
 // mapa-interativo | v0.14

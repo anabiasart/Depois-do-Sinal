@@ -1,91 +1,45 @@
-/* estabilidade | v0.14 */
-/* v0.14 low-cost interaction and recovery */
-.savewarn14{
-  position:fixed;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:90;
-  background:#fff2d8;
-  color:#704631;
-  border:1px solid #d8b17d;
-  border-radius:10px;
-  padding:9px 15px;
-  max-width:90vw;
-  font:13px system-ui;
-  box-shadow:0 3px 12px #33223333}
-.feed13post,.look83{
-  content-visibility:auto;
-  contain-intrinsic-size:auto 220px}
-.bpfeedart img{
-  max-width:100%}
-.fashioncatalog9,.bpcontent{
-  overscroll-behavior:contain}
-.shell12.low12 *{
-  scroll-behavior:auto!important}
-@media(prefers-reduced-motion:reduce){
-  .typing95 i,.scene .sprite,.roomStage11 *{
-    animation:none!important}
-  }
 
+/* Estabilidade geral. Modais em 16-modais.css. */
 
-/* =================================
-   RESPONSIVIDADE DAS MODAIS
-   ================================= */
+.savewarn14 {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 120;
 
-.overlay {
-    padding: 12px;
-    overflow-y: auto;
+    background: #fff2d8;
+    color: #704631;
+
+    border: 1px solid #d8b17d;
+    border-radius: 10px;
+    padding: 9px 15px;
+    max-width: 90vw;
+
+    font: 13px system-ui;
+    box-shadow: 0 3px 12px #33223333;
 }
 
-.overlay .panel {
-    box-sizing: border-box;
+.feed13post,
+.look83 {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 220px;
+}
 
-    /* Nunca ultrapassar a largura disponível */
-    min-width: 0;
-    max-width: 100% !important;
+.bpfeedart img {
+    max-width: 100%;
+}
 
-    /* Respeitar a altura da janela */
-    max-height: calc(100vh - 24px);
-    max-height: calc(100dvh - 24px) !important;
-
-    overflow-y: auto;
+.fashioncatalog9,
+.bpcontent {
     overscroll-behavior: contain;
 }
 
-/* Cabeçalho da modal */
-.panelhead {
-    min-width: 0;
-    flex-wrap: wrap;
+.shell12.low12 * {
+    scroll-behavior: auto !important;
 }
 
-.panelhead .close {
-    flex-shrink: 0;
-}
-
-/* Telas pequenas */
-@media (max-width: 768px) {
-
-    .overlay {
-        padding: 8px !important;
-    }
-
-    .overlay .panel {
-        width: 100% !important;
-        max-width: 100% !important;
-        max-height: calc(100dvh - 16px) !important;
-
-        padding: 14px !important;
-        border-radius: 14px;
-    }
-
-    .panelhead h2 {
-        font-size: clamp(18px, 5vw, 24px);
-        overflow-wrap: anywhere;
-    }
-}
-/* Menu principal sem ícones */
-
+/* Menu principal */
 .rail12 .nav button {
     justify-content: flex-start;
     text-align: left;
@@ -99,4 +53,12 @@
 
 .navIcon12 {
     display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .typing95 i,
+    .scene .sprite,
+    .roomStage11 * {
+        animation: none !important;
+    }
 }

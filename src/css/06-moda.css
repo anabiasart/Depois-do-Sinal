@@ -1,7 +1,5 @@
 /* moda | v0.14 */
-.fashionpanel9{
-  width:min(1180px,96vw)!important;
-  max-width:1180px!important}
+
 .fashionlayout9{
   display:grid;
   grid-template-columns:minmax(230px,.82fr) minmax(0,1.18fr);

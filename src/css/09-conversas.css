@@ -32,8 +32,8 @@
   display:flex;
   flex-direction:column;
   min-width:0;
-  height:min(58vh,610px);
-  min-height:360px;
+
+
   border:1px solid var(--bp-line);
   border-radius:14px;
   overflow:hidden;
@@ -49,7 +49,7 @@
   white-space:nowrap}
 .history94{
   flex:1;
-  min-height:100px;
+
   overflow:auto;
   padding:10px 13px;
   background:var(--bp-bg);
@@ -89,7 +89,7 @@
 .composer94{
   padding:10px 12px;
   border-top:1px solid var(--bp-line);
-  max-height:55%;
+
   overflow:auto;
   flex-shrink:0}
 .composerhead94{
@@ -125,8 +125,7 @@
   color:var(--bp-accent)}
 .topics94 summary{
   cursor:pointer}
-.group94 .history94{
-  min-height:100%}
+
 .inbox94 .bpface{
   flex-shrink:0}
 @media(max-width:750px){
@@ -134,9 +133,7 @@
     grid-template-columns:1fr}
   .inbox94 .bpinboxleft{
     max-height:210px}
-  .thread94{
-    height:480px;
-    min-height:350px}
+
   .inbox94 .contacts94{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));

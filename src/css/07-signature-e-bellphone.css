@@ -136,9 +136,7 @@
   position:static}
 .signature83 .lookimg83{
   height:clamp(130px,20vh,220px)}
-.bppanel{
-  width:min(1060px,96vw)!important;
-  max-width:1060px!important}
+
 .bp90{
   --bp-bg:#f9f2f6;
   --bp-surface:#fffbfd;
@@ -185,7 +183,7 @@
 .bpshell{
   display:grid;
   grid-template-columns:155px minmax(0,1fr);
-  min-height:460px}
+}
 .bpnav{
   display:flex;
   flex-direction:column;
@@ -220,8 +218,8 @@
   margin-left:auto}
 .bpcontent{
   min-width:0;
-  max-height:65vh;
-  overflow:auto;
+
+  
   padding:18px;
   scrollbar-width:thin}
 .bp90 h3{
@@ -313,7 +311,7 @@
   display:grid;
   grid-template-columns:minmax(160px, .8fr) minmax(0,1.4fr);
   gap:12px;
-  min-height:370px}
+}
 .bpinboxleft{
   border-right:1px solid var(--bp-line);
   padding-right:10px;
@@ -506,11 +504,11 @@
     font-size:16px}
   .bpcontent{
     padding:12px;
-    max-height:63vh}
+}
   .bpinbox{
     grid-template-columns:1fr}
   .bpinboxleft{
-    max-height:165px;
+
     overflow:auto;
     border-right:0;
     border-bottom:1px solid var(--bp-line)}

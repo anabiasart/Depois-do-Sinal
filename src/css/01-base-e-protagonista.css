@@ -293,34 +293,10 @@ button:disabled{
   opacity:.85}
 .place.done{
   opacity:.65}
-.overlay{
-  position:fixed;
-  inset:0;
-  background:#31243899;
-  z-index:10;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  backdrop-filter:blur(4px)}
-.panel{
-  width:min(700px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#fffaf9;
-  border-radius:18px;
-  padding:26px;
-  box-shadow:0 20px 80px #1c142c55}
-.panelhead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px}
-.close{
-  border-radius:50%;
-  background:#f3e4ec;
-  width:36px;
-  height:36px}
+
+
+
+
 .panel p{
   line-height:1.6}
 .phone{
@@ -842,8 +818,7 @@ body{
   background:linear-gradient(135deg,#fff8fa,#f5e8f1)}
 .map h2,.panel h2{
   color:#85476e}
-.panel{
-  border:1px solid #f5e5ed}
+
 .foot{
   color:#806b80}
 .scene .protagonist{

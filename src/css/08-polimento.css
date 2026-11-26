@@ -23,11 +23,7 @@
 .look83{
   content-visibility:auto;
   contain-intrinsic-size:auto 215px}
-.fashionpanel9 .panelhead{
-  position:sticky;
-  top:0;
-  background:#fffaf9;
-  z-index:5}
+
 .fashionpanel9 .mirrorart9{
   height:clamp(240px,44vh,520px)}
 .fashionpanel9 .lookimg83{
@@ -148,21 +144,13 @@
 .nav{
   max-width:100%;
   flex-wrap:wrap}
-.panel{
-  overscroll-behavior:contain}
+
 .panel button,.nav button{
   touch-action:manipulation}
 
 @media(max-width:760px){
-  .overlay{
-    padding:8px!important;
-    align-items:center}
-  .panel{
-    max-height:calc(100dvh - 16px)!important;
-    width:100%!important;
-    max-width:100%!important;
-    padding:14px!important;
-    box-sizing:border-box}
+
+
   .fashionpanel9 .fashionmirror9{
     position:static}
   .fashionpanel9 .fashioncatalog9{

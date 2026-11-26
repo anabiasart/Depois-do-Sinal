@@ -130,14 +130,9 @@ body{
   color:#fff}
 .shell12 .foot{
   color:#896a7f}
-.overlay{
-  background:#231b2bc9}
-.panel{
-  border:1px solid #bd8fa966;
-  box-shadow:0 20px 80px #21162955}
-.worldPanel12{
-  width:min(1040px,94vw)!important;
-  max-width:1040px!important}
+
+
+
 .world12{
   color:#53364c}
 .world12 h3,.memory12 h3{

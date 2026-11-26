@@ -1,8 +1,6 @@
 /* cidade | v0.14 */
 /* City / ensemble scenes */
-.citypanel10{
-  width:min(1080px,96vw)!important;
-  max-width:1080px!important}
+
 .city10{
   color:#523a50}
 .city10 h3{
@@ -265,6 +263,5 @@
     padding:15px}
   .cityhero10 h3{
     font-size:26px}
-  .citypanel10{
-    padding:13px!important}
+
   }
