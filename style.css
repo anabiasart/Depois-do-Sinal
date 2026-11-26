@@ -3521,13 +3521,11 @@ body{
   font-size:13px;
   min-height:40px}
 .rail12 .nav button:hover,.rail12 .nav button:focus-visible{
+  justify-content: center;
   background:#71465f}
-.navIcon12{
-  font-size:19px;
-  line-height:1;
-  color:#e7b3ca;
-  min-width:24px;
-  text-align:center}
+.navIcon12 {
+    display: none;
+}
 .rail12 .nav em{
   font-style:normal;
   margin-left:auto;
@@ -4161,3 +4159,76 @@ body:has(.shell12.low12) .overlay{
   .typing95 i,.scene .sprite,.roomStage11 *{
     animation:none!important}
   }
+
+
+/* =================================
+   RESPONSIVIDADE DAS MODAIS
+   ================================= */
+
+.overlay {
+    padding: 12px;
+    overflow-y: auto;
+}
+
+.overlay .panel {
+    box-sizing: border-box;
+
+    /* Nunca ultrapassar a largura disponível */
+    min-width: 0;
+    max-width: 100% !important;
+
+    /* Respeitar a altura da janela */
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px) !important;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Cabeçalho da modal */
+.panelhead {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.panelhead .close {
+    flex-shrink: 0;
+}
+
+/* Telas pequenas */
+@media (max-width: 768px) {
+
+    .overlay {
+        padding: 8px !important;
+    }
+
+    .overlay .panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: calc(100dvh - 16px) !important;
+
+        padding: 14px !important;
+        border-radius: 14px;
+    }
+
+    .panelhead h2 {
+        font-size: clamp(18px, 5vw, 24px);
+        overflow-wrap: anywhere;
+    }
+}
+/* Menu principal sem ícones */
+
+.rail12 .nav button {
+    justify-content: flex-start;
+    text-align: left;
+    padding: 12px 14px;
+    gap: 0;
+}
+
+.rail12 .nav button em {
+    margin-left: auto;
+}
+
+.navIcon12 {
+    display: none;
+}

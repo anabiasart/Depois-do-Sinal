@@ -80,13 +80,11 @@ body{
   font-size:13px;
   min-height:40px}
 .rail12 .nav button:hover,.rail12 .nav button:focus-visible{
+  justify-content: center;
   background:#71465f}
-.navIcon12{
-  font-size:19px;
-  line-height:1;
-  color:#e7b3ca;
-  min-width:24px;
-  text-align:center}
+.navIcon12 {
+    display: none;
+}
 .rail12 .nav em{
   font-style:normal;
   margin-left:auto;
