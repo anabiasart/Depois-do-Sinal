@@ -4267,7 +4267,30 @@ body:has(#modal .overlay) { overflow: hidden; }
 .profilehero .profileart { height: clamp(240px,48dvh,440px); min-height: 0; }
 .profilefacts { grid-template-columns: repeat(2,minmax(0,1fr)); }
 .bppanel .bp90, .bpshell, .bpcontent, .bpinbox, .bpthread { min-width: 0; min-height: 0; }
-.bpcontent { max-height: none; overflow: visible; }
+/* BellPhone: cabeçalho e navegação não acompanham a rolagem das publicações. */
+#modal .panel.bppanel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: min(900px, calc(100vh - 40px));
+    height: min(900px, calc(100dvh - 40px));
+    padding: 0;
+    overflow: hidden;
+}
+#modal .bppanel > .panelhead {
+    position: relative;
+    top: auto;
+    margin: 0;
+}
+.bppanel > .bp90 {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    border: 0;
+    border-radius: 0;
+}
+.bppanel .bpshell { grid-template-rows: minmax(0, 1fr); gap: 0; overflow: hidden; }
+.bppanel .bpnav { min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.bppanel .bpnavbtn { flex-shrink: 0; }
+.bppanel .bpcontent { max-height: none; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .bpnavbtn { min-height: 44px; }
 .bpbubble { overflow-wrap: anywhere; }
 .thread94 { height: clamp(280px,54dvh,580px); min-height: 0; }
@@ -4281,7 +4304,9 @@ body:has(#modal .overlay) { overflow: hidden; }
     #modal .panelhead .close, #modal .modal-back { padding-inline: 9px; font-size: 12px; }
     .profilehero, .bpshell, .inbox94 { grid-template-columns: minmax(0,1fr); gap: 14px; }
     .profilehero .profileart { height: clamp(210px,36dvh,320px); }
-    .bpnav { flex-direction: row; overflow-x: auto; max-width: 100%; }
+    #modal .panel.bppanel { height: 100vh; height: 100dvh; }
+    .bppanel .bpshell { grid-template-rows: auto minmax(0, 1fr); }
+    .bppanel .bpnav { flex-direction: row; overflow-x: auto; overflow-y: hidden; max-width: 100%; }
     .bpnavbtn { flex-shrink: 0; }
     .bpcontent { padding: 10px; }
     .inbox94 .bpinboxleft { max-height: none; overflow: visible; }

@@ -7,7 +7,10 @@ function showPanel(title, content) {
     const page = [modalType, title, modalType === 'phone' ? app90 + ':' + chat90 : ''].join('|');
     const same = previous?.dataset.page === page;
     const scroll = same ? previous.scrollTop : 0;
-    const navScroll = same ? previous.querySelector('.bpnav')?.scrollLeft || 0 : 0;
+    const contentScroll = same ? previous.querySelector('.bpcontent')?.scrollTop || 0 : 0;
+    const oldNav = modalType === 'phone' ? previous?.querySelector('.bpnav') : null;
+    const navScroll = oldNav?.scrollLeft || 0;
+    const navTop = oldNav?.scrollTop || 0;
     if (!previous) modalOpener = document.activeElement;
 
     root.innerHTML = `<div class="overlay"><section class="panel" role="dialog"
@@ -23,11 +26,18 @@ function showPanel(title, content) {
     panel.dataset.kind = modalType || '';
     panel.querySelector('.modal-back').onclick = () => backModal(title);
     if (!same) panel.focus({preventScroll: true});
-    else requestAnimationFrame(() => {
+    if (same || oldNav) requestAnimationFrame(() => {
         if (!panel.isConnected) return;
-        panel.scrollTop = scroll;
+        if (same) {
+            panel.scrollTop = scroll;
+            const content = panel.querySelector('.bpcontent');
+            if (content) content.scrollTop = contentScroll;
+        }
         const nav = panel.querySelector('.bpnav');
-        if (nav) nav.scrollLeft = navScroll;
+        if (nav) {
+            nav.scrollLeft = navScroll;
+            nav.scrollTop = navTop;
+        }
     });
 }
 
