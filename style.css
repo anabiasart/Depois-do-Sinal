@@ -3989,14 +3989,50 @@ body:has(.shell12.low12) .overlay{
   contain-intrinsic-size:auto 210px}
 .feed13post .bpthreadhead{
   padding:0}
-.feed13post .bpfeedart{
-  height:clamp(110px,24vh,210px)}
-.feed13post img.feedpic13{
-  display:block;
-  width:100%;
-  max-height:250px;
-  object-fit:cover;
-  border-radius:10px}
+.feed13post .feedphoto13 {
+  height: auto;
+  padding: 0;
+}
+.bpfeedart.feedphoto13 {
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.feedphoto13.bg9-rose { background: radial-gradient(ellipse at 50% 35%,#fff9f5,#efdae8); }
+.feedphoto13.bg9-night { background: radial-gradient(ellipse at 50% 35%,#776a91,#34304c); }
+.feedphoto13.bg9-garden { background: radial-gradient(ellipse at 50% 35%,#f8f7de,#d4e2ce); }
+.bpfeedart.feedphoto13 > svg {
+  display: block;
+  width: min(100%, var(--photo-width), 360px);
+  height: auto;
+  aspect-ratio: var(--photo-ratio);
+  max-height: 600px;
+  max-width: 100%;
+  image-rendering: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.bpfeedart.feedphoto-album13 > svg {
+  width: min(100%, var(--photo-width), 250px);
+  max-height: 390px;
+}
+.feed13post img.feedpic13 {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: none;
+  margin-inline: auto;
+  object-fit: contain;
+  image-rendering: auto;
+  border-radius: 10px;
+}
 .feed13post .bpcomment{
   margin:5px 0;
   padding-left:8px;
@@ -4013,11 +4049,17 @@ body:has(.shell12.low12) .overlay{
   border-radius:13px;
   background:var(--bp-surface);
   border:1px solid var(--bp-line)}
-.storyview13 img{
-  width:100%;
-  max-height:330px;
-  object-fit:cover;
-  border-radius:10px}
+.storyview13 img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: none;
+  margin-inline: auto;
+  object-fit: contain;
+  image-rendering: auto;
+  border-radius: 10px;
+}
 .storyview13 h3{
   margin-top:12px}
 .feedcomposer13 textarea{
