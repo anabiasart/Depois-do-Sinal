@@ -35,13 +35,33 @@ function livingBond16(day,pair,d){
   const baseline=Array.from({length:7},(_,i)=>((Math.max(1,day)-1+i)%5===0?1:0)).reduce((a,b)=>a+b,0);
   return Math.max(-20,Math.min(20,baseline+(Number.isFinite(d.bonds[key])?d.bonds[key]:0)));
 }
+const livingScenes16=[
+  {loc:'music',lines:['Preciso ensaiar. Não dá para fazer isso no corredor.','E eu preciso garantir que todos tenham acesso às salas.'],outcomes:['Soren reserva dois horários e Dante aceita dividir a sala.','Dante promete apresentar sua própria proposta.','Os dois retomam a discussão e procuram uma solução sem você.']},
+  {loc:'gym',lines:['Uma foto do time seria uma lembrança incrível.','Prefiro fotografar o que acontece quando ninguém está posando.'],outcomes:['Os dois combinam uma foto coletiva e um registro espontâneo.','Theo e Ezra resolvem experimentar ideias diferentes.','Eles seguem conversando sobre o projeto.']},
+  {loc:'hall',lines:['A cena precisa de uma música que acompanhe o ritmo do texto.','Se eu seguir cada marcação, a música perde a personalidade.'],outcomes:['Os dois ensaiam uma versão que combina as propostas.','Dante apresenta uma composição livre ao diretor.','Valentim e Dante decidem retomar o ensaio depois.']},
+  {loc:'library',lines:['O mural precisa de alguma organização.','E também precisa de espaço para coisas que não estavam previstas.'],outcomes:['Eles dividem o mural em duas seções.','Ezra propõe uma exposição sem tema obrigatório.','Os dois continuam planejando o mural.']}
+];
+function livingMood16(id,day,d){
+  const n=people12.indexOf(id);
+  const influence=livingEvents16.filter(e=>e.pair.includes(id)).reduce((sum,e)=>sum+livingBond16(day,e.pair,d),0);
+  const moods=[['neutral','Concentrado'],['smile','Animado'],['annoyed','Impaciente'],['sad','Preocupado']];
+  return moods[((day+n+Math.round(influence/3))%4+4)%4];
+}
+function livingScene16(e,day,d,resolved){
+  const scene=livingScenes16[livingEvents16.indexOf(e)];
+  const choice=d.resolved[String(day)];
+  const prior=day-livingEvents16.length;
+  const previous=d.resolved[String(prior)];
+  const actors=e.pair.map((id,i)=>{const mood=livingMood16(id,day,d);return '<div class="actor10 '+(i===0?'speaking10':'')+'" style="--slot:'+(i===0?'29%':'72%')+'"><div class="actorart10">'+sprite(id,mood[0])+'</div><span>'+esc(name90(id))+' · '+esc(mood[1])+'</span></div>'}).join('');
+  return '<div class="stage10 climate12"><div style="position:absolute;inset:0;overflow:hidden">'+bg(scene.loc)+'</div>'+actors+'</div><div class="sceneTalk10">'+(Number.isInteger(previous)&&scene.outcomes[previous]?'<p><small>Último encontro: '+esc(scene.outcomes[previous])+'</small></p>':'')+scene.lines.map((line,i)=>'<p><b>'+esc(name90(e.pair[i]))+':</b> '+esc(line)+'</p>').join('')+(resolved&&scene.outcomes[choice]?'<p><b>Desfecho:</b> '+esc(scene.outcomes[choice])+'</p>':'')+'</div>';
+}
 function livingPanel16(){
   if(!state)return;
   modalType='living16';
   const d=livingData16(),day=roomData11().day,phase=world12().phase,e=livingEvent16(day,phase),key=String(day);
   const visible=e&&e.pair.every(profileKnown);
   const resolved=Object.prototype.hasOwnProperty.call(d.resolved,key);
-  showPanel('Vida em Bellmont',`<div class="world12"><div class="worldhero12"><small>LIVING BELLMONT / EXPERIMENTAL</small><h3>O mundo não espera por você.</h3><p>Dia ${day} · ${esc(phase)}</p></div><h3>Reputação escolar</h3><div class="memoryGrid12">${Object.entries(d.reputation).filter(([k])=>['cooperação','criatividade','autonomia'].includes(k)).map(([k,v])=>`<article class="memory12"><b>${esc(k)}</b><p>${v} pontos</p></article>`).join('')}</div><h3>Acontecimento de hoje</h3>${visible?`<article class="memory12"><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p>${resolved?'<p>Você já acompanhou este acontecimento.</p>':e.choices.map((t,i)=>`<button class="choice" data-act="livingChoice16" data-i="${i}">${esc(t)}</button>`).join('')}</article>`:'<p>Conheça mais personagens e volte durante a tarde para descobrir acontecimentos.</p>'}<h3>Vínculos entre personagens</h3>${livingEvents16.filter(x=>x.pair.every(profileKnown)).map(x=>`<article class="memory12"><b>${x.pair.map(name90).map(esc).join(' e ')}</b><p>Proximidade: ${livingBond16(day,x.pair,d)}</p></article>`).join('')||'<p>Os vínculos aparecem conforme você conhece o elenco.</p>'}<button class="soft" data-act="calendar12">Voltar à agenda</button></div>`);
+  showPanel('Vida em Bellmont',`<div class="world12"><div class="worldhero12"><small>LIVING BELLMONT / EXPERIMENTAL</small><h3>O mundo não espera por você.</h3><p>Dia ${day} · ${esc(phase)}</p></div><h3>Reputação escolar</h3><div class="memoryGrid12">${Object.entries(d.reputation).filter(([k])=>['cooperação','criatividade','autonomia'].includes(k)).map(([k,v])=>`<article class="memory12"><b>${esc(k)}</b><p>${v} pontos</p></article>`).join('')}</div><h3>Acontecimento de hoje</h3>${visible?`<article class="memory12"><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p>${livingScene16(e,day,d,resolved)}${resolved?'<p>Você já acompanhou este acontecimento.</p>':e.choices.map((t,i)=>`<button class="choice" data-act="livingChoice16" data-i="${i}">${esc(t)}</button>`).join('')}</article>`:'<p>Conheça mais personagens e volte durante a tarde para descobrir acontecimentos.</p>'}<h3>Vínculos entre personagens</h3>${livingEvents16.filter(x=>x.pair.every(profileKnown)).map(x=>`<article class="memory12"><b>${x.pair.map(name90).map(esc).join(' e ')}</b><p>Proximidade: ${livingBond16(day,x.pair,d)} · ${livingBond16(day,x.pair,d)>=5?'Parceria fortalecida':livingBond16(day,x.pair,d)<0?'Relação tensa':'Convivência'}</p></article>`).join('')||'<p>Os vínculos aparecem conforme você conhece o elenco.</p>'}<button class="soft" data-act="calendar12">Voltar à agenda</button></div>`);
   document.querySelector('#modal .panel')?.classList.add('worldPanel12');
 }
 function livingChoice16(i){
@@ -52,7 +72,7 @@ function livingChoice16(i){
   if(i!==2){
     const trait=i===0?e.trait:'autonomia',bond=e.pair.slice().sort().join(':');
     d.reputation[trait]=Math.min(100,d.reputation[trait]+1);
-    d.bonds[bond]=Math.max(-20,Math.min(20,(Number.isFinite(d.bonds[bond])?d.bonds[bond]:0)+(i===0?2:0)));
+    d.bonds[bond]=Math.max(-20,Math.min(20,(Number.isFinite(d.bonds[bond])?d.bonds[bond]:0)+(i===0?2:-1)));
   }
   persist();livingPanel16();
 }
