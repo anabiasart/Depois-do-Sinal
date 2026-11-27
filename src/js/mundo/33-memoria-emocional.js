@@ -68,7 +68,7 @@ function emotional12(id){
   return m.spaceUntil>=roomData11().day?'Respeitando seu espaço':a<0?'Mais distante':personality12[id][t>=25?2:t>=10?1:0]
 }
 
-const oldPersist12=persist;persist=function(){if(state)syncMemory12();oldPersist12()};
+
 const oldSeed12=seed90;seed90=function(){let changed=oldSeed12();syncMemory12();let w=world12(),day=roomData11().day;if(w.sentDays.includes(day))return changed;let ids=people12.filter(id=>profileKnown(id)&&(state.trust[id]||0)>=5).sort((a,b)=>(mem12(a).lastSent||0)-(mem12(b).lastSent||0)||(state.trust[b]||0)-(state.trust[a]||0));ids.sort((a,b)=>Number(!!(mem12(b).preference&&!mem12(b).recalled&&day>mem12(b).prefDay))-Number(!!(mem12(a).preference&&!mem12(a).recalled&&day>mem12(a).prefDay)));for(const id of ids){let m=mem12(id);if(m.spaceUntil>=day)continue;let text='',flag='',kind='';if(m.preference&&m.preference!=='nenhuma'&&day>m.prefDay&&!m.recalled){const match={chuva:weather12()==='Chuva',sol:weather12()==='Céu limpo',frio:season12()==='Inverno'}[m.preference];if(match||day>=m.prefDay+3){text=memoryRecall12[id]+' '+m.preference+'. '+(match?'O dia de hoje me fez lembrar de você.':'Queria saber como está seu dia.');flag='mem12:recall:'+id;kind='recall';}}
  if(!text&&!m.preference&&!state.flags['mem12:ask:'+id]){text=memoryAsk12[id];flag='mem12:ask:'+id;kind='ask'}
  if(!text&&m.lastChoice&&day>m.choiceDay&&m.choiceCount!==m.recalledChoice){
