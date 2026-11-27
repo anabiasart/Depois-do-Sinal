@@ -41,6 +41,7 @@
     "src/js/core/38-integracao-estabilidade.js",
     "src/js/visual/41-experiencia.js",
     "src/js/historia/42-continuidade-narrativa.js",
+    "src/js/visual/43-identidade-bellmont.js",
     "src/js/core/39-executar.js"
   ],
   "css": [
@@ -60,6 +61,7 @@
     "src/css/14-mapa-e-feed.css",
     "src/css/15-estabilidade.css",
     "src/css/16-modais.css",
-    "src/css/17-experiencia.css"
+    "src/css/17-experiencia.css",
+    "src/css/18-identidade-bellmont.css"
   ]
 }
