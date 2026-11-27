@@ -3984,9 +3984,12 @@ body:has(.shell12.low12) .overlay{
 .feed13tabs [aria-pressed=true]{
   background:var(--bp-accent);
   color:var(--bp-surface)}
-.feed13post{
-  content-visibility:auto;
-  contain-intrinsic-size:auto 210px}
+.feed13post {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 350px;
+  max-width: 680px;
+  margin: 12px auto;
+}
 .feed13post .bpthreadhead{
   padding:0}
 .feed13post .feedphoto13 {
@@ -4024,11 +4027,10 @@ body:has(.shell12.low12) .overlay{
 }
 .feed13post img.feedpic13 {
   display: block;
-  width: auto;
+  width: min(100%, 420px);
   height: auto;
   max-width: 100%;
-  max-height: none;
-  margin-inline: auto;
+  margin: 12px auto;
   object-fit: contain;
   image-rendering: auto;
   border-radius: 10px;
@@ -4045,17 +4047,18 @@ body:has(.shell12.low12) .overlay{
 .feed13post .bpactions{
   margin-top:9px}
 .storyview13{
+  max-width:680px;
+  margin:12px auto;
   padding:12px;
   border-radius:13px;
   background:var(--bp-surface);
   border:1px solid var(--bp-line)}
 .storyview13 img {
   display: block;
-  width: auto;
+  width: min(100%, 420px);
   height: auto;
   max-width: 100%;
-  max-height: none;
-  margin-inline: auto;
+  margin: 12px auto;
   object-fit: contain;
   image-rendering: auto;
   border-radius: 10px;
