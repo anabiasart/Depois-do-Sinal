@@ -39,7 +39,7 @@ A história principal tem cinco episódios: *A garota nova*, *Péssimas primeira
 
 ## Executar localmente
 
-Requisitos: navegador moderno e os arquivos do projeto na mesma pasta. Não há instalação de dependências nem etapa de build obrigatória.
+Requisitos: navegador moderno e os arquivos do projeto na mesma pasta. A distribuição versionada abre diretamente, sem dependências. Para editar os fontes, use Node.js 18+ e execute o build.
 
 ```bash
 git clone https://github.com/anabiasart/Depois-do-Sinal.git
@@ -61,35 +61,35 @@ O progresso fica no armazenamento local do navegador. Antes de atualizar, trocar
 ## Estrutura
 
 ```text
-Depois-do-Sinal/
-├── index.html              # Entrada HTML
-├── style.css               # Interface e direção visual
-├── assets.js               # Artes e áudios incorporados
-├── game.js                 # Motor, dados e sistemas
-├── docs/
-│   └── ARCHITECTURE.md     # Arquitetura e manutenção
-├── CHANGELOG.md
-├── ROADMAP.md
-├── README.md
-├── LEIA-ME.txt
-└── .gitignore
+src/js/           # Fontes JavaScript por sistema (43 arquivos)
+src/css/          # Fontes CSS (18 arquivos)
+src/ordem.json    # Ordem explícita de concatenação
+scripts/          # Build e ferramentas de mídia
+assets/bellfeed/  # Fotografias futuras
+assets.js         # Mídia incorporada (migração planejada)
+game.js/style.css # Gerados pelo build
+index.html        # Entrada do jogo
+tests/            # Regressão, navegador e fixtures fictícias
+docs/             # Arquitetura e guia de edição
+.github/workflows/ # Integração contínua
 ```
 
 **Stack:** HTML5, CSS3, JavaScript vanilla, DOM, Web Storage e APIs nativas do navegador. O arquivo de mídia é grande porque preserva as ilustrações originais.
 
 ## Desenvolvimento
 
-- `main`: versão pública estável.
-- `develop`: integração e testes de futuras funcionalidades.
-- `feature/*` e `fix/*`: mudanças isoladas, revisadas via pull request.
+Use `main` como base estável. Crie branches temporárias para mudanças e abra PRs. A branch histórica `develop` não é mais a base recomendada; não foi apagada.
 
 ```bash
-git switch develop
-git pull origin develop
+git switch main
+git pull --ff-only origin main
 git switch -c feature/minha-melhoria
+npm run build
+npm run check
+npm test
 ```
 
-Antes de abrir um PR, teste o início de uma partida, o progresso narrativo, o BellPhone, a cidade, o ateliê e a exportação/importação de saves. Não altere a chave de armazenamento sem estratégia de migração. Consulte a [arquitetura](docs/ARCHITECTURE.md) para o checklist completo.
+Edite os fontes em `src/`, não os compilados diretamente. Inclua fonte e compilados no mesmo commit. Para testes no navegador, consulte [Testes](docs/TESTES.md). Antes de publicar, confira o resultado da CI e exporte seu progresso.
 
 ## Créditos e direitos
 

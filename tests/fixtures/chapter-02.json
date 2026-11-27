@@ -1,0 +1,71 @@
+{
+  "name": "Alex Teste",
+  "look": {
+    "hair": "castanho",
+    "eyes": "mel",
+    "skin": "clara",
+    "outfit": "uniforme"
+  },
+  "aff": {
+    "dante": 7,
+    "soren": 0,
+    "theo": 0,
+    "ezra": 0,
+    "valentim": 0
+  },
+  "trust": {
+    "dante": 8,
+    "soren": 0,
+    "theo": 0,
+    "ezra": 0,
+    "valentim": 0
+  },
+  "visited": [
+    "music"
+  ],
+  "items": [
+    "Palheta"
+  ],
+  "messages": [
+    {
+      "who": "dante",
+      "text": "Uma mensagem anterior.",
+      "chapter42": 1
+    },
+    {
+      "who": "soren",
+      "text": "Uma mensagem nova.",
+      "chapter42": 2
+    }
+  ],
+  "gallery": [],
+  "log": [
+    {
+      "who": "dante",
+      "choice": "Gostei da música.",
+      "aff": 7,
+      "trust": 8
+    }
+  ],
+  "flags": {},
+  "node": "e2intro",
+  "loc": "bedroom",
+  "ending": null,
+  "sceneChoice": null,
+  "episode": 2,
+  "replied": {
+    "0": {
+      "text": "Obrigada.",
+      "answer": "Até amanhã."
+    }
+  },
+  "story42": {
+    "scenes": {},
+    "facts": {
+      "dante": {
+        "preference": "rock"
+      }
+    },
+    "memories": {}
+  }
+}
