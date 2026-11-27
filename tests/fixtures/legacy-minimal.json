@@ -1,0 +1,49 @@
+{
+  "name": "Alex Teste",
+  "look": {
+    "hair": "castanho",
+    "eyes": "mel",
+    "skin": "clara",
+    "outfit": "uniforme"
+  },
+  "aff": {
+    "dante": 7,
+    "soren": 0,
+    "theo": 0,
+    "ezra": 0,
+    "valentim": 0
+  },
+  "trust": {
+    "dante": 8,
+    "soren": 0,
+    "theo": 0,
+    "ezra": 0,
+    "valentim": 0
+  },
+  "visited": [
+    "music"
+  ],
+  "items": [
+    "Palheta"
+  ],
+  "messages": [
+    {
+      "who": "dante",
+      "text": "Uma mensagem de teste."
+    }
+  ],
+  "gallery": [],
+  "log": [
+    {
+      "who": "dante",
+      "choice": "Gostei da música.",
+      "aff": 7,
+      "trust": 8
+    }
+  ],
+  "flags": {},
+  "node": "ending",
+  "loc": "music",
+  "ending": null,
+  "sceneChoice": null
+}

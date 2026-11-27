@@ -6,7 +6,9 @@
   "scripts": {
     "build": "node scripts/build.cjs",
     "check": "node --check game.js",
-    "artes": "node scripts/artes.cjs"
+    "artes": "node scripts/artes.cjs",
+    "test": "node --test tests/unit/*.test.cjs",
+    "test:e2e": "python tests/e2e/test_game.py"
   },
   "engines": {
     "node": ">=18"

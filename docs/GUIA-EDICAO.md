@@ -1,13 +1,13 @@
 # Guia de edição manual — Depois do Sinal v0.14
 
-A branch develop contém 39 arquivos JavaScript e 15 arquivos CSS organizados por responsabilidade. A concatenação na ordem declarada em src/ordem.json conserva o motor clássico. Não são módulos ES independentes.
+O projeto contém 43 arquivos JavaScript e 18 arquivos CSS organizados por responsabilidade. A concatenação na ordem declarada em src/ordem.json conserva o motor clássico. Não são módulos ES independentes.
 
 ## Como editar
 
-1. Abra a raiz do projeto no VS Code, na branch develop.
-2. Instale Node.js 18 ou superior, se necessário. Não há dependências para instalar.
+1. Abra a raiz do projeto no VS Code, em uma branch temporária criada a partir de main.
+2. Instale Node.js 18 ou superior, se necessário. O build e os testes unitários não exigem dependências externas. Os testes de navegador usam Playwright.
 3. Edite os arquivos em src/js/ ou src/css/. Não edite game.js e style.css da raiz: são gerados.
-4. Execute `npm run build` e `npm run check`.
+4. Execute `npm run build`, `npm run check` e `npm test`.
 5. Abra index.html e teste; salve os arquivos fonte e gerados no mesmo commit.
 
 ## Onde encontrar cada sistema
@@ -31,7 +31,7 @@ A branch develop contém 39 arquivos JavaScript e 15 arquivos CSS organizados po
 | Salvamento | core/01-midia-e-salvamento.js, 07-estado.js, 35-interface-mundo-e-slots.js, 38-integracao-estabilidade.js |
 | Sprites e interface | visual/ |
 
-Os 15 arquivos de src/css/ seguem a ordem original da cascata. Consulte a lista em src/ordem.json. Use Ctrl+Shift+F no VS Code para pesquisar uma função, fala ou classe. Algumas strings de HTML/SVG são longas e foram mantidas intactas.
+Os 18 arquivos de src/css/ seguem a ordem original da cascata. Consulte a lista em src/ordem.json. Use Ctrl+Shift+F no VS Code para pesquisar uma função, fala ou classe. Algumas strings de HTML/SVG são longas e foram mantidas intactas.
 
 ### Exemplo
 
@@ -50,14 +50,15 @@ A exportação cria arquivos numerados em exports/artes/. A substituição conse
 
 ```bash
 git fetch origin
-git switch develop
-git pull --ff-only origin develop
+git switch main
+git pull --ff-only origin main
+git switch -c feature/minha-melhoria
 npm run build
 npm run check
 ```
 
-Para publicar suas alterações, faça commit na develop e abra um pull request para main após testar. Exporte seu progresso em JSON antes de mudar de navegador ou origem. Não altere a chave de armazenamento ou a ordem de execução sem uma estratégia de migração.
+Para publicar suas alterações, faça commit na branch temporária e abra um pull request para main após testar. A develop fica como branch histórica. Exporte seu progresso em JSON antes de mudar de navegador ou origem. Não altere a chave de armazenamento ou a ordem de execução sem uma estratégia de migração.
 
 ## Validação e limites
 
-A estrutura sintática JavaScript e a sequência de regras e declarações CSS foram comparadas localmente com a v0.14 original; o JavaScript gerado passou na validação de sintaxe. A versão publicada nesta branch foi reconstruída a partir do snapshot original do GitHub, com formatação conservadora, não é uma cópia byte a byte do ZIP editável. Não houve novo teste de gameplay em navegador nesta publicação. Os arquivos de entrada e de mídia permanecem inalterados. Consulte ARCHITECTURE.md para os contratos atuais e o checklist de regressão.
+Consulte [TESTES.md](TESTES.md) para os testes de regressão, Playwright e limitações. A ordem dos scripts clássicos ainda deve ser respeitada. A v0.15 está em preparação; não renomeie IDs de cenas, campos de save ou índices das mídias sem migração.
