@@ -21,8 +21,17 @@
                 linear-gradient(0deg,#432b3d40,transparent 30%);
 }
 .bell-cast { position: absolute; inset: 4% 0 0 6%; display: grid; grid-template-columns: repeat(12,minmax(0,1fr)); grid-template-rows: repeat(12,minmax(0,1fr)); align-items: end; }
-.bell-hero { position: relative; min-width: 0; min-height: 0; height: 100%; display: flex; align-items: end; justify-content: center; filter: drop-shadow(0 6px 12px #33203435); }
+.bell-hero { position: relative; min-width: 0; min-height: 0; height: 100%; display: flex; align-items: end; justify-content: center; }
 .bell-hero > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* Usa a proporção original e evita ampliar os retratos além da resolução nativa. */
+.bell-portrait {
+    display: block; width: auto; height: auto;
+    max-width: min(100%, var(--portrait-w));
+    max-height: min(100%, var(--portrait-h));
+    object-fit: contain; object-position: center bottom;
+    image-rendering: auto;
+    filter: none; transform: none;
+}
 .bell-hero-dante { grid-area: 1 / 1 / 12 / 6; }
 .bell-hero-soren { grid-area: 1 / 4 / 12 / 9; }
 .bell-hero-theo { grid-area: 1 / 8 / 12 / 13; }

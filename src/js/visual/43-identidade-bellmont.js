@@ -7,13 +7,23 @@ function bellmontTitle43() {
     return '<span>Depois do</span><i>Sinal</i>';
 }
 
+// A capa não precisa de um SVG intermediário para retratos rasterizados.
+function coverPortrait43(id, mood) {
+    const entry = expressionArt[id]?.[mood] || expressionArt[id]?.neutral || animeArt[id];
+    if (!entry) return sprite(id,mood);
+    const [data,w,h] = entry;
+    return `<img class="bell-portrait" src="${mediaURL14(data,'image/webp')}"
+        width="${w}" height="${h}" style="--portrait-w:${w}px;--portrait-h:${h}px"
+        alt="" decoding="async">`;
+}
+
 cover = function () {
     const cast = ['dante','soren','theo','ezra','valentim'];
     const moods = ['neutral','neutral','smile','shy','smile'];
     return `<section class="bell-cover">
         <div class="bell-cover-visual" aria-hidden="true">
             <div class="bell-cover-bg">${bg('gate')}</div>
-            <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${sprite(id,moods[i])}</div>`).join('')}</div>
+            <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
         </div>
         <div class="bell-cover-copy">
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
