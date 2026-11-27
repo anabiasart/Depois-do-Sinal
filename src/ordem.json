@@ -40,6 +40,7 @@
     "src/js/celular/37-bellfeed-dinamico.js",
     "src/js/core/38-integracao-estabilidade.js",
     "src/js/visual/41-experiencia.js",
+    "src/js/historia/42-continuidade-narrativa.js",
     "src/js/core/39-executar.js"
   ],
   "css": [
