@@ -124,3 +124,28 @@ body:has(#modal .overlay) { overflow: hidden; }
     #modal .panelhead { grid-template-columns: 44px minmax(0,1fr) auto; }
     #modal .modal-back span { display: none; }
 }
+
+/* v0.15: tamanho pelo espaço real disponível, sem transbordar a modal. */
+.map13 { box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; container-type: inline-size; }
+.maplayout13 { grid-template-columns: minmax(0, 1fr) minmax(0, 240px); min-width: 0; }
+.mapscroll13 { width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; }
+.mapstage13 { width: 100%; min-width: 560px; }
+@container (max-width: 820px) {
+    .maplayout13 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 820px) {
+    .maplayout13 { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* O histórico ocupa o espaço livre; cabeçalho e respostas continuam acessíveis. */
+.bppanel .bpcontent:has(> .inbox94 .thread94) { overflow: hidden; }
+.bppanel .inbox94:has(.thread94) {
+    height: 100%; min-height: 0; align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
+}
+.bppanel .inbox94:has(.thread94) .bpinboxleft { max-height: none; min-height: 0; overflow-y: auto; }
+.bppanel .inbox94 .bpthread { min-height: 0; display: flex; flex-direction: column; }
+.bppanel .inbox94 .thread94 { height: auto; flex: 1 1 0; min-height: 0; }
+.bppanel .inbox94 .history94 { flex: 1 1 0; min-height: 0; }
+.bppanel .inbox94 .composer94 { max-height: 48%; flex-shrink: 0; }
+
