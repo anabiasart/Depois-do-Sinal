@@ -136,8 +136,57 @@ function feedPhoto13(photo, album = false) {
         style="--photo-width:${width}px;--photo-height:${height}px;--photo-ratio:${width}/${height}">${art}</div>`;
 }
 
-function postHTML13(p){const d=data90(),liked=d.likes.includes(p.id);return `<article class="bppost feed13post"><div class="bpthreadhead">${face90(p.who)}<div><b>${p.who==='me'?esc(state.name):esc(name90(p.who))}</b><small>${p.kind==='archive'?'Arquivo · episódio '+p.day:p.day?'Dia '+p.day+' · '+esc(p.phase||''):'Registro anterior'}</small></div><span class="feed13meta">${({event:'MOMENTO',routine:'COTIDIANO',look:'ATELIÊ',archive:'ARQUIVO',text:'MURAL'})[p.kind]||'MURAL'}</span></div><p>${esc(p.text)}</p>${p.photo?feedPhoto13(p.photo):p.loc&&art10.city[p.loc]?img10('city',p.loc,'feedpic13'):''}<div class="bpactions"><button class="bpbutton" data-act="feedlike13" data-id="${esc(p.id)}" aria-pressed="${liked}">${liked?'♥':'♡'} ${p.likes+(liked?1:0)}</button><button class="bpbutton" data-act="feedcomment13" data-id="${esc(p.id)}">Comentar</button>${p.loc&&unlocked13(p.loc)?`<button class="bpbutton" data-act="feedplace13" data-id="${p.loc}">Ver local ↗</button>`:''}</div>${feedCommentHTML13(p)}${compose13===p.id?`<div class="feedcomposer13"><textarea id="feedcomment13" maxlength="180" placeholder="Escreva um comentário"></textarea><div class="bpactions"><button class="bpbutton" data-act="feedsend13" data-id="${esc(p.id)}">Publicar</button><button class="bpbutton" data-act="feedcancel13">Cancelar</button></div></div>`:''}</article>`}
-feedPanel90=function(){if(syncSocial13())persist13();const d=social13(),stories=storyList13(),p=stories.find(x=>x.id===storyOpen13),all=feedPosts13(),filtered=all.filter(x=>feedFilter13==='all'||feedFilter13==='events'&&x.kind==='event'||feedFilter13==='mine'&&x.who==='me'||feedFilter13==='routine'&&x.kind==='routine');return `<div class="bpsection"><div class="feed13hero"><div><h3>BellFeed</h3><p>Seu círculo, em tempo de Bellmont · Dia ${roomData11().day}</p></div><div class="bpactions"><button class="bpbutton" data-act="feedwrite13">✎ Publicar</button><button class="bpbutton" data-act="bp90publish">▧ Meu visual</button></div></div><div class="stories13" aria-label="Stories temporários">${stories.map(x=>`<button class="story13" data-act="story13" data-id="${x.id}" data-seen="${d.seen.includes(x.id)}">${face90(x.who)}<span>${esc(name90(x.who))}</span></button>`).join('')||'<p class="bpmuted">Nenhum story ativo. Conheça personagens e avance o dia.</p>'}</div>${p?`<div class="storyview13"><div class="bpthreadhead">${face90(p.who)}<b>${esc(name90(p.who))}</b><button class="bpbutton" data-act="storyclose13">Fechar</button></div>${p.loc?img10('city',p.loc):''}<h3>${esc(p.text)}</h3><p class="bpmuted">Story temporário · desaparece após três períodos do jogo.</p>${p.loc?`<button class="bpbutton" data-act="feedplace13" data-id="${p.loc}">Ver no mapa</button>`:''}</div>`:''}${compose13==='new'?`<div class="storyview13 feedcomposer13"><h3>Nova publicação</h3><textarea id="feedtext13" maxlength="240" placeholder="O que ficou de hoje?"></textarea><div class="bpactions"><button class="bpbutton" data-act="feedpost13">Publicar</button><button class="bpbutton" data-act="feedcancel13">Cancelar</button></div></div>`:''}<div class="feed13tabs">${Object.entries({all:'Para você',routine:'Cotidiano',events:'Momentos',mine:'Minhas publicações'}).map(([id,t])=>`<button class="bpbutton" data-act="feedfilter13" data-id="${id}" aria-pressed="${feedFilter13===id}">${t}</button>`).join('')}</div>${filtered.slice(0,feedLimit13).map(postHTML13).join('')||'<p class="bpmuted">Nenhuma publicação neste filtro.</p>'}${filtered.length>feedLimit13?'<button class="bpbutton" data-act="feedmore13">Ver publicações anteriores</button>':''}<p class="bpmuted">Rede fictícia, offline. As publicações respeitam o progresso e não revelam escolhas românticas privadas.</p></div>`};
+// Fotografias do feed são independentes das miniaturas do mapa.
+// Registre aqui os arquivos HD já disponíveis (chaves: city:cafe, city:records, npc1...).
+const feedPhotography13 = {};
+const feedSchoolPhotos13 = {npc1:'music',npc2:'hall',npc3:'gym',npc4:'library'};
+
+function feedMedia13(p) {
+    if (p.photo) return '<button type="button" class="feed-open13" data-feed-open aria-label="Ampliar foto do visual">'+feedPhoto13(p.photo)+'</button>';
+    const key = p.loc ? 'city:'+p.loc : p.id;
+    const hd = feedPhotography13[key];
+    const school = feedSchoolPhotos13[p.id];
+    if (hd || school && schoolArt[school]) {
+        const src = hd || mediaURL14(schoolArt[school],'image/webp');
+        const alt = hd && p.loc ? city10[p.loc]?.name || 'Bellmont' : 'Registro de Bellmont';
+        return `<button type="button" class="feed-open13" data-feed-open aria-label="Ampliar fotografia"><img class="feed-image13" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async"></button>`;
+    }
+    if (p.loc && art10.city[p.loc]) {
+        return `<div class="feed-location13">${img10('city',p.loc)}<div><small>LOCAL EM BELLMONT</small><b>${esc(city10[p.loc]?.name || 'Bellmont')}</b></div></div>`;
+    }
+    return '';
+}
+
+// Visualização ampliada sem fechar ou recriar o BellPhone.
+function openFeedPhoto13(button) {
+    const viewer = document.querySelector('#feedviewer13');
+    const media = button.querySelector('img,.feedphoto13');
+    if (!viewer || !media) return;
+    const copy = media.cloneNode(true);
+    copy.removeAttribute('loading');
+    viewer.querySelector('.feedviewer-media13').replaceChildren(copy);
+    viewer.showModal();
+}
+document.addEventListener('click', e => {
+    const open = e.target.closest?.('[data-feed-open]');
+    if (open) { e.stopImmediatePropagation(); openFeedPhoto13(open); return; }
+    const viewer = document.querySelector('#feedviewer13[open]');
+    if (viewer && (e.target === viewer || e.target.closest?.('[data-feed-close]'))) {
+        e.stopImmediatePropagation();
+        viewer.close();
+    }
+}, true);
+document.addEventListener('keydown', e => {
+    const viewer = document.querySelector('#feedviewer13[open]');
+    if (viewer && e.key === 'Escape') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        viewer.close();
+    }
+}, true);
+
+function postHTML13(p){const d=data90(),liked=d.likes.includes(p.id);return `<article class="bppost feed13post"><div class="bpthreadhead">${face90(p.who)}<div><b>${p.who==='me'?esc(state.name):esc(name90(p.who))}</b><small>${p.kind==='archive'?'Arquivo · episódio '+p.day:p.day?'Dia '+p.day+' · '+esc(p.phase||''):'Registro anterior'}</small></div><span class="feed13meta">${({event:'MOMENTO',routine:'COTIDIANO',look:'ATELIÊ',archive:'ARQUIVO',text:'MURAL'})[p.kind]||'MURAL'}</span></div><p>${esc(p.text)}</p>${feedMedia13(p)}<div class="bpactions"><button class="bpbutton" data-act="feedlike13" data-id="${esc(p.id)}" aria-pressed="${liked}">${liked?'♥':'♡'} ${p.likes+(liked?1:0)}</button><button class="bpbutton" data-act="feedcomment13" data-id="${esc(p.id)}">Comentar</button>${p.loc&&unlocked13(p.loc)?`<button class="bpbutton" data-act="feedplace13" data-id="${p.loc}">Ver local ↗</button>`:''}</div>${feedCommentHTML13(p)}${compose13===p.id?`<div class="feedcomposer13"><textarea id="feedcomment13" maxlength="180" placeholder="Escreva um comentário"></textarea><div class="bpactions"><button class="bpbutton" data-act="feedsend13" data-id="${esc(p.id)}">Publicar</button><button class="bpbutton" data-act="feedcancel13">Cancelar</button></div></div>`:''}</article>`}
+feedPanel90=function(){if(syncSocial13())persist13();const d=social13(),stories=storyList13(),p=stories.find(x=>x.id===storyOpen13),all=feedPosts13(),filtered=all.filter(x=>feedFilter13==='all'||feedFilter13==='events'&&x.kind==='event'||feedFilter13==='mine'&&x.who==='me'||feedFilter13==='routine'&&x.kind==='routine');return `<div class="bpsection feed13"><div class="feed13hero"><div><h3>BellFeed</h3><p>O cotidiano de Bellmont · Dia ${roomData11().day}</p></div><div class="bpactions"><button class="bpbutton" data-act="feedwrite13">Publicar</button><button class="bpbutton" data-act="bp90publish">Meu visual</button></div></div><div class="stories13" aria-label="Stories temporários">${stories.map(x=>`<button class="story13" data-act="story13" data-id="${x.id}" data-seen="${d.seen.includes(x.id)}">${face90(x.who)}<span>${esc(name90(x.who))}</span></button>`).join('')||'<p class="bpmuted">Nenhum story ativo. Conheça personagens e avance o dia.</p>'}</div>${p?`<div class="storyview13"><div class="bpthreadhead">${face90(p.who)}<b>${esc(name90(p.who))}</b><button class="bpbutton" data-act="storyclose13">Fechar</button></div>${feedMedia13(p)}<h3>${esc(p.text)}</h3><p class="bpmuted">Story temporário · desaparece após três períodos do jogo.</p>${p.loc?`<button class="bpbutton" data-act="feedplace13" data-id="${p.loc}">Ver no mapa</button>`:''}</div>`:''}${compose13==='new'?`<div class="storyview13 feedcomposer13"><h3>Nova publicação</h3><textarea id="feedtext13" maxlength="240" placeholder="O que ficou de hoje?"></textarea><div class="bpactions"><button class="bpbutton" data-act="feedpost13">Publicar</button><button class="bpbutton" data-act="feedcancel13">Cancelar</button></div></div>`:''}<div class="feed13tabs">${Object.entries({all:'Para você',routine:'Cotidiano',events:'Momentos',mine:'Minhas publicações'}).map(([id,t])=>`<button class="bpbutton" data-act="feedfilter13" data-id="${id}" aria-pressed="${feedFilter13===id}">${t}</button>`).join('')}</div>${filtered.slice(0,feedLimit13).map(postHTML13).join('')||'<p class="bpmuted">Nenhuma publicação neste filtro.</p>'}${filtered.length>feedLimit13?'<button class="bpbutton" data-act="feedmore13">Ver publicações anteriores</button>':''}<dialog id="feedviewer13" class="feedviewer13" aria-label="Fotografia ampliada"><div class="feedviewer-head13"><b>Fotografia</b><button type="button" class="bpbutton" data-feed-close>Fechar ×</button></div><div class="feedviewer-media13"></div></dialog></div>`};
 const pub13=publish90;publish90=function(i){const v=closet9(state),n=v.posts.length;pub13(i);if(v.posts.length>n){const d=social13();const p=v.posts.at(-1);p.day13=roomData11().day;p.phase13=world12().phase;p.seq13=++d.serial;p.comments=(p.comments||[]).map(x=>String(x).replace(/: undefined$/,'： Gostei do visual.'));persist();}};
 function redrawFeed13(){
   const el=document.querySelector('.bpcontent'),

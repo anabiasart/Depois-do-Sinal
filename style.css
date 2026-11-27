@@ -4116,6 +4116,44 @@ body:has(.shell12.low12) .overlay{
     font-size:25px}
   }
 
+/* BellFeed editorial: apenas a rede social, sem modificar os outros apps. */
+.feed13 { max-width: 700px; margin-inline: auto; min-width: 0; }
+.feed13 .feed13hero { padding: 8px 0 15px; }
+.feed13 .feed13hero h3 { font: italic 400 clamp(30px,4vw,42px)/1.1 Georgia,serif; margin: 0 0 5px; color: var(--bp-ink); }
+.feed13 .stories13 { gap: 12px; padding: 14px 0; }
+.feed13 .story13 .bpface { width: 60px; height: 60px; }
+.feed13 .feed13tabs { gap: 6px; margin: 5px 0 14px; }
+.feed13 .feed13tabs button { min-height: 36px; }
+.feed13 .feed13post { max-width: none; padding: clamp(12px,2vw,18px); margin: 12px 0; content-visibility: visible; contain-intrinsic-size: none; }
+.feed13 .feed13post > p { font-size: 15px; line-height: 1.6; margin: 12px 0; }
+.feed13 .feed13post .bpthreadhead { gap: 10px; padding-bottom: 9px; }
+.feed13 .feed13meta { margin-left: auto; }
+.feed13 .feed13post .bpactions { padding-top: 5px; margin-top: 8px; }
+.feed13 .feed13post .bpcomment { font-size: 12px; line-height: 1.5; }
+.feed-open13 { display: block; width: 100%; padding: 0; border: 0; border-radius: 12px; overflow: hidden; background: var(--bp-soft); cursor: zoom-in; }
+.feed-image13 { display: block; width: auto; height: auto; max-width: 100%; max-height: 560px; object-fit: contain; margin: 0 auto; image-rendering: auto; }
+.feed13 .storyview13 .feed-image13 { width: auto; margin: 0 auto; }
+.feed-location13 { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--bp-line); border-radius: 10px; background: var(--bp-soft); }
+.feed13 .feed-location13 img { display: block; width: 155px; max-width: 40%; height: auto; margin: 0; border-radius: 6px; }
+.feed-location13 div { min-width: 0; }
+.feed-location13 small, .feed-location13 b { display: block; }
+.feed-location13 small { font-size: 9px; letter-spacing: .08em; color: var(--bp-muted); }
+.feed-location13 b { margin-top: 3px; font-size: 13px; }
+.feedviewer13 { box-sizing: border-box; width: min(880px,94vw); max-width: 94vw; max-height: 92dvh; padding: 14px; border: 1px solid var(--bp-line,#e7d6e1); border-radius: 14px; background: var(--bp-surface,#fff8fb); color: var(--bp-ink,#432b3d); overflow: auto; }
+.feedviewer13::backdrop { background: #201924dd; }
+.feedviewer-head13 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.feedviewer-media13 { display: grid; place-items: center; min-width: 0; }
+.feedviewer-media13 > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 75dvh; object-fit: contain; }
+.feedviewer-media13 .feedphoto13 > svg { width: min(100%,var(--photo-width)); max-height: 75dvh; }
+.feed-open13:focus-visible { outline: 2px solid var(--bp-accent); outline-offset: 3px; }
+@media(max-width:480px) {
+  .feed13 .feed13hero .bpactions { width: 100%; }
+  .feed13 .feed13hero .bpactions button { flex: 1; }
+  .feed13 .story13 { flex-basis: 64px; }
+  .feed13 .story13 .bpface { width: 52px; height: 52px; }
+  .feed13 .feed13post .bpactions { flex-wrap: wrap; }
+}
+
 
 /* Estabilidade geral. Modais em 16-modais.css. */
 
