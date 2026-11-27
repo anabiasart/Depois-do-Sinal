@@ -9,7 +9,14 @@ const initial=()=>({
 });
 
 function load(){return loadSave14()}let saved=load();let storageOK=true;
-function persist(){if(state)writeSave14(state)}
+// Explicit save stages preserve the historical ordering and feed-only write path.
+function persistMemoryStage(){if(state){syncMemory12();writeSave14(state)}}
+function persist(){
+  if(!state)return;
+  syncStory42();
+  syncSocial13();
+  persistMemoryStage();
+}
 function toast(t){
   let n=document.createElement('div');
   n.className='toast';

@@ -44,11 +44,6 @@ normalize = function (s) {
     syncStory42(s);
     return result;
 };
-const persistBefore42 = persist;
-persist = function () {
-    if (state) syncStory42();
-    return persistBefore42();
-};
 
 // Fatos específicos: cada escolha tem uma resposta própria e um retorno futuro.
 const characterFacts42 = {
