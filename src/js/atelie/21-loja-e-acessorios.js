@@ -47,7 +47,9 @@ function wallet8(s){
   return a
 }
 
-const normalize8base=normalize;normalize=function(s){normalize8base(s);s.look=cleanLook8(s.look);wallet8(s);return s};
+function normalizeShop(s) {
+    s.look=cleanLook8(s.look);wallet8(s);
+}
 function grant8(s){
   const a=wallet8(s);
   const pay=(k,n)=>{
@@ -94,7 +96,7 @@ modal=function(t){
   return modal8base(t)
 };
 
-const update8base=update;update=function(){if(state)grant8(state);update8base()};
+
 const render8base=render;
 render=function(){
   if(state&&screen==='game')grant8(state);
@@ -127,8 +129,7 @@ document.addEventListener('click',e=>{
 
 
 
-const update8comments=update;
-update=function(){
+function addOutfitComment() {
   if(state){
     const nodes=['enc2','e2answer','e3answer','e4answer','e5answer'];
     const id=state.log?.at(-1)?.who;
@@ -156,5 +157,4 @@ update=function(){
     }
     
   }
-  update8comments()
-};
+}

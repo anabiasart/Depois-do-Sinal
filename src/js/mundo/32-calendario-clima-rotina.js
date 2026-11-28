@@ -49,12 +49,9 @@ function world12(save = state) {
     return world;
 }
 
-const norm12 = normalize;
-normalize = function (save) {
-    norm12(save);
+function normalizeCalendar(save) {
     world12(save);
-    return save;
-};
+}
 
 function date12(day = roomData11().day) {
     return new Date(epoch12 + (day - 1) * dayMs12);

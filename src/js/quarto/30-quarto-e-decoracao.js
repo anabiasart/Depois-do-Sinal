@@ -37,7 +37,9 @@ function recoverCG11(s){
   
 }
 
-const normalize11base=normalize;normalize=function(s){normalize11base(s);roomData11(s);recoverCG11(s);return s};
+function normalizeRoom(s) {
+    roomData11(s);recoverCG11(s);
+}
 // Reuse decoded city/room media instead of inserting repeated megabytes into HTML.
 function asset11(key,data){return mediaURL14(data)}
 img10=function(type,id,cl=''){let d=art10[type]?.[id];return d?`<img class="${cl}" src="${asset11(type+':'+id,d)}" alt="${esc(type==='city'?city10[id]?.kind||'Bellmont':'Ilustração de Bellmont')}" loading="${cl==='stagebg10'||cl==='cgfull10'?'eager':'lazy'}" decoding="async">`:''};

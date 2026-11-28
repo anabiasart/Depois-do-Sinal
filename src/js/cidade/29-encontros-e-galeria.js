@@ -101,7 +101,9 @@ function cityData10(s=state){
   return x
 }
 
-const norm10=normalize;normalize=function(s){norm10(s);cityData10(s);return s};
+function normalizeCity(s) {
+    cityData10(s);
+}
 // Preserve the original standing pose; the five extra expressions use transparent, individually cropped anime assets.
 moodNames.sad='Melancólica';
 for(const [m,v] of Object.entries(art10.raven))if(m!=='neutral'){

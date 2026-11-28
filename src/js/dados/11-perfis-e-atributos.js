@@ -103,7 +103,26 @@ const canon={
 
 };
 const attrs=['Ousadia','Empatia','Inteligência','Criatividade','Carisma'];
-function normalize(s){s.episode=s.episode||1;s.visited2=s.visited2||[];s.attrs=s.attrs||Object.fromEntries(attrs.map(a=>[a,0]));s.attraction=s.attraction||Object.fromEntries(routes.map(id=>[id,Math.max(0,Math.round((s.aff[id]||0)/2))]));s.jealousy=s.jealousy||Object.fromEntries(routes.map(id=>[id,0]));s.known2=s.known2||[];s.replied=s.replied||{};s.gallery2=s.gallery2||[];s.flags=s.flags||{};return s}
+function normalizeBaseState(s){s.episode=s.episode||1;s.visited2=s.visited2||[];s.attrs=s.attrs||Object.fromEntries(attrs.map(a=>[a,0]));s.attraction=s.attraction||Object.fromEntries(routes.map(id=>[id,Math.max(0,Math.round((s.aff[id]||0)/2))]));s.jealousy=s.jealousy||Object.fromEntries(routes.map(id=>[id,0]));s.known2=s.known2||[];s.replied=s.replied||{};s.gallery2=s.gallery2||[];s.flags=s.flags||{};return s}
+
+// Save migrations run in the original order; old appearance must survive wardrobe cleanup.
+function normalize(save) {
+    const originalLook = save.look;
+    normalizeBaseState(save);
+    normalizeEpisodeThree(save);
+    normalizeEpisodeFour(save);
+    normalizeWardrobeAndEpisodeFive(save);
+    normalizeShop(save);
+    normalizeFashion(save, originalLook);
+    normalizePhone(save);
+    normalizeRaven(save);
+    normalizeCity(save);
+    normalizeRoom(save);
+    normalizeCalendar(save);
+    normalizeFeed(save);
+    normalizeStoryMemory(save);
+    return save;
+}
 const clamp=x=>Math.max(0,Math.min(100,x));
 function stage(id){
   if(!profileKnown(id))return 'Desconhecido';

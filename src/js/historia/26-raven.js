@@ -26,10 +26,8 @@ phoneData90.raven={
 feed90.push(['raven',1,'Uma regra do jornal: questionar tudo. Inclusive o café da cantina.']);
 impressions92.raven=['Raven parece enxergar além das versões oficiais das coisas. Gosto de como ela não finge ser outra pessoa.','Com Raven, não preciso inventar uma resposta perfeita. Ela me escuta de verdade. Talvez eu esteja começando a gostar dela de um jeito diferente.'];
 
-const normalize93base=normalize;
-normalize=function(s){
-  normalize93base(s);
-  for(const k of ['aff','trust','attraction','jealousy']){
+function normalizeRaven(s) {
+    for(const k of ['aff','trust','attraction','jealousy']){
     s[k]=s[k]||{
       
     };
@@ -39,8 +37,7 @@ normalize=function(s){
     step:0,
     romance:false
   };
-  return s
-};
+}
 
 const known93base=profileKnown;profileKnown=function(id){return id==='raven'?!!state&&(state.raven93?.step||0)>0:known93base(id)};
 const replies93base=replies90;

@@ -38,12 +38,9 @@ function syncStory42(s = state) {
     d.memories = memories;
 }
 
-const normalizeBefore42 = normalize;
-normalize = function (s) {
-    const result = normalizeBefore42(s);
+function normalizeStoryMemory(s) {
     syncStory42(s);
-    return result;
-};
+}
 
 // Fatos específicos: cada escolha tem uma resposta própria e um retorno futuro.
 const characterFacts42 = {

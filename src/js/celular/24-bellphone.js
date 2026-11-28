@@ -74,7 +74,9 @@ function data90(s=state){
   return d
 }
 
-const norm90=normalize;normalize=function(s){norm90(s);data90(s);return s};
+function normalizePhone(s) {
+    data90(s);
+}
 function known90(id){return phoneContacts7().includes(id)||romance93().includes(id)&&profileKnown(id)}
 function push90(flag,who,text,extra={
   

@@ -9,17 +9,14 @@ const schoolArt={
 };
 
 const v3bg=bg;bg=function(id){if(!schoolArt[id])return v3bg(id);return `<svg class="bg anime-bg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><image href="${mediaURL14(schoolArt[id],'image/webp')}" width="960" height="540" preserveAspectRatio="xMidYMid slice"/></svg>`};
-const v3normalize=normalize;
-normalize=function(s){
-  v3normalize(s);
-  s.visited3=s.visited3||[];
+function normalizeEpisodeThree(s) {
+    s.visited3=s.visited3||[];
   s.clues=s.clues||[];
   s.extras3=s.extras3||[];
   s.gallery3=s.gallery3||[];
   s.deduction=s.deduction??null;
   s.sound=s.sound??false;
-  return s
-};
+}
 
 const ep3={
  hall:{

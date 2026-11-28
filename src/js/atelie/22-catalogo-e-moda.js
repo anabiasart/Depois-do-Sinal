@@ -136,7 +136,9 @@ function closet9(s){
   return v
 }
 
-const norm9base=normalize;normalize=function(s){let l=s.look;norm9base(s);s.look=look9({...s.look,...l});closet9(s);return s};
+function normalizeFashion(s, originalLook) {
+    s.look=look9({...s.look,...originalLook});closet9(s);
+}
 const id9=(k,id)=>k+':'+id;
 function owned9(s,k,id){const r=row9(k,id);return !!r&&(r[2]===0||closet9(s).owned.includes(id9(k,id)))}
 const haircolor9={castanho:'#62443c',preto:'#292931',rosa:'#bc7897',loiro:'#bb935b',ruivo:'#945134',lilas:'#88719f'};

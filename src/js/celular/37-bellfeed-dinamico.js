@@ -54,7 +54,9 @@ function social13(s=state){
   return d
 }
 
-const norm13=normalize;normalize=function(s){norm13(s);social13(s);return s};
+function normalizeFeed(s) {
+    social13(s);
+}
 function tick13(){return (roomData11().day-1)*3+phases12.indexOf(world12().phase)}
 function addPost13(d,p){
   if(d.made.includes(p.id))return false;

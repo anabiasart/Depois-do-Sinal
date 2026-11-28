@@ -92,10 +92,8 @@ const pairs5={
 }
 
 };
-const norm5=normalize;
-normalize=function(s){
-  norm5(s);
-  s.e4=s.e4||{
+function normalizeEpisodeFour(s) {
+    s.e4=s.e4||{
     
   };
   s.e4.partner=s.e4.partner||null;
@@ -113,8 +111,7 @@ normalize=function(s){
   s.read5=s.read5||{
     
   };
-  return s
-};
+}
 
 function start5(){
   if(state.node!=='e3ending')return;
