@@ -37,7 +37,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.4</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.5</small>
         </div>
     </section>`;
 };

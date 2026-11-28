@@ -157,7 +157,7 @@ function renderEntrelinhasIdentity(app) {
     const quick = document.createElement('nav');
     quick.className = 'entre-icon-rail';
     quick.setAttribute('aria-label', 'Acesso rápido');
-    const actions = ['home', 'calendar12', 'phone', 'journal', 'city10', 'entreArchive', 'settings12'];
+    const actions = ['home', 'calendar12', 'journal', 'settings12'];
     for (const act of actions) {
         const original = nav.querySelector('[data-act="' + act + '"]');
         if (!original) continue;

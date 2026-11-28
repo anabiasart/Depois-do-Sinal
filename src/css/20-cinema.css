@@ -3,7 +3,7 @@
     min-height: 100dvh;
 }
 .entre-immersive {
-    --vn-glass: linear-gradient(135deg, #4c2c41e8, #342537d9);
+    --vn-glass: linear-gradient(135deg, #392b35ed, #29222de8);
     --vn-line: #e9b6ac;
     --vn-ink: #fff6ef;
     --vn-accent: #f1b6c4;
@@ -23,11 +23,11 @@
     background: var(--vn-glass);
     border: 1px solid var(--vn-line);
     border-radius: 18px;
-    box-shadow: 0 0 12px #f8a8b133, 0 12px 30px #25132144;
+    box-shadow: 0 5px 18px #25132126;
     padding: 24px 28px 12px;
 }
 .entre-immersive .entre-stage-frame > .dialog::before {
-    content: '✿';
+    content: none;
     position: absolute;
     top: -17px;
     right: 22px;
@@ -64,7 +64,7 @@
     padding: 11px 22px;
     border: 1px solid var(--vn-line);
     border-radius: 40px;
-    background: linear-gradient(100deg,#58384cdb,#392a3bdb);
+    background: #30232de8;
     color: var(--vn-ink);
     font: 400 clamp(15px,1.25vw,21px)/1.35 Georgia,serif;
     box-shadow: 0 3px 12px #25132133;
@@ -74,7 +74,7 @@
 .entre-immersive .entre-stage-frame > .choices .choice:focus-visible {
     background: linear-gradient(100deg,#a55d7c,#73445e);
     color: white;
-    box-shadow: 0 0 12px #ffd3c8aa;
+    box-shadow: 0 0 0 1px #ffe4d5;
     outline: 2px solid #ffe4d5;
     outline-offset: 2px;
 }
@@ -201,22 +201,22 @@
     .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog {
         position: absolute;
         z-index: 6;
-        bottom: 4%;
-        left: 7%;
-        right: 6%;
+        bottom: 5%;
+        left: 3.5%;
+        right: 3.5%;
         width: auto;
-        max-height: 31%;
+        max-height: 28%;
         overflow: auto;
         margin: 0;
-        padding: 15px clamp(20px,3vw,45px) 10px;
+        padding: 12px clamp(20px,3vw,45px) 8px;
     }
     .entre-immersive .entre-stage-frame > .choices {
         position: absolute;
         z-index: 7;
-        top: 20%;
-        bottom: 36%;
+        top: 24%;
+        bottom: 31%;
         right: 4%;
-        width: 39%;
+        width: 40%;
         align-content: center;
         overflow: auto;
         padding: 4px;
@@ -224,8 +224,8 @@
     .entre-icon-rail {
         position: absolute;
         z-index: 9;
-        top: 17%;
-        left: 1%;
+        top: 18%;
+        left: 1.6%;
         flex-direction: column;
         border-radius: 40px;
     }
@@ -293,4 +293,17 @@
     .entre-immersive .entre-stage-frame > .choices .choice { border-radius: 12px; }
     .entre-icon-rail { flex-wrap: wrap; justify-content: center; }
     .entre-immersive .entre-stage-frame .scene .sprite { max-width: 90%; }
+}
+
+/* Minimal romantic HUD: secondary details remain in the full menu. */
+@media (min-width:1001px) and (min-height:560px) {
+    .entre-immersive .entre-stage-frame .scene .loc,
+    .entre-immersive .entre-stage-frame .scene .timechip { display:none; }
+    .entre-immersive .episode { top: 12%; right: 3%; left: auto; }
+    .entre-immersive .episode .story-toggle { background:#392b35d9; color:#fff6ef; border:1px solid #e9b6ac88; font-size:11px; }
+    .entre-immersive .entre-stage-frame .speaker { font-weight:400; padding:4px 18px; }
+    .entre-immersive .entre-stage-frame .dialog p { font-weight:400; }
+    .entre-immersive .entre-stage-frame > .choices .choice::before { content:none; }
+    .entre-immersive .topStatus12 { gap:6px; }
+    .entre-immersive .top .dateBadge12,.entre-immersive .top .coins12 { font:400 14px Georgia,serif; }
 }

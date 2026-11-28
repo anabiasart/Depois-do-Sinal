@@ -178,7 +178,7 @@ function renderWorldLayout() {
                 </small>
             </button>
             <span class="coins12">
-                ✦ ${wallet8(state).coins} BC
+                ✦ ∞ BC
             </span>
             <button
                 class="soft"
