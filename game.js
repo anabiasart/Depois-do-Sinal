@@ -442,31 +442,60 @@ const moodNames={
 
 function sheetSprite(entry,mood='neutral',label='Personagem',classes='anime-sprite'){mood=moodAlias[mood]||mood;const actual=entry[mood]?mood:'neutral';const [data,w,h]=entry[actual];return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="${classes}" data-mood="${actual}" role="img" aria-label="${esc(label)} — ${moodNames[actual]}"><image href="${mediaURL14(data,'image/webp')}" width="${w}" height="${h}"/></svg>`;}
 
-// estado | v0.14
-let state=null,screen='cover',draft=null,modalType=null;
-const initial=()=>({
-  name:'Alex',look:{
-    hair:'castanho',eyes:'mel',skin:'clara',outfit:'uniforme'
-  },aff:Object.fromEntries(routes.map(x=>[x,0])),trust:Object.fromEntries(routes.map(x=>[x,0])),visited:[],items:[],messages:[],gallery:[],log:[],flags:{
-    
-  },node:'intro0',loc:'bedroom',ending:null,sceneChoice:null
+let state = null;
+let screen = 'cover';
+let draft = null;
+let modalType = null;
+
+const initial = () => ({
+    name: 'Alex',
+    look: {
+        hair: 'castanho',
+        eyes: 'mel',
+        skin: 'clara',
+        outfit: 'uniforme'
+    },
+    aff: Object.fromEntries(routes.map(id => [id, 0])),
+    trust: Object.fromEntries(routes.map(id => [id, 0])),
+    visited: [],
+    items: [],
+    messages: [],
+    gallery: [],
+    log: [],
+    flags: {},
+    node: 'intro0',
+    loc: 'bedroom',
+    ending: null,
+    sceneChoice: null
 });
 
-function load(){return loadSave14()}let saved=load();let storageOK=true;
-// Explicit save stages preserve the historical ordering and feed-only write path.
-function persistMemoryStage(){if(state){syncMemory12();writeSave14(state)}}
-function persist(){
-  if(!state)return;
-  syncStory42();
-  syncSocial13();
-  persistMemoryStage();
+function load() {
+    return loadSave14();
 }
-function toast(t){
-  let n=document.createElement('div');
-  n.className='toast';
-  n.textContent=t;
-  document.body.append(n);
-  setTimeout(()=>n.remove(),2500)
+
+let saved = load();
+let storageOK = true;
+
+// Feed updates may save without re-running story and social synchronization.
+function persistMemoryStage() {
+    if (!state) return;
+    syncMemory12();
+    writeSave14(state);
+}
+
+function persist() {
+    if (!state) return;
+    syncStory42();
+    syncSocial13();
+    persistMemoryStage();
+}
+
+function toast(message) {
+    const notification = document.createElement('div');
+    notification.className = 'toast';
+    notification.textContent = message;
+    document.body.append(notification);
+    setTimeout(() => notification.remove(), 2500);
 }
 
 // interface-base | v0.14
@@ -478,8 +507,44 @@ function mapView(){return `<div class="map"><div class="tag">Intervalo • Explo
 
 // episodio-01-motor | v0.14
 function current(){const n=state.node,e=encounters[state.loc],f=finals[state.ending];switch(n){case 'intro0':return dialogue(null,'Meu primeiro dia em Bellmont. Um colégio novo, pessoas novas, e a sensação de que eu vou me perder pelo menos três vezes antes do almoço.');case 'intro1':return dialogue('me','Respira. Hoje é só o começo. Escolhe uma roupa, pega a mochila e tenta não criar inimigos antes da primeira aula.');case 'gate0':return dialogue(null,'Os portões de Bellmont parecem a entrada de um filme. Antes que você consiga encontrar a secretaria, alguém acena para você.');case 'gate1':return dialogue('mabel','Você é a novata! Eu sou Mabel. Tenho duas missões hoje: te mostrar o colégio e descobrir se o café da cantina é realmente comestível.', ['Aceito as duas missões.','Só se você prometer me salvar das fofocas.','Obrigada, acho que consigo me virar.'],'smile');case 'gate2':return dialogue('mabel',state.flags.mabel===0?'Excelente. Finalmente uma pessoa sensata!':state.flags.mabel===1?'Das fofocas? Eu sou a fonte. Mas vou tentar.':'Independente. Gostei! Mas pega meu número mesmo assim. ',null,'smile');case 'gate3':return dialogue('mabel','A aula acabou mais cedo por causa dos preparativos do festival. Você pode conhecer os clubes antes do último sinal. Ah, e cuidado com a Scarlett. Ela leva o festival muito a sério.',null,'smile');case 'map':return mapView();case 'enc0':return dialogue(null,e.intro);case 'enc1':return dialogue(e.who,e.line,e.choices);case 'enc2':return dialogue(e.who,e.choices[state.sceneChoice][3],null,e.choices[state.sceneChoice][1]>0?'smile':'annoyed');case 'enc3':return dialogue(null,e.extra+' Você guardou o objeto como lembrança do primeiro dia.');case 'scarlett':return dialogue('scarlett','Então você é a aluna nova. Mabel já falou de você. O festival está chegando e eu preciso de gente competente. Espero que não seja só mais uma distração.', ['Pode contar comigo.','Isso depende do que você está planejando.','Não prometo nada.']);case 'scarlett2':return dialogue('scarlett',['Ótimo. Vou cobrar essa promessa.','Gostei. Pelo menos você faz perguntas.','Sincera. Espero que seja igualmente responsável.'][state.flags.scarlett],null,'smile');case 'select':return `<div class="map"><div class="tag">Fim de tarde</div><h2>Antes de ir embora...</h2><p>Você tem tempo para mais um encontro. Quem ficou na sua cabeça?</p><div class="places">${state.visited.map(l=>{let id=encounters[l].who;return `<button class="place" data-act="route" data-id="${id}">${bg(l)}<span>${chars[id].name}<small>Afinidade ${state.aff[id]>0?'+':''}${state.aff[id]} • Confiança ${state.trust[id]}</small></span></button>`}).join('')}<button class="place" data-act="route" data-id="solo">${bg('gate')}<span>Ir para casa<small>Escolher meu próprio caminho</small></span></button></div></div>`;case 'final0':return dialogue(state.ending,f.line,f.choices);case 'final1':return dialogue(state.ending,f.choices[state.sceneChoice][3],null,f.choices[state.sceneChoice][1]>0?'shy':'annoyed');case 'solo':return dialogue('me','Não preciso decidir nada hoje. Bellmont ainda é um mistério, e eu tenho muito tempo para descobrir o que quero.');case 'ending':return `<div class="ending"><div class="tag">Episódio 01 concluído</div><h2>${state.ending==='solo'?'Meu próprio caminho':esc(f.title)}</h2><p>${state.ending==='solo'?'O seu primeiro dia foi só o começo.':`Você escolheu passar os últimos minutos do dia com ${chars[state.ending].name}. ${state.aff[state.ending]>=12?'A química entre vocês ficou difícil de ignorar.':'O encontro deixou espaço para novas possibilidades.'}`}</p><p>À noite, uma mensagem de Mabel chega: “Você não vai acreditar no que aconteceu depois que você saiu. Amanhã te conto TUDO.”</p><div class="tag">Continua no episódio 02 • Péssimas primeiras impressões</div><p class="hint">${state.visited.length}/5 encontros • ${state.items.length} lembranças • ${state.gallery.length} cena desbloqueada</p><button class="primary" data-act="episode2">Jogar episódio 02 ›</button> <button class="soft" data-act="gallery">Ver galeria</button> <button class="soft" data-act="home">Menu inicial</button></div>`;default:return mapView()}}
-function render(){let root=document.getElementById('root');if(screen==='cover'){root.innerHTML=cover();return;}root.innerHTML=`<div class="app"><header class="top"><div><div class="brand">Depois do Sinal</div><div class="sub">Colégio Bellmont</div></div><nav class="nav"><button data-act="wardrobe">♙ Guarda-roupa</button><button data-act="phone">▣ Celular${state.messages.length?' ('+state.messages.length+')':''}</button><button data-act="gallery">▧ Galeria</button><button data-act="journal">☷ Diário</button><button data-act="stats">✦ Perfil</button><button data-act="cast">♡ Elenco</button><button data-act="sound">♫ Som</button><button data-act="saves">⇩ Progresso</button><button data-act="home">⌂ Menu</button></nav></header><div class="layout"><main class="main"><div class="episode"><span>${state.episode===3?'EPISÓDIO 03 / ALGUÉM DEIXOU UM BILHETE':state.episode===2?'EPISÓDIO 02 / PÉSSIMAS PRIMEIRAS IMPRESSÕES':'EPISÓDIO 01 / A GAROTA NOVA'}</span><span>${esc(state.name)} • ${state.episode===3?state.visited3.length:state.episode===2?state.visited2.length:state.visited.length}/5 encontros</span></div>${current()}<div class="foot">Bellmont • Protótipo independente • Todas as escolhas ficam salvas automaticamente</div></main>${side()}</div></div>`;}
-function update(){persist();render()}
+function renderBaseScreen(){let root=document.getElementById('root');if(screen==='cover'){root.innerHTML=cover();return;}root.innerHTML=`<div class="app"><header class="top"><div><div class="brand">Depois do Sinal</div><div class="sub">Colégio Bellmont</div></div><nav class="nav"><button data-act="wardrobe">♙ Guarda-roupa</button><button data-act="phone">▣ Celular${state.messages.length?' ('+state.messages.length+')':''}</button><button data-act="gallery">▧ Galeria</button><button data-act="journal">☷ Diário</button><button data-act="stats">✦ Perfil</button><button data-act="cast">♡ Elenco</button><button data-act="sound">♫ Som</button><button data-act="saves">⇩ Progresso</button><button data-act="home">⌂ Menu</button></nav></header><div class="layout"><main class="main"><div class="episode"><span>${state.episode===3?'EPISÓDIO 03 / ALGUÉM DEIXOU UM BILHETE':state.episode===2?'EPISÓDIO 02 / PÉSSIMAS PRIMEIRAS IMPRESSÕES':'EPISÓDIO 01 / A GAROTA NOVA'}</span><span>${esc(state.name)} • ${state.episode===3?state.visited3.length:state.episode===2?state.visited2.length:state.visited.length}/5 encontros</span></div>${current()}<div class="foot">Bellmont • Protótipo independente • Todas as escolhas ficam salvas automaticamente</div></main>${side()}</div></div>`;}
+// The order is intentional: synchronize before drawing, then enhance the new DOM.
+function render() {
+    if (state && screen === 'game' && syncSocial13()) {
+        persistMemoryStage();
+    }
+    finishTyping11();
+
+    let newMessages = false;
+    if (state && screen === 'game') {
+        newMessages = seed90();
+        grant8(state);
+    }
+
+    renderBaseScreen();
+    renderSoundStatus();
+    renderEpisodeFourDetails();
+    renderEpisodeFiveDetails();
+    renderWardrobeBalance();
+    renderPhoneStatus(newMessages);
+    renderRavenInvitation();
+    renderCityNavigation();
+    renderRoomNavigation();
+    renderWorldLayout();
+    renderSaveWarning();
+    renderStoryFocus();
+    renderBellmontIdentity();
+}
+
+function update() {
+    if (state) {
+        addOutfitComment();
+        grant8(state);
+        seed7();
+    }
+    persist();
+    render();
+}
 function next(){
   const n=state.node;
   switch(n){
@@ -682,7 +747,26 @@ const canon={
 
 };
 const attrs=['Ousadia','Empatia','Inteligência','Criatividade','Carisma'];
-function normalize(s){s.episode=s.episode||1;s.visited2=s.visited2||[];s.attrs=s.attrs||Object.fromEntries(attrs.map(a=>[a,0]));s.attraction=s.attraction||Object.fromEntries(routes.map(id=>[id,Math.max(0,Math.round((s.aff[id]||0)/2))]));s.jealousy=s.jealousy||Object.fromEntries(routes.map(id=>[id,0]));s.known2=s.known2||[];s.replied=s.replied||{};s.gallery2=s.gallery2||[];s.flags=s.flags||{};return s}
+function normalizeBaseState(s){s.episode=s.episode||1;s.visited2=s.visited2||[];s.attrs=s.attrs||Object.fromEntries(attrs.map(a=>[a,0]));s.attraction=s.attraction||Object.fromEntries(routes.map(id=>[id,Math.max(0,Math.round((s.aff[id]||0)/2))]));s.jealousy=s.jealousy||Object.fromEntries(routes.map(id=>[id,0]));s.known2=s.known2||[];s.replied=s.replied||{};s.gallery2=s.gallery2||[];s.flags=s.flags||{};return s}
+
+// Save migrations run in the original order; old appearance must survive wardrobe cleanup.
+function normalize(save) {
+    const originalLook = save.look;
+    normalizeBaseState(save);
+    normalizeEpisodeThree(save);
+    normalizeEpisodeFour(save);
+    normalizeWardrobeAndEpisodeFive(save);
+    normalizeShop(save);
+    normalizeFashion(save, originalLook);
+    normalizePhone(save);
+    normalizeRaven(save);
+    normalizeCity(save);
+    normalizeRoom(save);
+    normalizeCalendar(save);
+    normalizeFeed(save);
+    normalizeStoryMemory(save);
+    return save;
+}
 const clamp=x=>Math.max(0,Math.min(100,x));
 function stage(id){
   if(!profileKnown(id))return 'Desconhecido';
@@ -964,17 +1048,14 @@ const schoolArt={
 };
 
 const v3bg=bg;bg=function(id){if(!schoolArt[id])return v3bg(id);return `<svg class="bg anime-bg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><image href="${mediaURL14(schoolArt[id],'image/webp')}" width="960" height="540" preserveAspectRatio="xMidYMid slice"/></svg>`};
-const v3normalize=normalize;
-normalize=function(s){
-  v3normalize(s);
-  s.visited3=s.visited3||[];
+function normalizeEpisodeThree(s) {
+    s.visited3=s.visited3||[];
   s.clues=s.clues||[];
   s.extras3=s.extras3||[];
   s.gallery3=s.gallery3||[];
   s.deduction=s.deduction??null;
   s.sound=s.sound??false;
-  return s
-};
+}
 
 const ep3={
  hall:{
@@ -1256,12 +1337,10 @@ function toggleSound(){
   render()
 }
 
-const v3render=render;
-render=function(){
-  v3render();
-  const b=document.querySelector('[data-act="sound"]');
+function renderSoundStatus() {
+    const b=document.querySelector('[data-act="sound"]');
   if(b)b.textContent=state?.sound?'♫ Som ligado':'♫ Som desligado'
-};
+}
 
 document.addEventListener('click',e=>{let b=e.target.closest('[data-act]');if(!b||b.disabled||!state)return;let a=b.dataset.act,id=b.dataset.id;switch(a){case'episode3':start3();break;case'visit3':if(state.node==='e3map'&&ep3[id]&&!state.visited3.includes(id)){state.loc=id;state.node='e3meet';update()}break;case'extra3':if(state.node==='e3map'&&encounters3[id]&&!state.extras3.includes(id)&&(id==='gate'||(id==='cafe'&&state.visited3.length>=1)||(id==='roof'&&state.visited3.length>=2))){state.loc=id;state.node='e3extra';update()}break;case'deduce3':if(state.node==='e3map'&&state.clues.length>=3){state.loc='hall';state.node='e3deduce';update()}break;case'route3':if(state.node==='e3select'&&(id==='solo'||state.visited3.some(l=>ep3[l].who===id))){state.ending3=id;state.loc=id==='solo'?'gate':finals3[id].loc;state.node=id==='solo'?'e3solo':'e3final';update()}break;case'sound':toggleSound();break;case'saves':modal('saves');break;case'export4':{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='bellmont-salvamento.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);break}case'home':stopSound();break;case'continue':case'start':if(state.sound)playSound();else stopSound();break;}});
 document.addEventListener('change',async e=>{
@@ -1374,10 +1453,8 @@ const pairs5={
 }
 
 };
-const norm5=normalize;
-normalize=function(s){
-  norm5(s);
-  s.e4=s.e4||{
+function normalizeEpisodeFour(s) {
+    s.e4=s.e4||{
     
   };
   s.e4.partner=s.e4.partner||null;
@@ -1395,8 +1472,7 @@ normalize=function(s){
   s.read5=s.read5||{
     
   };
-  return s
-};
+}
 
 function start5(){
   if(state.node!=='e3ending')return;
@@ -1514,7 +1590,9 @@ function give5(id,i){
 }
 
 const modal5=modal;modal=function(type){if(type==='gifts5')return giftPanel();if(type==='girls5'){modalType=type;showPanel('Amigas e rivais',`<div class="girlsgrid">${Object.entries(girls5).map(([id,g])=>`<div class="girlcard"><div class="girlart">${sprite(id)}</div><b>${g.full} • ${g.age}</b><p>${g.bio}</p></div>`).join('')}</div>`);return}if(type==='phone'){modalType=type;let unread=state.messages.length;showPanel('Celular • Bellmont',`<div class="phone">${state.messages.length?state.messages.map((m,i)=>`<div class="msg"><b>${esc(chars[m.who]?.name||'Bellmont')}</b>${esc(m.text)}${m.invite5?`<div class="replychoices">${state.e4.invites[m.who]==='pending'?`<button class="soft" data-act="invite5" data-id="${m.who}" data-i="1">Topo trabalhar com você ♡</button><button class="soft" data-act="invite5" data-id="${m.who}" data-i="0">Prefiro escolher sem convite</button>`:`<span class="sent">${({accepted:'Convite aceito',declined:'Convite recusado',closed:'Convite encerrado'})[state.e4.invites[m.who]]||'Convite encerrado'}</span>`}</div>`:routes.includes(m.who)?state.replied[i]!==undefined?`<div class="sent">Você: ${esc(state.replied[i].text)}<br>${chars[m.who].name}: ${esc(state.replied[i].answer)}</div>`:`<div class="replychoices">${replyOptions(m.who).map((o,j)=>`<button class="soft" data-act="reply" data-i="${i}" data-j="${j}">${esc(o[0])}</button>`).join('')}</div>`:''}</div>`).reverse().join(''):'<div class="empty">Nenhuma mensagem ainda.</div>'}</div>`);state.read5.count=unread;persist();render();return}if(type==='gallery'){modal5(type);let g=document.querySelector('#modal .gallery');if(g)g.insertAdjacentHTML('beforeend',routes.map(id=>`<div class="cg">${state.e4.memories.includes(id)?scene5(id):'<div class="lock">♡</div>'}<b>${state.e4.memories.includes(id)?pairs5[id].title:'Episódio 04 • '+chars[id].name}</b>${state.e4.memories.includes(id)?`<p class="memquote">“${esc(pairs5[id].yes)}”</p>`:''}</div>`).join(''));return}if(type==='about'){modalType=type;showPanel('Depois do Sinal • v0.6.1','<p>Quatro episódios, cinco rotas, quatro personagens secundárias em anime, convites, presentes e memórias do coração. Funciona offline.</p><p>Cinco expressões ilustradas para cada pretendente e a protagonista, mais duas poses especiais para Dante e Soren. As memórias são composições de sprites e fundos. A personalização de cores ainda é aproximada.</p>');return}modal5(type);if(type==='cast'){let p=document.querySelector('#modal .panel');p?.insertAdjacentHTML('beforeend','<p><button class="primary" data-act="girls5">Conheça as garotas de Bellmont ♡</button></p>')}};
-const render5=render;render=function(){render5();if(screen!=='game'||!state)return;const nav=document.querySelector('.nav');nav?.insertAdjacentHTML('afterbegin','<button data-act="gifts5">♧ Presentes</button>');const phone=document.querySelector('[data-act="phone"]');if(phone){let n=Math.max(0,state.messages.length-(state.read5.count||0));phone.textContent='▣ Celular'+(n?' • '+n+' novas':'')}if(state.episode===4){const ep=document.querySelector('.episode');if(ep)ep.innerHTML=`<span>EPISÓDIO 04 / DUPLAS INCONVENIENTES</span><span>${esc(state.name)} • ${state.e4.partner?state.e4.partner==='solo'?'Íris':chars[state.e4.partner].name:'Festival'}</span>`;const ob=document.querySelector('.objective');if(ob)ob.textContent=state.node==='e4pick'?'Escolha uma dupla e confira os convites no celular.':state.node==='e4ending'?'Episódio concluído.':'Prepare o festival e decida como reagir.'}};
+function renderEpisodeFourDetails() {
+    if(screen!=='game'||!state)return;const nav=document.querySelector('.nav');nav?.insertAdjacentHTML('afterbegin','<button data-act="gifts5">♧ Presentes</button>');const phone=document.querySelector('[data-act="phone"]');if(phone){let n=Math.max(0,state.messages.length-(state.read5.count||0));phone.textContent='▣ Celular'+(n?' • '+n+' novas':'')}if(state.episode===4){const ep=document.querySelector('.episode');if(ep)ep.innerHTML=`<span>EPISÓDIO 04 / DUPLAS INCONVENIENTES</span><span>${esc(state.name)} • ${state.e4.partner?state.e4.partner==='solo'?'Íris':chars[state.e4.partner].name:'Festival'}</span>`;const ob=document.querySelector('.objective');if(ob)ob.textContent=state.node==='e4pick'?'Escolha uma dupla e confira os convites no celular.':state.node==='e4ending'?'Episódio concluído.':'Prepare o festival e decida como reagir.'}
+}
 document.addEventListener('click',e=>{
   let b=e.target.closest('[data-act]');if(!b||b.disabled)return;let a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i);if(a==='girls5'){
     modal('girls5');return
@@ -1789,10 +1867,8 @@ const images=[base,hair[look.hair],skin[look.skin],eyes[look.eyes]].filter(Boole
 
  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="anime-sprite protagonist-sprite" role="img" aria-label="Protagonista, ${poses7[m]}">${images.map(d=>`<image href="${mediaURL14(d,'image/webp')}" width="${w}" height="${h}"/>`).join('')}</svg>`;
 };
-const norm7=normalize;
-normalize=function(s){
-  norm7(s);
-  s.look={
+function normalizeWardrobeAndEpisodeFive(s) {
+    s.look={
     hair:'castanho',
     eyes:'mel',
     skin:'clara',
@@ -1819,8 +1895,7 @@ normalize=function(s){
     decision:null,
     done:false
   };
-  return s
-};
+}
 
 let preview7='neutral',contact7=null,diary7='overview';
 function wardrobe7(l,withName){return `<div class="ward7"><div class="mirror7"><div class="avatar" id="avatar">${avatar(l,preview7)}</div><div class="pose7">${Object.entries(poses7).map(([k,v])=>`<button class="soft" data-act="pose7" data-id="${k}" aria-pressed="${k===preview7}">${v}</button>`).join('')}</div><p class="hint">Experimente as expressões. A narrativa escolhe a pose durante o jogo.</p></div><div class="fields">${withName?`<label for="name">Seu nome</label><input id="name" maxlength="24" value="${esc(draft.name)}">`:''}<h3>Seu guarda-roupa</h3><div class="outfits7">${Object.entries(outfitNames7).map(([k,v])=>`<button class="outfit7" data-act="outfit7" data-id="${k}" aria-pressed="${l.outfit===k}"><div>${avatar({...l,outfit:k})}</div><span>${v}</span></button>`).join('')}</div>${[['hair','Cabelo',[['castanho','Castanho'],['preto','Preto'],['rosa','Rosa'],['loiro','Loiro']]],['eyes','Olhos',[['mel','Mel'],['azul','Azul'],['verde','Verde'],['castanho','Castanho']]],['skin','Tom de pele',[['clara','Claro'],['media','Médio'],['escura','Escuro']]]].map(([k,t,o])=>`<label for="${k}">${t}</label><select id="${k}" data-look="${k}">${o.map(([v,n])=>`<option value="${v}" ${l[k]===v?'selected':''}>${n}</option>`).join('')}</select>`).join('')}</div></div>`}
@@ -2021,8 +2096,10 @@ choose=function(i){
 };
 
 // integracao-bellmont-life | v0.14
-const baseRender7=render;render=function(){baseRender7();if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}};
-const baseUpdate7=update;update=function(){if(state)seed7();baseUpdate7()};
+function renderEpisodeFiveDetails() {
+    if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}
+}
+
 // Capture only new actions so the existing narrative listeners remain intact.
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i);if(a==='pose7'||a==='outfit7'){
@@ -2110,7 +2187,9 @@ function wallet8(s){
   return a
 }
 
-const normalize8base=normalize;normalize=function(s){normalize8base(s);s.look=cleanLook8(s.look);wallet8(s);return s};
+function normalizeShop(s) {
+    s.look=cleanLook8(s.look);wallet8(s);
+}
 function grant8(s){
   const a=wallet8(s);
   const pay=(k,n)=>{
@@ -2157,17 +2236,13 @@ modal=function(t){
   return modal8base(t)
 };
 
-const update8base=update;update=function(){if(state)grant8(state);update8base()};
-const render8base=render;
-render=function(){
-  if(state&&screen==='game')grant8(state);
-  render8base();
-  if(state&&screen==='game'){
+
+function renderWardrobeBalance() {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="wardrobe"]');
     if(b)b.textContent='♙ Ateliê • '+wallet8(state).coins+' ✦'
   }
-  
-};
+}
 
 const cover8base=cover;cover=function(){return cover8base().replace(/Edição 0\.7[^<]*/,'Edição 0.8.1 • Estilo & Conexões')};
 document.addEventListener('click',e=>{
@@ -2190,8 +2265,7 @@ document.addEventListener('click',e=>{
 
 
 
-const update8comments=update;
-update=function(){
+function addOutfitComment() {
   if(state){
     const nodes=['enc2','e2answer','e3answer','e4answer','e5answer'];
     const id=state.log?.at(-1)?.who;
@@ -2219,8 +2293,7 @@ update=function(){
     }
     
   }
-  update8comments()
-};
+}
 
 // catalogo-e-moda | v0.14
 /* Ateliê 3.0 — layered fashion engine */
@@ -2360,7 +2433,9 @@ function closet9(s){
   return v
 }
 
-const norm9base=normalize;normalize=function(s){let l=s.look;norm9base(s);s.look=look9({...s.look,...l});closet9(s);return s};
+function normalizeFashion(s, originalLook) {
+    s.look=look9({...s.look,...originalLook});closet9(s);
+}
 const id9=(k,id)=>k+':'+id;
 function owned9(s,k,id){const r=row9(k,id);return !!r&&(r[2]===0||closet9(s).owned.includes(id9(k,id)))}
 const haircolor9={castanho:'#62443c',preto:'#292931',rosa:'#bc7897',loiro:'#bb935b',ruivo:'#945134',lilas:'#88719f'};
@@ -2580,7 +2655,9 @@ function data90(s=state){
   return d
 }
 
-const norm90=normalize;normalize=function(s){norm90(s);data90(s);return s};
+function normalizePhone(s) {
+    data90(s);
+}
 function known90(id){return phoneContacts7().includes(id)||romance93().includes(id)&&profileKnown(id)}
 function push90(flag,who,text,extra={
   
@@ -2686,12 +2763,8 @@ function publish90(i){
 
 function meet90(id){const p=phoneData90[id];if(!p||data90().invites[id]?.status!=='accepted')return;modalType='phone';showPanel('Encontro · '+name90(id),`<div class="bpmeet"><div class="bpmeetart">${bg(p.loc==='garden'?'gate':p.loc)}<div>${sprite(id,'smile')}</div></div><p class="bpmuted">${p.place} · encontro opcional</p><p>${esc(p.scene)}</p><h3>${esc(p.question)}</h3><div class="bpchoices">${p.answers.map((a,i)=>button90('bp90dateanswer',esc(a[0]),`data-id="${id}" data-i="${i}"`)).join('')}</div>${button90('bp90app','Voltar sem concluir','data-id="invites"')}</div>`)}
 const modal90base=modal;modal=function(t){if(t==='phone'){if(modalType!=='phone'){app90='home';chat90=null;filter90='all'}return phone7()}if(t==='about'){modalType=t;return showPanel('Depois do Sinal · v0.9','<p>BellPhone 2.0 · Cinco episódios, ateliê Signature, conversas, convites jogáveis, BellFeed, agenda, álbum e perfil. Tudo funciona offline.</p><p>Os diálogos são roteirizados; o mural é uma simulação local.</p>')}return modal90base(t)};
-const render90base=render;
-render=function(){
-  let changed=false;
-  if(state&&screen==='game')changed=seed90();
-  render90base();
-  if(state&&screen==='game'){
+function renderPhoneStatus(changed) {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="phone"]'),
     n=unread90();
     if(b)b.textContent='▣ BellPhone'+(n?' · '+n+' novas':'');
@@ -2701,8 +2774,7 @@ render=function(){
     }
     
   }
-  
-};
+}
 
 const cover90base=cover;cover=function(){return cover90base().replace(/Edição 0\.8\.3[^<]*/,'Edição 0.9 • BellPhone 2.0')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||!state||!b.dataset.act.startsWith('bp90'))return;e.stopImmediatePropagation();const a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i),j=Number(b.dataset.j),d=data90();if(a==='bp90app'&&phoneApps90[id]){app90=id;phone7();return}if(a==='bp90shop'){modal('wardrobe');return}if(a==='bp90chat'){openChat90(id);return}if(a==='bp90filter'){filter90=id;phone7();return}if(a==='bp90star'&&state.messages[i])d.stars=d.stars.includes(i)?d.stars.filter(x=>x!==i):[...d.stars,i];
@@ -2844,10 +2916,8 @@ phoneData90.raven={
 feed90.push(['raven',1,'Uma regra do jornal: questionar tudo. Inclusive o café da cantina.']);
 impressions92.raven=['Raven parece enxergar além das versões oficiais das coisas. Gosto de como ela não finge ser outra pessoa.','Com Raven, não preciso inventar uma resposta perfeita. Ela me escuta de verdade. Talvez eu esteja começando a gostar dela de um jeito diferente.'];
 
-const normalize93base=normalize;
-normalize=function(s){
-  normalize93base(s);
-  for(const k of ['aff','trust','attraction','jealousy']){
+function normalizeRaven(s) {
+    for(const k of ['aff','trust','attraction','jealousy']){
     s[k]=s[k]||{
       
     };
@@ -2857,8 +2927,7 @@ normalize=function(s){
     step:0,
     romance:false
   };
-  return s
-};
+}
 
 const known93base=profileKnown;profileKnown=function(id){return id==='raven'?!!state&&(state.raven93?.step||0)>0:known93base(id)};
 const replies93base=replies90;
@@ -2903,7 +2972,9 @@ const ravenScenes93=[
 },
 {loc:'garden',title:'Entre duas linhas',text:'Raven segura um bilhete dobrado. “Eu sou boa com palavras, mas com você é diferente. Gosto de você. Se for recíproco, quero descobrir onde isso pode dar. Se não, tudo bem.”',opts:[['Eu também gosto de você. Quero tentar.','Então temos nossa própria história. Sem prazo de entrega.',9,6,8],['Você é importante para mim como amiga.','Obrigada por ser sincera. Nossa amizade importa.',3,5,0],['Ainda preciso de tempo.','Eu respeito isso. Sem pressão.',1,4,0]]}];
 function ravenMeet93(){if(!ravenAvailable93())return;const idx=state.raven93.step,c=ravenScenes93[idx];modalType='raven93';showPanel(c.title,`<div class="bpmeet"><div class="bpmeetart">${bg(c.loc==='garden'?'gate':c.loc)}<div>${sprite('raven')}</div></div><p>${esc(c.text)}</p><div class="bpchoices">${c.opts.map((o,i)=>button90('ravensay93',esc(o[0]),`data-i="${i}"`)).join('')}</div><button class="soft" data-act="close">Voltar à história</button></div>`)}
-const render93base=render;render=function(){render93base();if(!state||screen!=='game')return;const node=state.node;if(ravenAvailable93()&&['map','e2map','e3map','e4pick','e5pick','ending','e2ending','e3ending','e4ending','e5ending'].includes(node)){const main=document.querySelector('.main');main?.insertAdjacentHTML('beforeend',`<div class="event9"><b>✒ ${state.raven93.step?'Um encontro com Raven':'Jornal escolar · Conheça Raven'}</b><p>Evento opcional. Seu episódio continua de onde parou.</p><button class="soft" data-act="ravenmeet93">Encontrar Raven ♡</button></div>`)} };
+function renderRavenInvitation() {
+    if(!state||screen!=='game')return;const node=state.node;if(ravenAvailable93()&&['map','e2map','e3map','e4pick','e5pick','ending','e2ending','e3ending','e4ending','e5ending'].includes(node)){const main=document.querySelector('.main');main?.insertAdjacentHTML('beforeend',`<div class="event9"><b>✒ ${state.raven93.step?'Um encontro com Raven':'Jornal escolar · Conheça Raven'}</b><p>Evento opcional. Seu episódio continua de onde parou.</p><button class="soft" data-act="ravenmeet93">Encontrar Raven ♡</button></div>`)}
+}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||!state||b.disabled)return;const a=b.dataset.act;if(!['ravenmeet93','ravensay93','ravenchat93'].includes(a))return;e.stopImmediatePropagation();if(a==='ravenchat93'){modalType='phone';openChat90('raven');return}if(a==='ravenmeet93'){ravenMeet93();return}if(!ravenAvailable93())return;const step=state.raven93.step,idx=Number(b.dataset.i),o=ravenScenes93[step].opts[idx];if(!o)return;state.aff.raven+=o[2];state.trust.raven+=o[3];state.attraction.raven+=o[4];state.raven93.step++;if(step===2&&idx===0)state.raven93.romance=true;state.log.push({who:'raven',choice:o[0],aff:o[2],trust:o[3]});state.items.push(ravenScenes93[step].title);state.messages.push({day94:roomData11().day,who:'raven',text:step===0?'Aqui é a Raven. Salva meu número. A matéria não vai se escrever sozinha.':step===1?'Obrigada por me ouvir hoje. Foi importante.':idx===0?'Gostei de começar nossa história. ♡':'Obrigada por conversar comigo com sinceridade.',day90:roomData11().day});persist();render();modalType='raven93';showPanel(ravenScenes93[step].title,`<div class="bpsection"><div class="bpdateportrait">${sprite('raven')}</div><p>${esc(o[1])}</p><p class="hint">Afinidade +${o[2]} · confiança +${o[3]} · atração +${o[4]}</p><button class="primary" data-act="close">Voltar à história</button></div>`);},true);
 const cover93base=cover;cover=function(){return cover93base().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.9.3 • Entrelinhas de Raven')};
 
@@ -3254,7 +3325,9 @@ function cityData10(s=state){
   return x
 }
 
-const norm10=normalize;normalize=function(s){norm10(s);cityData10(s);return s};
+function normalizeCity(s) {
+    cityData10(s);
+}
 // Preserve the original standing pose; the five extra expressions use transparent, individually cropped anime assets.
 moodNames.sad='Melancólica';
 for(const [m,v] of Object.entries(art10.raven))if(m!=='neutral'){
@@ -3300,7 +3373,9 @@ const cgInfo10={
 
 function gallery10(){const d=cityData10();modalType='cg10';showPanel('Galeria · Momentos da cidade',`<div class="city10"><p>Ilustrações especiais desbloqueadas por escolhas. As quatro demais rotas já têm encontros próprios; suas CGs ilustradas serão acrescentadas em outra coleção.</p><div class="cggrid10">${Object.entries(cgInfo10).map(([k,[t,sub]])=>`<button class="cgcard10" data-act="viewcg10" data-id="${k}" ${!d.cg.includes(k)?'disabled':''}>${d.cg.includes(k)?img10('cg',k):'<div class="cglocked10">♡</div>'}<b>${t}</b><small>${sub} · ${d.cg.includes(k)?'Desbloqueada':'Bloqueada'}</small></button>`).join('')}</div><h3>Encontros registrados</h3>${d.done.length?d.done.map(s=>{let [type,id]=s.split(':');return `<p class="hint">✓ ${esc(type==='date'?city10[id]?.title||id:groups10[id]?.title||id)}</p>`}).join(''):'<p class="hint">Explore a cidade para criar lembranças.</p>'}<button class="soft" data-act="city10">Voltar à cidade</button><button class="soft" data-act="gallery">Galeria original</button></div>`);document.querySelector('#modal .panel')?.classList.add('citypanel10')}
 const modal10=modal;modal=function(t){if(t==='city10')return cityPanel10();if(t==='cg10')return gallery10();modal10(t);if(t==='gallery'&&state){document.querySelector('#modal .panel')?.insertAdjacentHTML('beforeend',`<div class="event9"><b>Momentos da cidade · ${cityData10().cg.length}/3 ilustrações</b><p>Encontros e lembranças de Além dos Portões.</p><button class="soft" data-act="cg10">Abrir coleção ♡</button></div>`);}};
-const render10=render;render=function(){render10();if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="city10"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="city10">⌖ Cidade</button>')};
+function renderCityNavigation() {
+    if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="city10"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="city10">⌖ Cidade</button>')
+}
 const cover10=cover;cover=function(){return cover10().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.10 • Além dos Portões')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||!state||b.disabled)return;const a=b.dataset.act,id=b.dataset.id;if(!['city10','time10','visit10','date10','group10','next10','choice10','cg10','viewcg10','ravenMood10'].includes(a))return;e.stopImmediatePropagation();switch(a){case'city10':scene10=null;cityPanel10();break;case'time10':if(['Tarde','Noite'].includes(id)){cityData10().time=id;persist();cityPanel10()}break;case'visit10':scene10=null;visit10(id);break;case'date10':startScene10('date',id);break;case'group10':startScene10('group',id);break;case'next10':if(scene10){scene10.step++;drawScene10()}break;case'choice10':finish10(Number(b.dataset.i));break;case'cg10':gallery10();break;case'viewcg10':if(cityData10().cg.includes(id)&&cgInfo10[id])showPanel(cgInfo10[id][0],`<div class="city10"><div class="cgzoom10">${img10('cg',id)}</div><button class="soft" data-act="cg10">‹ Voltar à galeria</button></div>`);break;case'ravenMood10':if(['neutral','smile','annoyed','shy','surprise','sad'].includes(id))showProfile('raven',id);break}},true);
 
@@ -3343,7 +3418,9 @@ function recoverCG11(s){
   
 }
 
-const normalize11base=normalize;normalize=function(s){normalize11base(s);roomData11(s);recoverCG11(s);return s};
+function normalizeRoom(s) {
+    roomData11(s);recoverCG11(s);
+}
 // Reuse decoded city/room media instead of inserting repeated megabytes into HTML.
 function asset11(key,data){return mediaURL14(data)}
 img10=function(type,id,cl=''){let d=art10[type]?.[id];return d?`<img class="${cl}" src="${asset11(type+':'+id,d)}" alt="${esc(type==='city'?city10[id]?.kind||'Bellmont':'Ilustração de Bellmont')}" loading="${cl==='stagebg10'||cl==='cgfull10'?'eager':'lazy'}" decoding="async">`:''};
@@ -3391,7 +3468,9 @@ function finishTyping11(){
 
 function animateText11(el){if(!el||!state||!roomData11().typing||matchMedia('(prefers-reduced-motion: reduce)').matches)return;finishTyping11();const text=el.textContent;if(!text||text.length<10)return;const button=document.createElement('button');button.className='soft typeSkip11';button.textContent='Mostrar texto';button.setAttribute('aria-label','Mostrar diálogo completo');button.addEventListener('click',finishTyping11);el.after(button);el.textContent='';const q={el,text,button,raf:0};typing11=q;let start=performance.now(),last=-1;function frame(t){if(typing11!==q||!el.isConnected){if(typing11===q)typing11=null;return}let n=Math.min(text.length,Math.floor((t-start)/12)+1);if(n!==last){el.textContent=text.slice(0,n);last=n}if(n>=text.length)finishTyping11();else q.raf=requestAnimationFrame(frame)}q.raf=requestAnimationFrame(frame)}
 function cinema11(root){if(!root||!state)return;let r=roomData11();root.classList.toggle('cinema11',r.cinema);const stage=root.querySelector('.scene,.stage10');if(r.cinema&&stage){stage.classList.add('film11');if(r.rain&&(state.loc==='bedroom'&&!root.querySelector('.stage10')||cityData10().time==='Noite'&&root.querySelector('.stage10'))&&!stage.querySelector('.rain11'))stage.insertAdjacentHTML('beforeend','<div class="rain11" aria-hidden="true"></div>')}animateText11(root.querySelector('.dialog p,.sceneTalk10 p'))}
-const render11base=render;render=function(){finishTyping11();render11base();if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))};
+function renderRoomNavigation() {
+    if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))
+}
 const panel11base=showPanel;
 showPanel=function(title,content){
   finishTyping11();
@@ -3419,93 +3498,151 @@ document.addEventListener('click',e=>{
   
 },true);
 
-// calendario-clima-rotina | v0.14
-/* v0.12 — Entre o Acaso e o Amor. Additive migration: existing saves remain valid. */
-const people12=['dante','soren','theo','ezra','valentim','raven'];
-const phases12=['Manhã','Tarde','Noite'];
-const epoch12=Date.UTC(2026,2,20),dayMs12=86400000;
-const schedule12={
-  dante:['Colégio · sala de aula','records','Ensaio em casa'],
-  soren:['Conselho estudantil','books','Estudando em casa'],
-  theo:['Colégio · quadra','park','Treino e descanso'],
-  ezra:['Biblioteca','art','Editando fotografias'],
-  valentim:['Colégio · auditório','Ensaio teatral','theatre'],
-  raven:['Jornal escolar','cafe','Escrevendo em casa']
+const people12 = ['dante', 'soren', 'theo', 'ezra', 'valentim', 'raven'];
+const phases12 = ['Manhã', 'Tarde', 'Noite'];
+const epoch12 = Date.UTC(2026, 2, 20);
+const dayMs12 = 86400000;
+
+const schedule12 = {
+    dante: ['Colégio · sala de aula', 'records', 'Ensaio em casa'],
+    soren: ['Conselho estudantil', 'books', 'Estudando em casa'],
+    theo: ['Colégio · quadra', 'park', 'Treino e descanso'],
+    ezra: ['Biblioteca', 'art', 'Editando fotografias'],
+    valentim: ['Colégio · auditório', 'Ensaio teatral', 'theatre'],
+    raven: ['Jornal escolar', 'cafe', 'Escrevendo em casa']
 };
 
-const away12={
-  dante:['Clube de música','Ensaio fechado','Descanso'],
-  soren:['Reunião do conselho','Compromisso familiar','Estudando em casa'],
-  theo:['Treino','Treino do time','Descanso'],
-  ezra:['Arquivo de fotografia','Projeto fotográfico','Editando fotografias'],
-  valentim:['Ensaio','Compromisso de teatro','Ensaio fechado'],
-  raven:['Redação','Entrevista externa','Escrevendo em casa']
+const away12 = {
+    dante: ['Clube de música', 'Ensaio fechado', 'Descanso'],
+    soren: ['Reunião do conselho', 'Compromisso familiar', 'Estudando em casa'],
+    theo: ['Treino', 'Treino do time', 'Descanso'],
+    ezra: ['Arquivo de fotografia', 'Projeto fotográfico', 'Editando fotografias'],
+    valentim: ['Ensaio', 'Compromisso de teatro', 'Ensaio fechado'],
+    raven: ['Redação', 'Entrevista externa', 'Escrevendo em casa']
 };
 
-const weekdays12=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const datesFmt12=new Intl.DateTimeFormat('pt-BR',{day:'numeric',month:'long',timeZone:'UTC'});
-function world12(s=state){
-  let w=s.world12;
-  if(!w||typeof w!=='object'||Array.isArray(w))w=s.world12={
-    
-  };
-  const r=roomData11(s);
-  if(!phases12.includes(w.phase))w.phase=cityData10(s).time==='Noite'?'Noite':r.time==='morning'?'Manhã':'Tarde';
-  if(!w.mem||typeof w.mem!=='object')w.mem={
-    
-  };
-  if(!Array.isArray(w.routineDone))w.routineDone=[];
-  if(!Array.isArray(w.weatherDone))w.weatherDone=[];
-  if(!Array.isArray(w.sentDays))w.sentDays=[];
-  if(typeof w.low!=='boolean')w.low=false;
-  return w
+const weekdays12 = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const datesFmt12 = new Intl.DateTimeFormat('pt-BR', {
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'UTC'
+});
+
+function world12(save = state) {
+    let world = save.world12;
+    if (!world || typeof world !== 'object' || Array.isArray(world)) {
+        world = save.world12 = {};
+    }
+
+    const room = roomData11(save);
+    if (!phases12.includes(world.phase)) {
+        if (cityData10(save).time === 'Noite') world.phase = 'Noite';
+        else world.phase = room.time === 'morning' ? 'Manhã' : 'Tarde';
+    }
+
+    if (!world.mem || typeof world.mem !== 'object') world.mem = {};
+    for (const key of ['routineDone', 'weatherDone', 'sentDays']) {
+        if (!Array.isArray(world[key])) world[key] = [];
+    }
+    if (typeof world.low !== 'boolean') world.low = false;
+
+    return world;
 }
 
-const norm12=normalize;normalize=function(s){norm12(s);world12(s);return s};
-function date12(day=roomData11().day){return new Date(epoch12+(day-1)*dayMs12)}
-function season12(day=roomData11().day){
-  let m=date12(day).getUTCMonth();
-  return m>=2&&m<=4?'Primavera':m>=5&&m<=7?'Verão':m>=8&&m<=10?'Outono':'Inverno'
+function normalizeCalendar(save) {
+    world12(save);
 }
 
-function weather12(day=roomData11().day){let s=season12(day),n=(day*17+Math.floor(day/7)*11)%10;return s==='Inverno'?(n<4?'Neve':n<7?'Nublado':'Céu limpo'):s==='Outono'?(n<4?'Chuva':n<8?'Nublado':'Céu limpo'):s==='Verão'?(n<2?'Chuva':n<4?'Nublado':'Céu limpo'):(n<4?'Chuva':n<6?'Nublado':'Céu limpo')}
-function when12(id,day=roomData11().day,phase=world12().phase){
-  let k=phases12.indexOf(phase),
-  i=people12.indexOf(id);
-  return (day+i*2)%7===0?away12[id][k]:schedule12[id][k]
+function date12(day = roomData11().day) {
+    return new Date(epoch12 + (day - 1) * dayMs12);
 }
 
-function place12(x){return city10[x]?.name||x}
-function status12(day=roomData11().day){return `${weekdays12[date12(day).getUTCDay()]}, ${datesFmt12.format(date12(day))} · ${season12(day)} · ${weather12(day)}`}
-function setPhase12(p){
-  if(!phases12.includes(p))return;
-  world12().phase=p;
-  cityData10().time=p==='Noite'?'Noite':'Tarde';
-  roomData11().time=p==='Noite'?'night':'morning';
-  persist()
+function season12(day = roomData11().day) {
+    const month = date12(day).getUTCMonth();
+    if (month >= 2 && month <= 4) return 'Primavera';
+    if (month >= 5 && month <= 7) return 'Verão';
+    if (month >= 8 && month <= 10) return 'Outono';
+    return 'Inverno';
 }
 
-function nextDay12(){roomData11().day++;setPhase12('Manhã');render();toast('Novo dia em Bellmont.');}
-const oldRest12=roomRest11;
-roomRest11=function(){
-  if(world12().phase!=='Noite'){
-    setPhase12('Noite');
-    roomPanel11()
-  }
-  else{
-    nextDay12();
-    roomPanel11()
-  }
-  
+function weather12(day = roomData11().day) {
+    const season = season12(day);
+    const pattern = (day * 17 + Math.floor(day / 7) * 11) % 10;
+
+    switch (season) {
+        case 'Inverno':
+            if (pattern < 4) return 'Neve';
+            return pattern < 7 ? 'Nublado' : 'Céu limpo';
+        case 'Outono':
+            if (pattern < 4) return 'Chuva';
+            return pattern < 8 ? 'Nublado' : 'Céu limpo';
+        case 'Verão':
+            if (pattern < 2) return 'Chuva';
+            return pattern < 4 ? 'Nublado' : 'Céu limpo';
+        default:
+            if (pattern < 4) return 'Chuva';
+            return pattern < 6 ? 'Nublado' : 'Céu limpo';
+    }
+}
+
+function when12(id, day = roomData11().day, phase = world12().phase) {
+    const phaseIndex = phases12.indexOf(phase);
+    const characterIndex = people12.indexOf(id);
+    const hasOtherPlans = (day + characterIndex * 2) % 7 === 0;
+    const schedule = hasOtherPlans ? away12[id] : schedule12[id];
+    return schedule[phaseIndex];
+}
+
+function place12(location) {
+    return city10[location]?.name || location;
+}
+
+function status12(day = roomData11().day) {
+    const date = date12(day);
+    const weekday = weekdays12[date.getUTCDay()];
+    return `${weekday}, ${datesFmt12.format(date)} · ${season12(day)} · ${weather12(day)}`;
+}
+
+function setPhase12(phase) {
+    if (!phases12.includes(phase)) return;
+    world12().phase = phase;
+    cityData10().time = phase === 'Noite' ? 'Noite' : 'Tarde';
+    roomData11().time = phase === 'Noite' ? 'night' : 'morning';
+    persist();
+}
+
+function nextDay12() {
+    roomData11().day++;
+    setPhase12('Manhã');
+    render();
+    toast('Novo dia em Bellmont.');
+}
+
+roomRest11 = function () {
+    if (world12().phase === 'Noite') {
+        nextDay12();
+    } else {
+        setPhase12('Noite');
+    }
+    roomPanel11();
 };
 
-const oldDate12=canDate10;
-canDate10=function(id){
-  let c=city10[id];
-  return !!(c?.who&&world12().phase===c.time&&when12(c.who)===id&&oldDate12(id))
+const oldDate12 = canDate10;
+canDate10 = function (id) {
+    const location = city10[id];
+    return !!(
+        location?.who &&
+        world12().phase === location.time &&
+        when12(location.who) === id &&
+        oldDate12(id)
+    );
 };
 
-const oldGroup12=canGroup10;canGroup10=function(id){return world12().phase===city10[groups10[id]?.loc]?.time&&oldGroup12(id)};
+const oldGroup12 = canGroup10;
+canGroup10 = function (id) {
+    const location = city10[groups10[id]?.loc];
+    return world12().phase === location?.time && oldGroup12(id);
+};
 
 // memoria-emocional | v0.14
 const personality12={
@@ -3611,57 +3748,244 @@ function routinePanel12(k){const id=city10[k]?.who,key=roomData11().day+':'+id;i
 function finishRoutine12(i){let k=activeRoutine12,id=city10[k]?.who,key=roomData11().day+':'+id;if(!id||when12(id)!==k||world12().routineDone.includes(key)||![0,1].includes(i))return;world12().routineDone.push(key);let m=mem12(id);m.lastRoutine=roomData11().day;state.aff[id]=(state.aff[id]||0)+(i===0?2:0);state.trust[id]=(state.trust[id]||0)+1;state.log.push({who:id,choice:i===0?'Aceitei passar um tempo em '+city10[k].name:'Preferi conversar em outro momento',aff:i===0?2:0,trust:1});if(i===1)m.spaceUntil=roomData11().day+1;activeRoutine12=null;persist();render();modalType='world12';showPanel(name90(id),`<div class="world12"><p>${esc(i===0?routineTalk12[id][2]:'Tudo bem. A gente se encontra outra hora.')}</p><button class="primary" data-act="visit10" data-id="${k}">Voltar ao local</button></div>`)}
 const profile12=showProfile;showProfile=function(id,m='neutral'){profile12(id,m);if(!people12.includes(id)||!profileKnown(id))return;let q=mem12(id);document.querySelector('#modal .panel')?.insertAdjacentHTML('beforeend',`<div class="memory12"><small>MEMÓRIA EMOCIONAL</small><h3>${esc(emotional12(id))}</h3><p>Agora: ${esc(place12(when12(id)))}</p>${q.preference?`<p>Guardou sua preferência: ${esc(q.preference==='nenhuma'?'sem preferência':q.preference)}.</p>`:''}${q.lastChoice?`<p>Última lembrança: “${esc(q.lastChoice)}”.</p>`:''}<button class="soft" data-act="calendar12">Ver rotina</button></div>`)};
 function memoryPanel12(){modalType='world12';syncMemory12();showPanel('Memórias que ficam',`<div class="world12"><p>Os personagens lembram de escolhas e preferências que você realmente compartilhou. Respeitar limites não reduz afinidade.</p><div class="memoryGrid12">${people12.filter(profileKnown).map(id=>{let m=mem12(id);return `<article class="memory12"><div class="routineFace12">${sprite(id)}</div><h3>${name90(id)}</h3><b>${esc(emotional12(id))}</b><p>${m.preference?'Preferência lembrada: '+esc(m.preference):'Ainda descobrindo seus gostos.'}</p><p>${m.lastChoice?'“'+esc(m.lastChoice)+'”':'Nenhuma lembrança registrada.'}</p><button class="soft" data-act="profile" data-id="${id}">Ver ficha</button></article>`}).join('')||'<p>Conheça os personagens para começar.</p>'}</div></div>`)}
-/* Living Bellmont v0.16 — deterministic daily social encounters, independent of chapter progression. */
-const livingEvents16 = [
-  {pair:['dante','soren'],title:'Ensaio ou regulamento?',text:'Dante precisa de uma sala para ensaiar. Soren tenta conciliar os horários do festival.',choices:['Propor um horário compartilhado','Incentivar Dante a negociar sozinho','Apenas observar'],trait:'cooperação'},
-  {pair:['theo','ezra'],title:'Um retrato fora da quadra',text:'Theo quer uma foto do time, mas Ezra prefere registrar os bastidores.',choices:['Sugerir uma foto coletiva e outra espontânea','Deixar que resolvam a diferença','Apenas observar'],trait:'criatividade'},
-  {pair:['valentim','dante'],title:'A trilha do espetáculo',text:'Valentim e Dante discordam sobre a música de uma cena do festival.',choices:['Ajudar a encontrar um meio-termo','Defender a liberdade artística','Apenas observar'],trait:'cooperação'},
-  {pair:['soren','ezra'],title:'O mural de Bellmont',text:'Soren quer organizar o mural; Ezra quer deixar espaço para trabalhos espontâneos.',choices:['Reservar espaço para os dois projetos','Sugerir uma exposição livre','Apenas observar'],trait:'criatividade'}
+
+const socialEvents = [
+    {
+        id: 'rehearsal',
+        pair:['dante','soren'],
+        title:'Ensaio ou regulamento?',
+        text:'Dante precisa de uma sala para ensaiar. Soren tenta conciliar os horários do festival.',
+        choices:['Propor um horário compartilhado','Incentivar Dante a negociar sozinho','Apenas observar'],
+        trait:'cooperação',
+        loc:'music',
+        lines:['Preciso ensaiar. Não dá para fazer isso no corredor.','E eu preciso garantir que todos tenham acesso às salas.'],
+        outcomes:['Soren reserva dois horários e Dante aceita dividir a sala.','Dante promete apresentar sua própria proposta.','Os dois retomam a discussão e procuram uma solução sem você.']
+    },
+    {
+        id: 'team-photo',
+        pair:['theo','ezra'],
+        title:'Um retrato fora da quadra',
+        text:'Theo quer uma foto do time, mas Ezra prefere registrar os bastidores.',
+        choices:['Sugerir uma foto coletiva e outra espontânea','Deixar que resolvam a diferença','Apenas observar'],
+        trait:'criatividade',
+        loc:'gym',
+        lines:['Uma foto do time seria uma lembrança incrível.','Prefiro fotografar o que acontece quando ninguém está posando.'],
+        outcomes:['Os dois combinam uma foto coletiva e um registro espontâneo.','Theo e Ezra resolvem experimentar ideias diferentes.','Eles seguem conversando sobre o projeto.']
+    },
+    {
+        id: 'soundtrack',
+        pair:['valentim','dante'],
+        title:'A trilha do espetáculo',
+        text:'Valentim e Dante discordam sobre a música de uma cena do festival.',
+        choices:['Ajudar a encontrar um meio-termo','Defender a liberdade artística','Apenas observar'],
+        trait:'cooperação',
+        loc:'hall',
+        lines:['A cena precisa de uma música que acompanhe o ritmo do texto.','Se eu seguir cada marcação, a música perde a personalidade.'],
+        outcomes:['Os dois ensaiam uma versão que combina as propostas.','Dante apresenta uma composição livre ao diretor.','Valentim e Dante decidem retomar o ensaio depois.']
+    },
+    {
+        id: 'noticeboard',
+        pair:['soren','ezra'],
+        title:'O mural de Bellmont',
+        text:'Soren quer organizar o mural; Ezra quer deixar espaço para trabalhos espontâneos.',
+        choices:['Reservar espaço para os dois projetos','Sugerir uma exposição livre','Apenas observar'],
+        trait:'criatividade',
+        loc:'library',
+        lines:['O mural precisa de alguma organização.','E também precisa de espaço para coisas que não estavam previstas.'],
+        outcomes:['Eles dividem o mural em duas seções.','Ezra propõe uma exposição sem tema obrigatório.','Os dois continuam planejando o mural.']
+    }
 ];
-function livingData16(s=state){
-  if(!object14(s.living16))s.living16={};
-  const d=s.living16;
-  if(!object14(d.bonds))d.bonds={};
-  if(!object14(d.reputation))d.reputation={};
-  for(const k of ['cooperação','criatividade','autonomia'])if(!Number.isFinite(d.reputation[k]))d.reputation[k]=0;
-  if(!object14(d.resolved))d.resolved={};
-  return d;
+
+// Social rules do not depend on the DOM or browser storage.
+const schoolReputationTraits = ['cooperação', 'criatividade', 'autonomia'];
+
+function isSocialRecord(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
-function livingEvent16(day,phase){
-  if(!Number.isSafeInteger(day)||day<1||phase!=='Tarde')return null;
-  return livingEvents16[(day-1)%livingEvents16.length];
+
+function getSocialState(save) {
+    // Keep the original save key so older progress is not lost.
+    if (!isSocialRecord(save.living16)) save.living16 = {};
+    const social = save.living16;
+    for (const key of ['bonds', 'reputation', 'resolved']) {
+        if (!isSocialRecord(social[key])) social[key] = {};
+    }
+    for (const trait of schoolReputationTraits) {
+        if (!Number.isFinite(social.reputation[trait])) social.reputation[trait] = 0;
+    }
+    return social;
 }
-function livingBond16(day,pair,d){
-  const key=pair.slice().sort().join(':');
-  const baseline=Array.from({length:7},(_,i)=>((Math.max(1,day)-1+i)%5===0?1:0)).reduce((a,b)=>a+b,0);
-  return Math.max(-20,Math.min(20,baseline+(Number.isFinite(d.bonds[key])?d.bonds[key]:0)));
+
+function getDailySocialEvent(day, phase) {
+    if (!Number.isSafeInteger(day) || day < 1 || phase !== 'Tarde') return null;
+    return socialEvents[(day - 1) % socialEvents.length];
 }
-function livingPanel16(){
-  if(!state)return;
-  modalType='living16';
-  const d=livingData16(),day=roomData11().day,phase=world12().phase,e=livingEvent16(day,phase),key=String(day);
-  const visible=e&&e.pair.every(profileKnown);
-  const resolved=Object.prototype.hasOwnProperty.call(d.resolved,key);
-  showPanel('Vida em Bellmont',`<div class="world12"><div class="worldhero12"><small>LIVING BELLMONT / EXPERIMENTAL</small><h3>O mundo não espera por você.</h3><p>Dia ${day} · ${esc(phase)}</p></div><h3>Reputação escolar</h3><div class="memoryGrid12">${Object.entries(d.reputation).filter(([k])=>['cooperação','criatividade','autonomia'].includes(k)).map(([k,v])=>`<article class="memory12"><b>${esc(k)}</b><p>${v} pontos</p></article>`).join('')}</div><h3>Acontecimento de hoje</h3>${visible?`<article class="memory12"><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p>${resolved?'<p>Você já acompanhou este acontecimento.</p>':e.choices.map((t,i)=>`<button class="choice" data-act="livingChoice16" data-i="${i}">${esc(t)}</button>`).join('')}</article>`:'<p>Conheça mais personagens e volte durante a tarde para descobrir acontecimentos.</p>'}<h3>Vínculos entre personagens</h3>${livingEvents16.filter(x=>x.pair.every(profileKnown)).map(x=>`<article class="memory12"><b>${x.pair.map(name90).map(esc).join(' e ')}</b><p>Proximidade: ${livingBond16(day,x.pair,d)}</p></article>`).join('')||'<p>Os vínculos aparecem conforme você conhece o elenco.</p>'}<button class="soft" data-act="calendar12">Voltar à agenda</button></div>`);
-  document.querySelector('#modal .panel')?.classList.add('worldPanel12');
+
+function socialPairKey(pair) {
+    return [...pair].sort().join(':');
 }
-function livingChoice16(i){
-  if(!state||![0,1,2].includes(i))return;
-  const day=roomData11().day,e=livingEvent16(day,world12().phase),d=livingData16(),key=String(day);
-  if(!e||!e.pair.every(profileKnown)||Object.prototype.hasOwnProperty.call(d.resolved,key))return;
-  d.resolved[key]=i;
-  if(i!==2){
-    const trait=i===0?e.trait:'autonomia',bond=e.pair.slice().sort().join(':');
-    d.reputation[trait]=Math.min(100,d.reputation[trait]+1);
-    d.bonds[bond]=Math.max(-20,Math.min(20,(Number.isFinite(d.bonds[bond])?d.bonds[bond]:0)+(i===0?2:0)));
-  }
-  persist();livingPanel16();
+
+function limitSocialBond(value) {
+    return Math.max(-20, Math.min(20, value));
 }
-document.addEventListener('click',e=>{
-  const b=e.target.closest('[data-act]');
-  if(!b||b.disabled||!state)return;
-  if(b.dataset.act==='living16')livingPanel16();
-  if(b.dataset.act==='livingChoice16')livingChoice16(Number(b.dataset.i));
+
+function getSocialBond(day, pair, social) {
+    const key = socialPairKey(pair);
+    let baseline = 0;
+    for (let offset = 0; offset < 7; offset++) {
+        if ((Math.max(1, day) - 1 + offset) % 5 === 0) baseline++;
+    }
+    const adjustment = social.bonds[key];
+    return limitSocialBond(baseline + (Number.isFinite(adjustment) ? adjustment : 0));
+}
+
+function getSocialMood(id, day, social, cast) {
+    const influence = socialEvents
+        .filter(event => event.pair.includes(id))
+        .reduce((sum, event) => sum + getSocialBond(day, event.pair, social), 0);
+    const moods = [
+        ['neutral', 'Concentrado'],
+        ['smile', 'Animado'],
+        ['annoyed', 'Impaciente'],
+        ['sad', 'Preocupado']
+    ];
+    const index = day + cast.indexOf(id) + Math.round(influence / 3);
+    return moods[((index % moods.length) + moods.length) % moods.length];
+}
+
+function hasResolvedSocialEvent(social, day) {
+    return Object.prototype.hasOwnProperty.call(social.resolved, String(day));
+}
+
+function resolveSocialEvent(social, day, phase, choice, knowsCharacter) {
+    const event = getDailySocialEvent(day, phase);
+    if (!event || ![0, 1, 2].includes(choice)) return false;
+    if (!event.pair.every(knowsCharacter) || hasResolvedSocialEvent(social, day)) return false;
+    social.resolved[String(day)] = choice;
+    if (choice === 2) return true;
+
+    const trait = choice === 0 ? event.trait : 'autonomia';
+    social.reputation[trait] = Math.min(100, social.reputation[trait] + 1);
+    const key = socialPairKey(event.pair);
+    const previous = Number.isFinite(social.bonds[key]) ? social.bonds[key] : 0;
+    social.bonds[key] = limitSocialBond(previous + (choice === 0 ? 2 : -1));
+    return true;
+}
+
+function renderSocialScene(event, day, social) {
+    const choice = social.resolved[String(day)];
+    const previous = social.resolved[String(day - socialEvents.length)];
+    const actors = event.pair.map((id, index) => {
+        const [expression, label] = getSocialMood(id, day, social, people12);
+        const slot = index === 0 ? '29%' : '72%';
+        return `
+            <div class="actor10 ${index === 0 ? 'speaking10' : ''}" style="--slot:${slot}">
+                <div class="actorart10">${sprite(id, expression)}</div>
+                <span>${esc(name90(id))} · ${esc(label)}</span>
+            </div>`;
+    }).join('');
+
+    return `
+        <div class="stage10 climate12">
+            <div style="position:absolute;inset:0;overflow:hidden">${bg(event.loc)}</div>
+            ${actors}
+        </div>
+        <div class="sceneTalk10">
+            ${Number.isInteger(previous) && event.outcomes[previous]
+                ? `<p><small>Último encontro: ${esc(event.outcomes[previous])}</small></p>`
+                : ''}
+            ${event.lines.map((line, index) =>
+                `<p><b>${esc(name90(event.pair[index]))}:</b> ${esc(line)}</p>`).join('')}
+            ${hasResolvedSocialEvent(social, day) && event.outcomes[choice]
+                ? `<p><b>Desfecho:</b> ${esc(event.outcomes[choice])}</p>`
+                : ''}
+        </div>`;
+}
+
+function renderDailySocialEvent(event, day, social) {
+    if (!event || !event.pair.every(profileKnown)) {
+        return '<p>Conheça mais personagens e volte durante a tarde para descobrir acontecimentos.</p>';
+    }
+    const choices = hasResolvedSocialEvent(social, day)
+        ? '<p>Você já acompanhou este acontecimento.</p>'
+        : event.choices.map((text, index) =>
+            `<button class="choice" data-act="livingChoice16" data-i="${index}">${esc(text)}</button>`).join('');
+    return `
+        <article class="memory12">
+            <h3>${esc(event.title)}</h3>
+            <p>${esc(event.text)}</p>
+            ${renderSocialScene(event, day, social)}
+            ${choices}
+        </article>`;
+}
+
+function renderSchoolReputation(social) {
+    return schoolReputationTraits.map(trait => `
+        <article class="memory12">
+            <b>${esc(trait)}</b>
+            <p>${social.reputation[trait]} pontos</p>
+        </article>`).join('');
+}
+
+function renderSocialBonds(day, social) {
+    return socialEvents.filter(event => event.pair.every(profileKnown)).map(event => {
+        const bond = getSocialBond(day, event.pair, social);
+        const label = bond >= 5 ? 'Parceria fortalecida' : bond < 0 ? 'Relação tensa' : 'Convivência';
+        return `<article class="memory12">
+            <b>${event.pair.map(name90).map(esc).join(' e ')}</b>
+            <p>Proximidade: ${bond} · ${label}</p>
+        </article>`;
+    }).join('') || '<p>Os vínculos aparecem conforme você conhece o elenco.</p>';
+}
+
+function showLivingBellmont() {
+    if (!state) return;
+    modalType = 'living16';
+    const social = getSocialState(state);
+    const day = roomData11().day;
+    const phase = world12().phase;
+    const event = getDailySocialEvent(day, phase);
+    showPanel('Vida em Bellmont', `
+        <div class="world12">
+            <div class="worldhero12">
+                <small>LIVING BELLMONT / EXPERIMENTAL</small>
+                <h3>O mundo não espera por você.</h3>
+                <p>Dia ${day} · ${esc(phase)}</p>
+            </div>
+            <h3>Reputação escolar</h3>
+            <div class="memoryGrid12">${renderSchoolReputation(social)}</div>
+            <h3>Acontecimento de hoje</h3>
+            ${renderDailySocialEvent(event, day, social)}
+            <h3>Vínculos entre personagens</h3>
+            ${renderSocialBonds(day, social)}
+            <button class="soft" data-act="calendar12">Voltar à agenda</button>
+        </div>`);
+    document.querySelector('#modal .panel')?.classList.add('worldPanel12');
+}
+
+// Adapter between the legacy game and the social rules.
+function handleSocialChoice(choice) {
+    if (!state) return;
+    const social = getSocialState(state);
+    const changed = resolveSocialEvent(
+        social, roomData11().day, world12().phase, choice, profileKnown
+    );
+    if (!changed) return;
+    persist();
+    showLivingBellmont();
+}
+
+document.addEventListener('click', event => {
+    const button = event.target.closest('[data-act]');
+    if (!button || button.disabled || !state) return;
+    switch (button.dataset.act) {
+        case 'living16':
+            showLivingBellmont();
+            break;
+        case 'livingChoice16':
+            handleSocialChoice(Number(button.dataset.i));
+            break;
+    }
 });
 
 // interface-mundo-e-slots | v0.14
@@ -3734,9 +4058,7 @@ cinema11 = function (root) {
     cinemaBase12(root);
 };
 // INTERFACE E MENU PRINCIPAL
-const renderBase12 = render;
-render = function () {
-    renderBase12();
+function renderWorldLayout() {
     if (!state || screen !== 'game') return;
     const root = document.querySelector('.app');
     const nav = root?.querySelector('.nav');
@@ -3858,7 +4180,7 @@ render = function () {
         `
     );
     climate12(root);
-};
+}
 // CONFIGURAÇÕES DO JOGO
 function settings12() {
     modalType = 'world12';
@@ -4278,7 +4600,9 @@ function social13(s=state){
   return d
 }
 
-const norm13=normalize;normalize=function(s){norm13(s);social13(s);return s};
+function normalizeFeed(s) {
+    social13(s);
+}
 function tick13(){return (roomData11().day-1)*3+phases12.indexOf(world12().phase)}
 function addPost13(d,p){
   if(d.made.includes(p.id))return false;
@@ -4331,7 +4655,7 @@ function syncSocial13(){if(!state)return false;const d=social13(),day=roomData11
 
  return changed}
 
-const render13=render;render=function(){if(state&&screen==='game'&&syncSocial13())persistMemoryStage();render13()};
+
 let feedFilter13='all',storyOpen13=null,feedLimit13=12,compose13=null;
 function feedPosts13(){
   const d=social13(),
@@ -4466,18 +4790,15 @@ document.addEventListener('click',e=>{
 /* v0.14 — integrate common services once, after all existing feature modules. */
 const panelBase14=showPanel;showPanel=function(title,content){return panelBase14(title,compactMedia14(content))};
 const coverBase14=cover;cover=function(){let h=coverBase14().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.14 • Edição de estabilidade');return h.replace('<button class="soft" data-act="about">Sobre o jogo</button>','<button class="soft" data-act="about">Sobre o jogo</button><button class="soft" data-act="import14">Importar progresso</button>')};
-const renderBase14=render;
-render=function(){
-  renderBase14();
-  const root=document.getElementById('root');
+function renderSaveWarning() {
+    const root=document.getElementById('root');
   if(saveWarning14&&root&&!root.querySelector('.savewarn14')){
     const n=document.createElement('div');
     n.className='savewarn14';
     n.textContent=saveWarning14;
     root.append(n)
   }
-  
-};
+}
 
 const closeBase14=close;close=function(){finishTyping11();closeBase14()};
 const settingsBase14=settings12;settings12=function(){settingsBase14();document.querySelector('#modal .world12')?.insertAdjacentHTML('beforeend',`<h3>Recuperação de progresso</h3><p>${esc(saveWarning14||'Uma cópia do último salvamento válido é mantida no navegador, quando há espaço disponível.')}</p><button class="soft" data-act="backup14">Restaurar cópia anterior</button><p class="hint">Os arquivos JSON continuam compatíveis com as versões anteriores. Exporte antes de mudar de arquivo ou navegador.</p>`)};
@@ -4570,9 +4891,7 @@ function refreshCreator() {
 }
 
 // Reaproveita a navegação narrativa e os botões existentes, sem duplicar o motor.
-const renderBeforeFocus = render;
-render = function () {
-    renderBeforeFocus();
+function renderStoryFocus() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.toggle('story-focus', storyFocus);
@@ -4581,7 +4900,7 @@ render = function () {
         aria-pressed="${storyFocus}">${storyFocus ? 'Ver vínculos' : 'Focar na história'}</button>`);
     const next = app.querySelector('.dialog [data-act="next"]');
     if (next) next.textContent = 'Continuar ›';
-};
+}
 
 document.addEventListener('click', e => {
     const b = e.target.closest('[data-act]');
@@ -4683,12 +5002,9 @@ function syncStory42(s = state) {
     d.memories = memories;
 }
 
-const normalizeBefore42 = normalize;
-normalize = function (s) {
-    const result = normalizeBefore42(s);
+function normalizeStoryMemory(s) {
     syncStory42(s);
-    return result;
-};
+}
 
 // Fatos específicos: cada escolha tem uma resposta própria e um retorno futuro.
 const characterFacts42 = {
@@ -5287,16 +5603,14 @@ function arrangeBellNav43(app) {
     }
 }
 
-const renderBefore43 = render;
-render = function () {
-    renderBefore43();
+function renderBellmontIdentity() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.add('bell-editorial');
     arrangeBellNav43(app);
     const heading = app.querySelector('.main > .map h2');
     if (heading?.textContent === 'Onde você vai?') heading.textContent = 'Onde você quer ir?';
-};
+}
 
 // executar | v0.14
 render();

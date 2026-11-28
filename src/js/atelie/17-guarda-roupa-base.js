@@ -206,10 +206,8 @@ const images=[base,hair[look.hair],skin[look.skin],eyes[look.eyes]].filter(Boole
 
  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="anime-sprite protagonist-sprite" role="img" aria-label="Protagonista, ${poses7[m]}">${images.map(d=>`<image href="${mediaURL14(d,'image/webp')}" width="${w}" height="${h}"/>`).join('')}</svg>`;
 };
-const norm7=normalize;
-normalize=function(s){
-  norm7(s);
-  s.look={
+function normalizeWardrobeAndEpisodeFive(s) {
+    s.look={
     hair:'castanho',
     eyes:'mel',
     skin:'clara',
@@ -236,8 +234,7 @@ normalize=function(s){
     decision:null,
     done:false
   };
-  return s
-};
+}
 
 let preview7='neutral',contact7=null,diary7='overview';
 function wardrobe7(l,withName){return `<div class="ward7"><div class="mirror7"><div class="avatar" id="avatar">${avatar(l,preview7)}</div><div class="pose7">${Object.entries(poses7).map(([k,v])=>`<button class="soft" data-act="pose7" data-id="${k}" aria-pressed="${k===preview7}">${v}</button>`).join('')}</div><p class="hint">Experimente as expressões. A narrativa escolhe a pose durante o jogo.</p></div><div class="fields">${withName?`<label for="name">Seu nome</label><input id="name" maxlength="24" value="${esc(draft.name)}">`:''}<h3>Seu guarda-roupa</h3><div class="outfits7">${Object.entries(outfitNames7).map(([k,v])=>`<button class="outfit7" data-act="outfit7" data-id="${k}" aria-pressed="${l.outfit===k}"><div>${avatar({...l,outfit:k})}</div><span>${v}</span></button>`).join('')}</div>${[['hair','Cabelo',[['castanho','Castanho'],['preto','Preto'],['rosa','Rosa'],['loiro','Loiro']]],['eyes','Olhos',[['mel','Mel'],['azul','Azul'],['verde','Verde'],['castanho','Castanho']]],['skin','Tom de pele',[['clara','Claro'],['media','Médio'],['escura','Escuro']]]].map(([k,t,o])=>`<label for="${k}">${t}</label><select id="${k}" data-look="${k}">${o.map(([v,n])=>`<option value="${v}" ${l[k]===v?'selected':''}>${n}</option>`).join('')}</select>`).join('')}</div></div>`}

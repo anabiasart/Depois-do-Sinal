@@ -15,7 +15,9 @@ function finishTyping11(){
 
 function animateText11(el){if(!el||!state||!roomData11().typing||matchMedia('(prefers-reduced-motion: reduce)').matches)return;finishTyping11();const text=el.textContent;if(!text||text.length<10)return;const button=document.createElement('button');button.className='soft typeSkip11';button.textContent='Mostrar texto';button.setAttribute('aria-label','Mostrar diálogo completo');button.addEventListener('click',finishTyping11);el.after(button);el.textContent='';const q={el,text,button,raf:0};typing11=q;let start=performance.now(),last=-1;function frame(t){if(typing11!==q||!el.isConnected){if(typing11===q)typing11=null;return}let n=Math.min(text.length,Math.floor((t-start)/12)+1);if(n!==last){el.textContent=text.slice(0,n);last=n}if(n>=text.length)finishTyping11();else q.raf=requestAnimationFrame(frame)}q.raf=requestAnimationFrame(frame)}
 function cinema11(root){if(!root||!state)return;let r=roomData11();root.classList.toggle('cinema11',r.cinema);const stage=root.querySelector('.scene,.stage10');if(r.cinema&&stage){stage.classList.add('film11');if(r.rain&&(state.loc==='bedroom'&&!root.querySelector('.stage10')||cityData10().time==='Noite'&&root.querySelector('.stage10'))&&!stage.querySelector('.rain11'))stage.insertAdjacentHTML('beforeend','<div class="rain11" aria-hidden="true"></div>')}animateText11(root.querySelector('.dialog p,.sceneTalk10 p'))}
-const render11base=render;render=function(){finishTyping11();render11base();if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))};
+function renderRoomNavigation() {
+    if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))
+}
 const panel11base=showPanel;
 showPanel=function(title,content){
   finishTyping11();

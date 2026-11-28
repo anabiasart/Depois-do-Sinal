@@ -54,7 +54,9 @@ function social13(s=state){
   return d
 }
 
-const norm13=normalize;normalize=function(s){norm13(s);social13(s);return s};
+function normalizeFeed(s) {
+    social13(s);
+}
 function tick13(){return (roomData11().day-1)*3+phases12.indexOf(world12().phase)}
 function addPost13(d,p){
   if(d.made.includes(p.id))return false;
@@ -107,7 +109,7 @@ function syncSocial13(){if(!state)return false;const d=social13(),day=roomData11
 
  return changed}
 
-const render13=render;render=function(){if(state&&screen==='game'&&syncSocial13())persistMemoryStage();render13()};
+
 let feedFilter13='all',storyOpen13=null,feedLimit13=12,compose13=null;
 function feedPosts13(){
   const d=social13(),

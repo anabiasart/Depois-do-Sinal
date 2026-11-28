@@ -1,16 +1,27 @@
 {
-  "name": "depois-do-sinal",
-  "version": "0.14.0",
-  "private": true,
-  "description": "Visual novel de Bellmont — organização de fontes editáveis",
-  "scripts": {
-    "build": "node scripts/build.cjs",
-    "check": "node --check game.js",
-    "artes": "node scripts/artes.cjs",
-    "test": "node --test tests/unit/*.test.cjs",
-    "test:e2e": "python tests/e2e/test_game.py"
-  },
-  "engines": {
-    "node": ">=18"
-  }
+    "name": "depois-do-sinal",
+    "version": "0.14.0",
+    "private": true,
+    "description": "Visual novel de Bellmont — organização de fontes editáveis",
+    "scripts": {
+        "build": "node scripts/build.cjs",
+        "check": "node --check game.js",
+        "artes": "node scripts/artes.cjs",
+        "test": "node --test tests/unit/*.test.cjs",
+        "test:e2e": "python tests/e2e/test_game.py",
+        "format": "npx --yes prettier@3.6.2 --write \"src/**/*.{js,mjs,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json vite.config.mjs && npm run build",
+        "format:check": "npx --yes prettier@3.6.2 --check \"src/**/*.{js,mjs,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json vite.config.mjs",
+        "dev": "vite --host 127.0.0.1 --port 5173",
+        "build:web": "npm run build && vite build",
+        "preview": "vite preview",
+        "dev:rebuild": "npm run build && npm run dev",
+        "typecheck": "tsc --noEmit"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "devDependencies": {
+        "vite": "^6.0.0",
+        "typescript": "~5.8.3"
+    }
 }

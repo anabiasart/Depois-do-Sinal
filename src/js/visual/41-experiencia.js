@@ -84,9 +84,7 @@ function refreshCreator() {
 }
 
 // Reaproveita a navegação narrativa e os botões existentes, sem duplicar o motor.
-const renderBeforeFocus = render;
-render = function () {
-    renderBeforeFocus();
+function renderStoryFocus() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.toggle('story-focus', storyFocus);
@@ -95,7 +93,7 @@ render = function () {
         aria-pressed="${storyFocus}">${storyFocus ? 'Ver vínculos' : 'Focar na história'}</button>`);
     const next = app.querySelector('.dialog [data-act="next"]');
     if (next) next.textContent = 'Continuar ›';
-};
+}
 
 document.addEventListener('click', e => {
     const b = e.target.closest('[data-act]');

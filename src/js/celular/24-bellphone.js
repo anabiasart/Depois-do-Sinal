@@ -74,7 +74,9 @@ function data90(s=state){
   return d
 }
 
-const norm90=normalize;normalize=function(s){norm90(s);data90(s);return s};
+function normalizePhone(s) {
+    data90(s);
+}
 function known90(id){return phoneContacts7().includes(id)||romance93().includes(id)&&profileKnown(id)}
 function push90(flag,who,text,extra={
   
@@ -180,12 +182,8 @@ function publish90(i){
 
 function meet90(id){const p=phoneData90[id];if(!p||data90().invites[id]?.status!=='accepted')return;modalType='phone';showPanel('Encontro · '+name90(id),`<div class="bpmeet"><div class="bpmeetart">${bg(p.loc==='garden'?'gate':p.loc)}<div>${sprite(id,'smile')}</div></div><p class="bpmuted">${p.place} · encontro opcional</p><p>${esc(p.scene)}</p><h3>${esc(p.question)}</h3><div class="bpchoices">${p.answers.map((a,i)=>button90('bp90dateanswer',esc(a[0]),`data-id="${id}" data-i="${i}"`)).join('')}</div>${button90('bp90app','Voltar sem concluir','data-id="invites"')}</div>`)}
 const modal90base=modal;modal=function(t){if(t==='phone'){if(modalType!=='phone'){app90='home';chat90=null;filter90='all'}return phone7()}if(t==='about'){modalType=t;return showPanel('Depois do Sinal · v0.9','<p>BellPhone 2.0 · Cinco episódios, ateliê Signature, conversas, convites jogáveis, BellFeed, agenda, álbum e perfil. Tudo funciona offline.</p><p>Os diálogos são roteirizados; o mural é uma simulação local.</p>')}return modal90base(t)};
-const render90base=render;
-render=function(){
-  let changed=false;
-  if(state&&screen==='game')changed=seed90();
-  render90base();
-  if(state&&screen==='game'){
+function renderPhoneStatus(changed) {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="phone"]'),
     n=unread90();
     if(b)b.textContent='▣ BellPhone'+(n?' · '+n+' novas':'');
@@ -195,8 +193,7 @@ render=function(){
     }
     
   }
-  
-};
+}
 
 const cover90base=cover;cover=function(){return cover90base().replace(/Edição 0\.8\.3[^<]*/,'Edição 0.9 • BellPhone 2.0')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||!state||!b.dataset.act.startsWith('bp90'))return;e.stopImmediatePropagation();const a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i),j=Number(b.dataset.j),d=data90();if(a==='bp90app'&&phoneApps90[id]){app90=id;phone7();return}if(a==='bp90shop'){modal('wardrobe');return}if(a==='bp90chat'){openChat90(id);return}if(a==='bp90filter'){filter90=id;phone7();return}if(a==='bp90star'&&state.messages[i])d.stars=d.stars.includes(i)?d.stars.filter(x=>x!==i):[...d.stars,i];
