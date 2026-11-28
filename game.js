@@ -442,31 +442,60 @@ const moodNames={
 
 function sheetSprite(entry,mood='neutral',label='Personagem',classes='anime-sprite'){mood=moodAlias[mood]||mood;const actual=entry[mood]?mood:'neutral';const [data,w,h]=entry[actual];return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="${classes}" data-mood="${actual}" role="img" aria-label="${esc(label)} — ${moodNames[actual]}"><image href="${mediaURL14(data,'image/webp')}" width="${w}" height="${h}"/></svg>`;}
 
-// estado | v0.14
-let state=null,screen='cover',draft=null,modalType=null;
-const initial=()=>({
-  name:'Alex',look:{
-    hair:'castanho',eyes:'mel',skin:'clara',outfit:'uniforme'
-  },aff:Object.fromEntries(routes.map(x=>[x,0])),trust:Object.fromEntries(routes.map(x=>[x,0])),visited:[],items:[],messages:[],gallery:[],log:[],flags:{
-    
-  },node:'intro0',loc:'bedroom',ending:null,sceneChoice:null
+let state = null;
+let screen = 'cover';
+let draft = null;
+let modalType = null;
+
+const initial = () => ({
+    name: 'Alex',
+    look: {
+        hair: 'castanho',
+        eyes: 'mel',
+        skin: 'clara',
+        outfit: 'uniforme'
+    },
+    aff: Object.fromEntries(routes.map(id => [id, 0])),
+    trust: Object.fromEntries(routes.map(id => [id, 0])),
+    visited: [],
+    items: [],
+    messages: [],
+    gallery: [],
+    log: [],
+    flags: {},
+    node: 'intro0',
+    loc: 'bedroom',
+    ending: null,
+    sceneChoice: null
 });
 
-function load(){return loadSave14()}let saved=load();let storageOK=true;
-// Explicit save stages preserve the historical ordering and feed-only write path.
-function persistMemoryStage(){if(state){syncMemory12();writeSave14(state)}}
-function persist(){
-  if(!state)return;
-  syncStory42();
-  syncSocial13();
-  persistMemoryStage();
+function load() {
+    return loadSave14();
 }
-function toast(t){
-  let n=document.createElement('div');
-  n.className='toast';
-  n.textContent=t;
-  document.body.append(n);
-  setTimeout(()=>n.remove(),2500)
+
+let saved = load();
+let storageOK = true;
+
+// Feed updates may save without re-running story and social synchronization.
+function persistMemoryStage() {
+    if (!state) return;
+    syncMemory12();
+    writeSave14(state);
+}
+
+function persist() {
+    if (!state) return;
+    syncStory42();
+    syncSocial13();
+    persistMemoryStage();
+}
+
+function toast(message) {
+    const notification = document.createElement('div');
+    notification.className = 'toast';
+    notification.textContent = message;
+    document.body.append(notification);
+    setTimeout(() => notification.remove(), 2500);
 }
 
 // interface-base | v0.14
@@ -3419,93 +3448,154 @@ document.addEventListener('click',e=>{
   
 },true);
 
-// calendario-clima-rotina | v0.14
-/* v0.12 — Entre o Acaso e o Amor. Additive migration: existing saves remain valid. */
-const people12=['dante','soren','theo','ezra','valentim','raven'];
-const phases12=['Manhã','Tarde','Noite'];
-const epoch12=Date.UTC(2026,2,20),dayMs12=86400000;
-const schedule12={
-  dante:['Colégio · sala de aula','records','Ensaio em casa'],
-  soren:['Conselho estudantil','books','Estudando em casa'],
-  theo:['Colégio · quadra','park','Treino e descanso'],
-  ezra:['Biblioteca','art','Editando fotografias'],
-  valentim:['Colégio · auditório','Ensaio teatral','theatre'],
-  raven:['Jornal escolar','cafe','Escrevendo em casa']
+const people12 = ['dante', 'soren', 'theo', 'ezra', 'valentim', 'raven'];
+const phases12 = ['Manhã', 'Tarde', 'Noite'];
+const epoch12 = Date.UTC(2026, 2, 20);
+const dayMs12 = 86400000;
+
+const schedule12 = {
+    dante: ['Colégio · sala de aula', 'records', 'Ensaio em casa'],
+    soren: ['Conselho estudantil', 'books', 'Estudando em casa'],
+    theo: ['Colégio · quadra', 'park', 'Treino e descanso'],
+    ezra: ['Biblioteca', 'art', 'Editando fotografias'],
+    valentim: ['Colégio · auditório', 'Ensaio teatral', 'theatre'],
+    raven: ['Jornal escolar', 'cafe', 'Escrevendo em casa']
 };
 
-const away12={
-  dante:['Clube de música','Ensaio fechado','Descanso'],
-  soren:['Reunião do conselho','Compromisso familiar','Estudando em casa'],
-  theo:['Treino','Treino do time','Descanso'],
-  ezra:['Arquivo de fotografia','Projeto fotográfico','Editando fotografias'],
-  valentim:['Ensaio','Compromisso de teatro','Ensaio fechado'],
-  raven:['Redação','Entrevista externa','Escrevendo em casa']
+const away12 = {
+    dante: ['Clube de música', 'Ensaio fechado', 'Descanso'],
+    soren: ['Reunião do conselho', 'Compromisso familiar', 'Estudando em casa'],
+    theo: ['Treino', 'Treino do time', 'Descanso'],
+    ezra: ['Arquivo de fotografia', 'Projeto fotográfico', 'Editando fotografias'],
+    valentim: ['Ensaio', 'Compromisso de teatro', 'Ensaio fechado'],
+    raven: ['Redação', 'Entrevista externa', 'Escrevendo em casa']
 };
 
-const weekdays12=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const datesFmt12=new Intl.DateTimeFormat('pt-BR',{day:'numeric',month:'long',timeZone:'UTC'});
-function world12(s=state){
-  let w=s.world12;
-  if(!w||typeof w!=='object'||Array.isArray(w))w=s.world12={
-    
-  };
-  const r=roomData11(s);
-  if(!phases12.includes(w.phase))w.phase=cityData10(s).time==='Noite'?'Noite':r.time==='morning'?'Manhã':'Tarde';
-  if(!w.mem||typeof w.mem!=='object')w.mem={
-    
-  };
-  if(!Array.isArray(w.routineDone))w.routineDone=[];
-  if(!Array.isArray(w.weatherDone))w.weatherDone=[];
-  if(!Array.isArray(w.sentDays))w.sentDays=[];
-  if(typeof w.low!=='boolean')w.low=false;
-  return w
+const weekdays12 = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const datesFmt12 = new Intl.DateTimeFormat('pt-BR', {
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'UTC'
+});
+
+function world12(save = state) {
+    let world = save.world12;
+    if (!world || typeof world !== 'object' || Array.isArray(world)) {
+        world = save.world12 = {};
+    }
+
+    const room = roomData11(save);
+    if (!phases12.includes(world.phase)) {
+        if (cityData10(save).time === 'Noite') world.phase = 'Noite';
+        else world.phase = room.time === 'morning' ? 'Manhã' : 'Tarde';
+    }
+
+    if (!world.mem || typeof world.mem !== 'object') world.mem = {};
+    for (const key of ['routineDone', 'weatherDone', 'sentDays']) {
+        if (!Array.isArray(world[key])) world[key] = [];
+    }
+    if (typeof world.low !== 'boolean') world.low = false;
+
+    return world;
 }
 
-const norm12=normalize;normalize=function(s){norm12(s);world12(s);return s};
-function date12(day=roomData11().day){return new Date(epoch12+(day-1)*dayMs12)}
-function season12(day=roomData11().day){
-  let m=date12(day).getUTCMonth();
-  return m>=2&&m<=4?'Primavera':m>=5&&m<=7?'Verão':m>=8&&m<=10?'Outono':'Inverno'
-}
-
-function weather12(day=roomData11().day){let s=season12(day),n=(day*17+Math.floor(day/7)*11)%10;return s==='Inverno'?(n<4?'Neve':n<7?'Nublado':'Céu limpo'):s==='Outono'?(n<4?'Chuva':n<8?'Nublado':'Céu limpo'):s==='Verão'?(n<2?'Chuva':n<4?'Nublado':'Céu limpo'):(n<4?'Chuva':n<6?'Nublado':'Céu limpo')}
-function when12(id,day=roomData11().day,phase=world12().phase){
-  let k=phases12.indexOf(phase),
-  i=people12.indexOf(id);
-  return (day+i*2)%7===0?away12[id][k]:schedule12[id][k]
-}
-
-function place12(x){return city10[x]?.name||x}
-function status12(day=roomData11().day){return `${weekdays12[date12(day).getUTCDay()]}, ${datesFmt12.format(date12(day))} · ${season12(day)} · ${weather12(day)}`}
-function setPhase12(p){
-  if(!phases12.includes(p))return;
-  world12().phase=p;
-  cityData10().time=p==='Noite'?'Noite':'Tarde';
-  roomData11().time=p==='Noite'?'night':'morning';
-  persist()
-}
-
-function nextDay12(){roomData11().day++;setPhase12('Manhã');render();toast('Novo dia em Bellmont.');}
-const oldRest12=roomRest11;
-roomRest11=function(){
-  if(world12().phase!=='Noite'){
-    setPhase12('Noite');
-    roomPanel11()
-  }
-  else{
-    nextDay12();
-    roomPanel11()
-  }
-  
+const norm12 = normalize;
+normalize = function (save) {
+    norm12(save);
+    world12(save);
+    return save;
 };
 
-const oldDate12=canDate10;
-canDate10=function(id){
-  let c=city10[id];
-  return !!(c?.who&&world12().phase===c.time&&when12(c.who)===id&&oldDate12(id))
+function date12(day = roomData11().day) {
+    return new Date(epoch12 + (day - 1) * dayMs12);
+}
+
+function season12(day = roomData11().day) {
+    const month = date12(day).getUTCMonth();
+    if (month >= 2 && month <= 4) return 'Primavera';
+    if (month >= 5 && month <= 7) return 'Verão';
+    if (month >= 8 && month <= 10) return 'Outono';
+    return 'Inverno';
+}
+
+function weather12(day = roomData11().day) {
+    const season = season12(day);
+    const pattern = (day * 17 + Math.floor(day / 7) * 11) % 10;
+
+    switch (season) {
+        case 'Inverno':
+            if (pattern < 4) return 'Neve';
+            return pattern < 7 ? 'Nublado' : 'Céu limpo';
+        case 'Outono':
+            if (pattern < 4) return 'Chuva';
+            return pattern < 8 ? 'Nublado' : 'Céu limpo';
+        case 'Verão':
+            if (pattern < 2) return 'Chuva';
+            return pattern < 4 ? 'Nublado' : 'Céu limpo';
+        default:
+            if (pattern < 4) return 'Chuva';
+            return pattern < 6 ? 'Nublado' : 'Céu limpo';
+    }
+}
+
+function when12(id, day = roomData11().day, phase = world12().phase) {
+    const phaseIndex = phases12.indexOf(phase);
+    const characterIndex = people12.indexOf(id);
+    const hasOtherPlans = (day + characterIndex * 2) % 7 === 0;
+    const schedule = hasOtherPlans ? away12[id] : schedule12[id];
+    return schedule[phaseIndex];
+}
+
+function place12(location) {
+    return city10[location]?.name || location;
+}
+
+function status12(day = roomData11().day) {
+    const date = date12(day);
+    const weekday = weekdays12[date.getUTCDay()];
+    return `${weekday}, ${datesFmt12.format(date)} · ${season12(day)} · ${weather12(day)}`;
+}
+
+function setPhase12(phase) {
+    if (!phases12.includes(phase)) return;
+    world12().phase = phase;
+    cityData10().time = phase === 'Noite' ? 'Noite' : 'Tarde';
+    roomData11().time = phase === 'Noite' ? 'night' : 'morning';
+    persist();
+}
+
+function nextDay12() {
+    roomData11().day++;
+    setPhase12('Manhã');
+    render();
+    toast('Novo dia em Bellmont.');
+}
+
+roomRest11 = function () {
+    if (world12().phase === 'Noite') {
+        nextDay12();
+    } else {
+        setPhase12('Noite');
+    }
+    roomPanel11();
 };
 
-const oldGroup12=canGroup10;canGroup10=function(id){return world12().phase===city10[groups10[id]?.loc]?.time&&oldGroup12(id)};
+const oldDate12 = canDate10;
+canDate10 = function (id) {
+    const location = city10[id];
+    return !!(
+        location?.who &&
+        world12().phase === location.time &&
+        when12(location.who) === id &&
+        oldDate12(id)
+    );
+};
+
+const oldGroup12 = canGroup10;
+canGroup10 = function (id) {
+    const location = city10[groups10[id]?.loc];
+    return world12().phase === location?.time && oldGroup12(id);
+};
 
 // memoria-emocional | v0.14
 const personality12={
