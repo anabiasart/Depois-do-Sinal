@@ -5540,7 +5540,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.1</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.2</small>
         </div>
     </section>`;
 };
@@ -5758,6 +5758,18 @@ function renderEntrelinhasIdentity(app) {
         frame.className = 'entre-film';
         scene.before(frame);
         frame.append(scene, dialog);
+        const choices = dialog.querySelector('.choices');
+        if (choices) {
+            frame.classList.add('entre-has-choices');
+            const options = document.createElement('section');
+            options.className = 'entre-options';
+            options.setAttribute('aria-label', 'Suas escolhas');
+            const label = document.createElement('span');
+            label.className = 'entre-options-label';
+            label.textContent = 'O que você responde?';
+            options.append(label, choices);
+            frame.append(options);
+        }
     }
 
     const rail = app.querySelector('.rail12');

@@ -142,6 +142,18 @@ function renderEntrelinhasIdentity(app) {
         frame.className = 'entre-film';
         scene.before(frame);
         frame.append(scene, dialog);
+        const choices = dialog.querySelector('.choices');
+        if (choices) {
+            frame.classList.add('entre-has-choices');
+            const options = document.createElement('section');
+            options.className = 'entre-options';
+            options.setAttribute('aria-label', 'Suas escolhas');
+            const label = document.createElement('span');
+            label.className = 'entre-options-label';
+            label.textContent = 'O que você responde?';
+            options.append(label, choices);
+            frame.append(options);
+        }
     }
 
     const rail = app.querySelector('.rail12');
