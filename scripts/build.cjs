@@ -5,8 +5,19 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const ordem = JSON.parse(read('src/ordem.json'));
+// Temporary bridge: social modules also run inside the classic offline bundle.
+function readSource(file) {
+    const source = read(file);
+    if (!file.endsWith('.mjs')) return source;
+    if (!['src/js/mundo/social/events.mjs', 'src/js/mundo/social/social-state.mjs'].includes(file)) {
+        throw new Error('Unsupported classic module: ' + file);
+    }
+    return source
+        .replace(/^import \{ socialEvents \} from ['"]\.\/events\.mjs['"];?\r?\n\r?\n/, '')
+        .replace(/^export (?=(?:const|function) )/gm, '');
+}
 function reunir(lista) {
-  return lista.map((p) => read(p).trimEnd()).join('\n\n') + '\n';
+    return lista.map(file => readSource(file).trimEnd()).join('\n\n') + '\n';
 }
 const js = '// GERADO: edite src/js e execute npm run build.\n' + reunir(ordem.javascript);
 const css = '/* GERADO: edite src/css e execute npm run build. */\n' + reunir(ordem.css);

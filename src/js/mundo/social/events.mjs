@@ -1,4 +1,4 @@
-const socialEvents = [
+export const socialEvents = [
     {
         id: 'rehearsal',
         pair:['dante','soren'],

@@ -1,11 +1,13 @@
+import { socialEvents } from './events.mjs';
+
 // Social rules do not depend on the DOM or browser storage.
-const schoolReputationTraits = ['cooperação', 'criatividade', 'autonomia'];
+export const schoolReputationTraits = ['cooperação', 'criatividade', 'autonomia'];
 
 function isSocialRecord(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function getSocialState(save) {
+export function getSocialState(save) {
     // Keep the original save key so older progress is not lost.
     if (!isSocialRecord(save.living16)) save.living16 = {};
     const social = save.living16;
@@ -18,7 +20,7 @@ function getSocialState(save) {
     return social;
 }
 
-function getDailySocialEvent(day, phase) {
+export function getDailySocialEvent(day, phase) {
     if (!Number.isSafeInteger(day) || day < 1 || phase !== 'Tarde') return null;
     return socialEvents[(day - 1) % socialEvents.length];
 }
@@ -31,7 +33,7 @@ function limitSocialBond(value) {
     return Math.max(-20, Math.min(20, value));
 }
 
-function getSocialBond(day, pair, social) {
+export function getSocialBond(day, pair, social) {
     const key = socialPairKey(pair);
     let baseline = 0;
     for (let offset = 0; offset < 7; offset++) {
@@ -41,7 +43,7 @@ function getSocialBond(day, pair, social) {
     return limitSocialBond(baseline + (Number.isFinite(adjustment) ? adjustment : 0));
 }
 
-function getSocialMood(id, day, social, cast) {
+export function getSocialMood(id, day, social, cast) {
     const influence = socialEvents
         .filter(event => event.pair.includes(id))
         .reduce((sum, event) => sum + getSocialBond(day, event.pair, social), 0);
@@ -55,11 +57,11 @@ function getSocialMood(id, day, social, cast) {
     return moods[((index % moods.length) + moods.length) % moods.length];
 }
 
-function hasResolvedSocialEvent(social, day) {
+export function hasResolvedSocialEvent(social, day) {
     return Object.prototype.hasOwnProperty.call(social.resolved, String(day));
 }
 
-function resolveSocialEvent(social, day, phase, choice, knowsCharacter) {
+export function resolveSocialEvent(social, day, phase, choice, knowsCharacter) {
     const event = getDailySocialEvent(day, phase);
     if (!event || ![0, 1, 2].includes(choice)) return false;
     if (!event.pair.every(knowsCharacter) || hasResolvedSocialEvent(social, day)) return false;

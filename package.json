@@ -9,10 +9,16 @@
         "artes": "node scripts/artes.cjs",
         "test": "node --test tests/unit/*.test.cjs",
         "test:e2e": "python tests/e2e/test_game.py",
-        "format": "npx --yes prettier@3.6.2 --write \"src/**/*.{js,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json && npm run build",
-        "format:check": "npx --yes prettier@3.6.2 --check \"src/**/*.{js,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json"
+        "format": "npx --yes prettier@3.6.2 --write \"src/**/*.{js,mjs,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json vite.config.mjs && npm run build",
+        "format:check": "npx --yes prettier@3.6.2 --check \"src/**/*.{js,mjs,css,json}\" \"scripts/**/*.cjs\" \"tests/**/*.cjs\" index.html package.json vite.config.mjs",
+        "dev": "npm run build && vite",
+        "build:web": "npm run build && vite build",
+        "preview": "vite preview"
     },
     "engines": {
         "node": ">=18"
+    },
+    "devDependencies": {
+        "vite": "^6.0.0"
     }
 }
