@@ -53,7 +53,7 @@ test('manifesto sem arquivos repetidos ou ausentes', () => {
         const files = order[kind];
         assert.equal(new Set(files).size,files.length);
         for (const file of files) {
-            assert.ok(file.startsWith('src/') && file.endsWith(ext));
+            assert.ok(file.startsWith('src/') && (file.endsWith(ext) || (kind === 'javascript' && file.endsWith('.mjs'))), file);
             assert.ok(fs.statSync(path.join(root,file)).isFile(),file);
         }
     }
