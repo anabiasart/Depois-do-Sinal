@@ -25,7 +25,7 @@ cover = function () {
             <div class="bell-cover-bg">${bg('gate')}</div>
             <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
         </div>
-        <div class="entre-cover-index"><span>01 / BELLMONT</span><span>UMA HISTÓRIA INTERATIVA</span></div><div class="bell-cover-copy">
+        <div class="bell-cover-copy">
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
             <h1 class="bell-title">${bellmontTitle43()}</h1>
             <div class="bell-ornament" aria-hidden="true">✦</div>

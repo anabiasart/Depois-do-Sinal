@@ -273,3 +273,51 @@
     .entre-icon-rail button { width:32px; height:32px; }
     .entre-immersive .entre-stage-frame .dialog p { font-size:15px; }
 }
+
+/* Navigation must not inherit the width of the tiny summary grid cell. */
+.entre-immersive .entre-stage-frame,
+.entre-immersive .entre-stage-frame > .dialog,
+.entre-immersive .entre-stage-frame > .choices { min-width:0; box-sizing:border-box; }
+.shell12.bell-editorial.entre-immersive .entre-full-menu[open] > .nav {
+    position:absolute; display:flex !important; flex-direction:column;
+    align-items:stretch; justify-content:flex-start; flex-wrap:nowrap;
+    box-sizing:border-box; width:min(280px,calc(100vw - 24px));
+    min-width:0; max-width:none; overflow-x:hidden; overflow-y:auto;
+    gap:8px; padding:12px;
+}
+.entre-full-menu .nav .bell-nav-group,
+.entre-full-menu .nav .bell-nav-more {
+    display:flex; flex-direction:column; align-items:stretch;
+    flex-wrap:nowrap; width:100%; min-width:0; gap:3px;
+}
+.entre-full-menu .nav button {
+    display:flex; flex:0 0 auto; width:100%; min-width:0;
+    max-width:100%; white-space:normal; overflow-wrap:anywhere;
+    box-sizing:border-box; text-align:left; justify-content:flex-start;
+}
+.entre-full-menu .nav button span { min-width:0; }
+.entre-icon-rail button em {
+    position:absolute; top:1px; right:1px; min-width:15px;
+    padding:2px 3px; border-radius:10px; font:10px/1 system-ui;
+    background:#844c66; color:white;
+}
+.bell-cover .entre-cover-index { display:none; }
+.bell-cover .entre-cover-edition { font:11px/1.5 system-ui,sans-serif; letter-spacing:.13em; margin:14px 0; }
+@media (max-width:767px) {
+    .shell12.bell-editorial.entre-immersive .entre-full-menu[open] > .nav {
+        position:fixed; left:12px; right:12px; bottom:64px; width:auto;
+        max-height:min(65dvh,520px); z-index:40;
+        box-shadow:0 8px 32px #0007;
+    }
+    .entre-immersive .entre-stage-frame { grid-template-columns:minmax(0,1fr) 56px; }
+    .entre-immersive .entre-stage-frame > .dialog { min-width:0; }
+    .entre-icon-rail { min-width:0; }
+    .entre-icon-rail button { flex:0 0 40px; }
+    .bell-cover { min-height:100dvh; overflow:visible; }
+    .bell-cover .bell-cover-visual { flex:0 0 clamp(180px,48vw,280px); }
+    .bell-cover .bell-cover-copy { box-sizing:border-box; width:100%; padding:16px 20px 24px; }
+    .bell-cover .bell-title { font-size:clamp(40px,12vw,60px); }
+    .bell-cover .bell-cover-actions { gap:8px; }
+    .bell-cover .bell-cover-actions button { min-height:44px; }
+    .bell-cover .bell-version { margin-top:16px; line-height:1.5; }
+}

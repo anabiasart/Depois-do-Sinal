@@ -101,6 +101,20 @@ class Bellmont(unittest.TestCase):
             self.action("next").scroll_into_view_if_needed()
             expect(self.action("next")).to_be_in_viewport()
 
+    def test_mobile_menu_width(self):
+        self.page.set_viewport_size({"width": 320, "height": 568})
+        self.new_game()
+        self.page.locator(".entre-full-menu summary").click()
+        nav = self.page.locator(".entre-full-menu > .nav")
+        expect(nav).to_be_visible()
+        bounds = nav.bounding_box()
+        self.assertGreaterEqual(bounds["width"], 240)
+        self.assertGreaterEqual(bounds["x"], 0)
+        self.assertLessEqual(bounds["x"] + bounds["width"], 321)
+        self.assertTrue(nav.evaluate("(el) => el.scrollWidth <= el.clientWidth + 1"))
+        self.action("wardrobe").click()
+        expect(self.page.locator("#modal .panel")).to_be_visible()
+
     def test_legacy_import(self):
         self.action("import14").click()
         self.page.locator("#import4").set_input_files(
