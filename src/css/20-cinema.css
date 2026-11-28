@@ -142,7 +142,7 @@
     min-height: 36px;
     padding: 7px 20px;
 }
-@media (min-width: 1001px) and (min-height: 560px) {
+@media (min-width: 768px) and (min-height: 480px) {
     .shell12.bell-editorial.entre-immersive {
         position: relative;
         display: block;
@@ -288,7 +288,7 @@
         box-shadow: 0 8px 30px #24162266;
     }
 }
-@media (max-width:1000px), (max-height:559px) {
+@media (max-width:767px), (max-height:479px) {
     .entre-immersive .entre-stage-frame { display: grid; gap: 8px; }
     .entre-immersive .entre-stage-frame > .dialog { position: relative; }
     .entre-immersive .entre-stage-frame > .choices .choice { border-radius: 12px; }
@@ -297,7 +297,7 @@
 }
 
 /* Minimal romantic HUD: secondary details remain in the full menu. */
-@media (min-width:1001px) and (min-height:560px) {
+@media (min-width:768px) and (min-height:480px) {
     .entre-immersive .entre-stage-frame .scene .loc,
     .entre-immersive .entre-stage-frame .scene .timechip { display:none; }
     .entre-immersive .episode { top: 12%; right: 3%; left: auto; }
@@ -351,11 +351,78 @@
     min-height: 24px;
     padding: 3px 10px;
 }
-@media (min-width:1001px) and (max-height:720px) {
+@media (min-width:768px) and (max-height:720px) {
     .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog {
         bottom: 3%;
         padding: 10px 22px;
     }
     .entre-immersive .entre-stage-frame .speaker { font-size: 17px; }
     .entre-immersive .entre-stage-frame .dialog p { font-size: 16px; }
+}
+
+/* Keep the immersive shell consistent even when browser zoom changes CSS pixels. */
+.shell12.bell-editorial.entre-immersive .rail12 { display: none; }
+.entre-immersive .entre-full-menu .nav button {
+    display: flex; align-items: center; gap: 8px; width: 100%;
+    text-align: left; padding: 8px 10px; border-radius: 6px;
+}
+.entre-immersive .entre-full-menu .nav .bell-nav-icon {
+    width: 20px; height: 20px; flex: 0 0 20px;
+}
+.entre-immersive .entre-full-menu .nav .bell-nav-more summary { color: #ffe5d4; }
+.entre-immersive .entre-full-menu .nav button:hover { background: #73445e; }
+@media (min-width:768px) and (min-height:480px) {
+    .shell12.bell-editorial.entre-immersive .layout,
+    .shell12.bell-editorial.entre-immersive.story-focus .layout {
+        display: block !important;
+        grid-template-columns: none !important;
+    }
+    .shell12.bell-editorial.entre-immersive > .top {
+        display:flex !important; flex-wrap:nowrap; gap:8px;
+        padding: 8px 16px;
+    }
+    .entre-immersive .topStatus12 { flex-wrap:nowrap; min-width:0; }
+    .entre-immersive .top .dateBadge12 { font-size:12px; padding:6px 12px; }
+    .entre-immersive .top .dateBadge12 small { font-size:11px; }
+    .entre-immersive .top .coins12 { white-space:nowrap; padding:6px 12px; }
+    .entre-immersive .episode .story-toggle { min-height:28px; padding:4px 9px; }
+    .entre-immersive .entre-stage-frame > .choices { gap:6px; }
+    .entre-immersive .entre-stage-frame > .choices .choice {
+        min-height:38px; padding:8px 14px;
+    }
+}
+@media (min-width:768px) and (max-width:1100px) and (min-height:480px) {
+    .entre-immersive .top .brand { font-size:22px; }
+    .entre-immersive .top .sub { font-size:9px; }
+    .entre-immersive .entre-stage-frame > .choices { width:43%; right:3%; top:22%; bottom:39%; }
+    .entre-icon-rail { left:1%; padding:4px; }
+    .entre-icon-rail button { width:36px; height:36px; }
+    .entre-icon-rail button svg { width:20px; height:20px; }
+    .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog { left:5%; right:3%; }
+}
+@media (max-width:767px), (max-height:479px) {
+    .shell12.bell-editorial.entre-immersive {
+        min-height:100dvh; height:auto; background:#302631; color:#fff6ef;
+    }
+    .shell12.bell-editorial.entre-immersive .layout,
+    .shell12.bell-editorial.entre-immersive.story-focus .layout {
+        display:block !important; width:100%; min-width:0;
+    }
+    .shell12.bell-editorial.entre-immersive .main { width:100%; padding:8px; background:transparent; }
+    .shell12.bell-editorial.entre-immersive > .top {
+        display:flex !important; flex-wrap:wrap; padding:8px 12px;
+        background:#392b35; color:#fff6ef;
+    }
+    .entre-immersive .top .brand { font-size:22px; color:#fff6ef; }
+    .entre-immersive .episode { color:#fff6ef; }
+    .entre-immersive .entre-stage-frame { display:flex; flex-direction:column; gap:8px; }
+    .shell12.bell-editorial.entre-immersive .entre-stage-frame > .scene {
+        height:clamp(200px,42dvh,400px); width:100%; border-radius:12px;
+    }
+    .entre-immersive .entre-stage-frame > .dialog { order:1; padding:12px 16px; border-radius:12px; }
+    .entre-immersive .entre-stage-frame > .choices { order:2; }
+    .entre-icon-rail { order:3; align-self:center; }
+    .entre-full-menu { order:4; align-self:center; }
+    .entre-full-menu[open] > .nav { width:min(280px,85vw); }
+    .entre-immersive .foot { color:#e9b6ac; }
 }
