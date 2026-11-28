@@ -5799,7 +5799,12 @@ function renderEntrelinhasIdentity(app) {
     const tools = document.createElement('div');
     tools.className = 'entre-dialog-tools';
     tools.innerHTML = '<button data-act="saves">▣ Salvar</button><button data-act="history12">◷ Histórico de escolhas</button>';
-    dialog.append(tools);
+    const controls = document.createElement('div');
+    controls.className = 'entre-dialog-controls';
+    const next = dialog.querySelector('.nextrow');
+    if (next) controls.append(next);
+    controls.append(tools);
+    dialog.append(controls);
 }
 
 document.addEventListener('click', event => {
