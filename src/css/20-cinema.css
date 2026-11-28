@@ -169,3 +169,84 @@
     .shell12.entre-cinema .entre-film > .dialog { padding: 14px 16px; }
     .shell12.bell-editorial.entre-cinema .top { padding: 8px 12px; }
 }
+
+/* Desktop workspace: a stable stage, readable dialogue and persistent navigation. */
+@media (min-width: 1001px) {
+    .shell12.bell-editorial.entre-cinema {
+        height: 100dvh; min-height: 0; overflow: hidden;
+        display: grid; grid-template-rows: auto minmax(0,1fr);
+        background: #f4ecec;
+    }
+    .shell12.bell-editorial.entre-cinema > .top {
+        display: flex !important; flex-wrap: nowrap; min-width: 0;
+        padding: 8px 22px; min-height: 56px;
+    }
+    .entre-cinema .topStatus12 { min-width: 0; flex-wrap: wrap; justify-content: flex-end; }
+    .entre-cinema .topStatus12 .dateBadge12 { max-width: 100%; }
+    .shell12.bell-editorial.entre-cinema .layout,
+    .shell12.bell-editorial.entre-cinema.story-focus .layout {
+        width: 100%; max-width: 1680px; min-height: 0; height: 100%;
+        grid-template-columns: minmax(0,1fr) 230px !important;
+        grid-template-rows: minmax(0,1fr) auto; overflow: hidden;
+    }
+    .shell12.bell-editorial.entre-cinema.story-focus .layout {
+        grid-template-columns: minmax(0,1fr) !important;
+    }
+    .shell12.bell-editorial.entre-cinema .main {
+        min-height: 0; overflow: auto; display: flex; flex-direction: column;
+        gap: 8px; padding: 12px clamp(18px,3vw,48px);
+    }
+    .entre-cinema .episode { flex: 0 0 auto; margin: 0; min-height: 30px; }
+    .entre-cinema .episode .story-toggle { padding: 6px 12px; min-height: 32px; }
+    .entre-cinema .foot { display: none; }
+    .shell12.bell-editorial.entre-cinema .side { min-height: 0; max-height: 100%; overflow: auto; }
+    .shell12.bell-editorial.entre-cinema .rail12 {
+        grid-row: 2; min-height: 58px; z-index: 25;
+        padding: 6px clamp(18px,3vw,48px); overflow: visible;
+    }
+    .entre-cinema .entre-film,
+    .entre-cinema .entre-film.entre-has-choices {
+        flex: 1 0 auto; width: 100%; min-height: 0;
+        grid-template-columns: minmax(0,1fr) minmax(280px,34%);
+        grid-template-rows: minmax(230px,1fr) auto;
+        align-content: stretch; overflow: hidden;
+    }
+    .shell12.entre-cinema .entre-film > .scene {
+        grid-area: 1 / 1 / 3 / 2; height: 100%; min-height: 360px;
+        background: #e8dce4;
+    }
+    .shell12.entre-cinema .entre-film > .dialog,
+    .shell12.entre-cinema .entre-film.entre-has-choices > .dialog {
+        grid-area: 1 / 2; align-self: end;
+        padding: clamp(18px,2vw,32px); border-left: 1px solid #e4cfd7;
+        background: #fffaf6; overflow-wrap: anywhere;
+    }
+    .entre-cinema .entre-film:not(.entre-has-choices) > .dialog {
+        grid-row: 1 / 3; align-self: stretch; display: flex;
+        flex-direction: column; justify-content: center;
+    }
+    .entre-cinema .entre-film .dialog p {
+        font-size: clamp(16px,1.25vw,20px); line-height: 1.65;
+        max-width: 42ch;
+    }
+    .entre-film.entre-has-choices > .entre-options {
+        grid-area: 2 / 2; justify-content: flex-start;
+        padding: 8px clamp(18px,2vw,32px) 26px;
+        background: #fffaf6; border-top: 0;
+    }
+    .entre-options-label { font-size: 16px; }
+    .entre-cinema .entre-options .choice { min-height: 46px; background: #f6e9ef; }
+    .entre-cinema .entre-film .scene .sprite,
+    .entre-cinema .entre-film .scene .sprite:has(.anime-sprite),
+    .entre-cinema .entre-film .scene .sprite.protagonist:has(.anime-sprite) {
+        height: 92%; bottom: 0; max-width: 96%; filter: drop-shadow(0 6px 12px #35263833);
+    }
+    .entre-cinema .entre-film .scene > svg.bg,
+    .entre-cinema .entre-film .scene > .bg { width: 100%; height: 100%; }
+}
+@media (min-width: 1001px) and (max-height: 760px) {
+    .shell12.entre-cinema .entre-film > .scene { min-height: 300px; }
+    .entre-cinema .entre-film,.entre-cinema .entre-film.entre-has-choices { grid-template-rows: minmax(150px,1fr) auto; }
+    .shell12.entre-cinema .entre-film > .dialog { padding: 14px 20px; }
+    .entre-film.entre-has-choices > .entre-options { padding: 6px 20px 16px; gap: 8px; }
+}
