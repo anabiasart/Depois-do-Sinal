@@ -128,11 +128,54 @@ function showEntrelinhas(sceneId = null) {
 
 function renderEntrelinhasIdentity(app) {
     if (!app || !state) return;
-    app.classList.add('entrelinhas-edition');
+    app.classList.add('entrelinhas-edition', 'entre-cinema');
     app.dataset.entrePhase = world12().phase;
-    const nav = app.querySelector('.bell-nav-group');
-    if (nav && !nav.querySelector('[data-act="entreArchive"]')) {
-        nav.insertAdjacentHTML('beforeend', '<button data-act="entreArchive"><span aria-hidden="true">◇</span><span>Entrelinhas</span></button>');
+
+    const main = app.querySelector('.main');
+    const scene = main?.querySelector(':scope > .scene');
+    const dialog = main?.querySelector(':scope > .dialog');
+    app.classList.toggle('entre-in-scene', Boolean(scene && dialog));
+
+    // Move existing elements rather than clone them: typing and click handlers keep working.
+    if (scene && dialog) {
+        const frame = document.createElement('section');
+        frame.className = 'entre-film';
+        scene.before(frame);
+        frame.append(scene, dialog);
+    }
+
+    const rail = app.querySelector('.rail12');
+    const nav = rail?.querySelector('.nav');
+    const group = nav?.querySelector('.bell-nav-group');
+    if (group && !group.querySelector('[data-act="entreArchive"]')) {
+        group.insertAdjacentHTML('beforeend', '<button data-act="entreArchive"><span aria-hidden="true">◇</span><span>Arquivo</span></button>');
+    }
+    if (rail && nav) {
+        rail.querySelector('.bell-rail-brand')?.remove();
+        const tools = document.createElement('details');
+        tools.className = 'entre-toolbox';
+        tools.innerHTML = '<summary>Menu de Bellmont <span aria-hidden="true">＋</span></summary>';
+        tools.append(nav);
+        rail.append(tools);
+
+        const dock = document.createElement('nav');
+        dock.className = 'entre-dock';
+        dock.setAttribute('aria-label', 'Acesso rápido');
+        for (const [act, label, symbol] of [
+            ['calendar12','Agenda','◷'], ['phone','BellPhone','▣'],
+            ['journal','Diário','✎'], ['city10','Cidade','⌖'], ['entreArchive','Arquivo','◇']
+        ]) {
+            const original = nav.querySelector('[data-act="' + act + '"]');
+            if (!original) continue;
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.dataset.act = act;
+            button.innerHTML = '<span aria-hidden="true">' + symbol + '</span><span>' + label + '</span>';
+            const badge = original.querySelector('em');
+            if (badge) button.append(badge.cloneNode(true));
+            dock.append(button);
+        }
+        rail.prepend(dock);
     }
 }
 

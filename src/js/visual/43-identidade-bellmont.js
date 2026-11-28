@@ -20,16 +20,16 @@ function coverPortrait43(id, mood) {
 cover = function () {
     const cast = ['dante','soren','theo','ezra','valentim'];
     const moods = ['neutral','neutral','smile','shy','smile'];
-    return `<section class="bell-cover">
+    return `<section class="bell-cover entre-premiere">
         <div class="bell-cover-visual" aria-hidden="true">
             <div class="bell-cover-bg">${bg('gate')}</div>
             <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
         </div>
-        <div class="bell-cover-copy">
+        <div class="entre-cover-index"><span>01 / BELLMONT</span><span>UMA HISTÓRIA INTERATIVA</span></div><div class="bell-cover-copy">
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
             <h1 class="bell-title">${bellmontTitle43()}</h1>
             <div class="bell-ornament" aria-hidden="true">✦</div>
-            <p class="bell-cover-line">Algumas histórias começam<br>quando a aula termina.<br><small>Entrelinhas</small></p>
+            <p class="bell-cover-line">Há coisas que só descobrimos<br>quando o colégio fica em silêncio.</p><div class="entre-cover-edition">ENTRELINHAS <span> / </span> TEMPORADA 01</div>
             <nav class="bell-cover-actions" aria-label="Menu inicial">
                 <button class="primary" data-act="new">Novo jogo ♡</button>
                 <button class="soft" data-act="continue" ${saved?'':'disabled'}>Continuar</button>
@@ -37,7 +37,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.1</small>
         </div>
     </section>`;
 };
