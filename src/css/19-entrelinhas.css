@@ -1,45 +1,13 @@
-/* Entrelinhas: a quieter cinematic treatment, using the existing artwork. */
-:root {
-    --entre-night: #202636;
-    --entre-lavender: #716482;
-    --entre-rose: #c28b9b;
-    --entre-paper: #e9dcca;
-    --entre-gold: #c4a16c;
-}
-.bell-cover { background: #272536; color: var(--entre-paper); }
-.bell-cover-copy { background: linear-gradient(90deg,#272536 76%,transparent); }
-.bell-cover-visual::after { background: linear-gradient(90deg,#272536,#27253670 20%,transparent 60%),linear-gradient(0deg,#20263699,transparent 55%); }
-.bell-cover-actions button { color: var(--entre-paper); border-color: #a28da9; background: #393346b0; }
-.bell-cover-actions .primary { color: #fff7ee; background: linear-gradient(120deg,#826482,#594660); }
-.shell12.bell-editorial.entrelinhas-edition .rail12 { background: linear-gradient(155deg,#202636,#393045); }
-.shell12.bell-editorial.entrelinhas-edition .top { background: #202636; }
-.shell12.bell-editorial.entrelinhas-edition .main { background: radial-gradient(ellipse at 100% 0,#e3d5e4,transparent 56%),#f6efe8; }
-.entrelinhas-edition .main .dialog { background: #292735; color: #f3e9df; border: 1px solid #82718b; border-radius: 14px; box-shadow: 0 12px 28px #20263630; }
-.entrelinhas-edition .main .dialog .speaker { color: #e4afc3; }
-.entrelinhas-edition .main .dialog p { color: #f3e9df; font-size: clamp(15px,1.5vw,19px); line-height: 1.65; }
-.entrelinhas-edition .main .dialog .choice,
-.entre-panel .choice { color: #f4e8df; background: #383446; border: 1px solid #80718b; }
-.entrelinhas-edition .main .dialog .choice:hover,
-.entre-panel .choice:hover { background: #5c4865; color: white; }
-.entrelinhas-edition .main .scene { isolation: isolate; border-radius: 14px; overflow: hidden; }
-.entrelinhas-edition .main .scene::after,
-.entre-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg,#20263630,transparent 40%); z-index: 2; }
-.entrelinhas-edition[data-entre-phase="Noite"] .main .scene::after { background: linear-gradient(0deg,#24203965,#5446651a); }
-.entre-modal { background: #292735; color: #f3e9df; }
-.entre-modal .panelhead { background: #202636; color: #f3e9df; }
-.entre-modal .panelhead h2,.entre-modal .panelhead button { color: #f3e9df; }
-.entre-panel { display: grid; gap: 16px; }
-.entre-header { padding: 22px; background: linear-gradient(130deg,#202636,#51465e); border: 1px solid #716482; border-radius: 12px; }
-.entre-header small,.entre-talk small,.entre-clue small { color: #e2b9c9; letter-spacing: .12em; font-size: 11px; }
-.entre-header h3 { color: #f5e9df; font: 400 clamp(24px,4vw,36px)/1.2 Georgia,serif; margin: 12px 0; }
-.entre-stage { position: relative; min-height: 230px; overflow: hidden; border-radius: 12px; }
-.entre-bg,.entre-bg > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.entre-talk { display: grid; gap: 12px; padding: 18px; background: #302d3e; border: 1px solid #716482; border-radius: 12px; }
-.entre-talk p,.entre-clue p,.entre-note { color: #f2e7de; line-height: 1.55; }
-.entre-panel .entre-recall { color: #e0becb; font-style: italic; }
-.entre-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
-.entre-clue { padding: 14px; background: #343043; border: 1px solid #716482; border-radius: 10px; }
-.entre-clue h3 { color: #e9dcca; }
-.entre-panel > .soft { color: #f3e9df; border-color: #a28da9; background: #393346; }
-@media(max-width:560px) { .entre-grid { grid-template-columns: 1fr; } .entre-stage { min-height: 190px; } }
-@media(prefers-reduced-motion:reduce) { .entrelinhas-edition .scene,.entre-panel .choice { animation: none; transition: none; } }
+/* Investigation panels use the same light palette as Bloom. */
+.entre-modal { background:#f3edf8; color:#40364d; }
+.entre-modal .panelhead { background:#e8dff2; color:#40364d; }
+.entre-modal .panelhead h2,.entre-modal .panelhead button { color:#40364d; }
+.entre-panel { display:grid; gap:14px; }
+.entre-header,.entre-talk,.entre-clue { padding:16px; background:#faf7fc; color:#40364d; border:1px solid #dbcee8; border-radius:14px; }
+.entre-header h3 { font-size:24px; font-weight:500; margin:8px 0; }
+.entre-header small,.entre-talk small,.entre-clue small { color:#735c91; font-size:12px; }
+.entre-stage { position:relative; min-height:230px; overflow:hidden; border-radius:14px; }
+.entre-bg,.entre-bg > svg { position:absolute; inset:0; width:100%; height:100%; }
+.entre-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.entre-panel .choice { background:#ede4f5; color:#40364d; border:1px solid #d2bfe5; }
+@media(max-width:560px) { .entre-grid { grid-template-columns:1fr; } }

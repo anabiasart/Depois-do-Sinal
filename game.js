@@ -5523,7 +5523,7 @@ function coverPortrait43(id, mood) {
 cover = function () {
     const cast = ['dante','soren','theo','ezra','valentim'];
     const moods = ['neutral','neutral','smile','shy','smile'];
-    return `<section class="bell-cover">
+    return `<section class="bell-cover bloom-cover">
         <div class="bell-cover-visual" aria-hidden="true">
             <div class="bell-cover-bg">${bg('gate')}</div>
             <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
@@ -5532,7 +5532,7 @@ cover = function () {
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
             <h1 class="bell-title">${bellmontTitle43()}</h1>
             <div class="bell-ornament" aria-hidden="true">✦</div>
-            <p class="bell-cover-line">Há coisas que só descobrimos<br>quando o colégio fica em silêncio.</p><div class="entre-cover-edition">ENTRELINHAS <span> / </span> TEMPORADA 01</div>
+            <p class="bell-cover-line">Há coisas que só descobrimos<br>quando o colégio fica em silêncio.</p><div class="entre-cover-edition">BLOOM <span> / </span> TEMPORADA 01</div>
             <nav class="bell-cover-actions" aria-label="Menu inicial">
                 <button class="primary" data-act="new">Novo jogo ♡</button>
                 <button class="soft" data-act="continue" ${saved?'':'disabled'}>Continuar</button>
@@ -5540,7 +5540,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.5</small>
+            <small class="bell-version">TEMPORADA 01 · BLOOM 0.18</small>
         </div>
     </section>`;
 };
@@ -5577,7 +5577,7 @@ function arrangeBellNav43(app) {
     const buttons = [...nav.querySelectorAll('button[data-act]')];
     const byId = new Map(buttons.map(b=>[b.dataset.act,b]));
     rail.querySelector('.railLabel12')?.remove();
-    rail.insertAdjacentHTML('afterbegin',`<div class="bell-rail-brand">${bellmontCrest43()}<small>COLÉGIO BELLMONT</small><div class="bell-title">${bellmontTitle43()}</div><div class="bell-ornament" aria-hidden="true">✦</div></div>`);
+    rail.insertAdjacentHTML('afterbegin',`<div class="bell-rail-brand">${bellmontCrest43()}<small>COLÉGIO BELLMONT</small><div class="bell-title">${bellmontTitle43()}</div><small class="bloom-edition">BLOOM</small></div>`);
     nav.setAttribute('aria-label','Navegação do jogo');
     nav.replaceChildren();
     for (const [name,ids] of bellGroups43) {
@@ -5744,75 +5744,66 @@ function showEntrelinhas(sceneId = null) {
 
 function renderEntrelinhasIdentity(app) {
     if (!app || !state) return;
-    app.classList.add('entrelinhas-edition');
+    app.classList.add('bloom-shell', 'entrelinhas-edition');
     app.dataset.entrePhase = world12().phase;
-
+    const rail = app.querySelector('.rail12');
+    const nav = rail?.querySelector('.nav');
     const main = app.querySelector('.main');
-    const scene = main?.querySelector(':scope > .scene');
-    const dialog = main?.querySelector(':scope > .dialog');
-    const nav = app.querySelector('.rail12 .nav');
-    const group = nav?.querySelector('.bell-nav-group');
-    if (group) {
-        group.insertAdjacentHTML('beforeend', '<button data-act="entreArchive">◇ Arquivo</button>');
-    }
-    if (!scene || !dialog || !nav) return;
+    if (!nav || !main) return;
 
-    app.classList.add('entre-immersive');
-    const frame = document.createElement('section');
-    frame.className = 'entre-stage-frame';
-    scene.before(frame);
-    frame.append(scene, dialog);
-
-    const choices = dialog.querySelector('.choices');
-    if (choices) {
-        frame.classList.add('entre-stage-choices');
-        frame.append(choices);
-        choices.setAttribute('aria-label', 'Suas escolhas');
-    }
+    const group = nav.querySelector('.bell-nav-group');
+    if (group) group.insertAdjacentHTML('beforeend', '<button data-act="entreArchive"><svg class="bell-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v4H4z M5 10h14v11H5z M9 14h6"/></svg><span>Arquivo</span></button>');
+    nav.querySelector('[data-act="sound"]')?.remove();
+    const more = nav.querySelector('.bell-nav-more');
+    if (more) more.open = true;
 
     const quick = document.createElement('nav');
-    quick.className = 'entre-icon-rail';
-    quick.setAttribute('aria-label', 'Acesso rápido');
-    const actions = ['home', 'calendar12', 'phone', 'journal'];
-    for (const act of actions) {
+    quick.className = 'bloom-mobile-nav';
+    quick.setAttribute('aria-label', 'Navegação rápida');
+    for (const act of ['calendar12', 'phone', 'wardrobe', 'journal']) {
         const original = nav.querySelector('[data-act="' + act + '"]');
         if (!original) continue;
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.dataset.act = act;
-        const [label, path] = bellNav43[act] || ['Arquivo', 'M4 6h16v4H4z M5 10h14v11H5z M9 14h6'];
-        button.title = label;
-        button.setAttribute('aria-label', label);
-        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + path + '"/></svg>';
-        const badge = original.querySelector('em');
-        if (badge) button.append(badge.cloneNode(true));
+        const button = original.cloneNode(true);
+        button.title = bellNav43[act][0];
         quick.append(button);
     }
-    frame.append(quick);
+    const menu = document.createElement('button');
+    menu.type = 'button';
+    menu.dataset.act = 'bloomMenu';
+    menu.setAttribute('aria-expanded', 'false');
+    menu.innerHTML = '<svg class="bell-nav-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menu</span>';
+    quick.append(menu);
+    app.append(quick);
 
-    const menu = document.createElement('details');
-    menu.className = 'entre-full-menu';
-    menu.innerHTML = '<summary aria-label="Todas as opções" title="Todas as opções">☰</summary>';
-    const groupMore = nav.querySelector('.bell-nav-more');
-    if (groupMore) groupMore.open = true;
-    menu.append(nav);
-    frame.append(menu);
-
-    const tools = document.createElement('div');
-    tools.className = 'entre-dialog-tools';
-    tools.innerHTML = '<button data-act="saves">▣ Salvar</button><button data-act="history12">◷ Histórico de escolhas</button>';
+    const scene = main.querySelector(':scope > .scene');
+    const dialog = main.querySelector(':scope > .dialog');
+    if (!scene || !dialog) return;
+    const frame = document.createElement('section');
+    frame.className = 'bloom-stage';
+    scene.before(frame);
+    frame.append(scene, dialog);
     const controls = document.createElement('div');
-    controls.className = 'entre-dialog-controls';
+    controls.className = 'bloom-controls';
     const next = dialog.querySelector('.nextrow');
     if (next) controls.append(next);
-    controls.append(tools);
-    tools.insertAdjacentHTML('beforeend', '<button data-act="cast">Elenco</button>');
+    controls.insertAdjacentHTML('beforeend', '<button class="soft" data-act="saves">Salvar</button><button class="soft" data-act="history12">Histórico</button>');
     dialog.append(controls);
 }
 
 document.addEventListener('click', event => {
     const button = event.target.closest('[data-act]');
     if (!button || button.disabled || !state) return;
+    if (button.dataset.act === 'bloomMenu') {
+        const app = document.querySelector('.bloom-shell');
+        const open = app?.classList.toggle('bloom-menu-open');
+        button.setAttribute('aria-expanded', String(Boolean(open)));
+        return;
+    }
+    const app = document.querySelector('.bloom-shell.bloom-menu-open');
+    if (app && button.closest('.rail12')) {
+        app.classList.remove('bloom-menu-open');
+        app.querySelector('[data-act="bloomMenu"]')?.setAttribute('aria-expanded', 'false');
+    }
     if (button.dataset.act === 'entreArchive') showEntrelinhas();
     if (button.dataset.act === 'entreChoice') {
         const day = roomData11().day;

@@ -46,9 +46,9 @@ class Bellmont(unittest.TestCase):
         if id is not None:
             selector += f'[data-id="{id}"]'
         visible = self.page.locator(selector).filter(visible=True)
-        menu = self.page.locator(".entre-full-menu")
-        if not visible.count() and menu.count() and not menu.evaluate("(el) => el.open"):
-            menu.locator("summary").click()
+        menu = self.page.locator('[data-act="bloomMenu"]')
+        if not visible.count() and menu.is_visible():
+            menu.click()
         return self.page.locator(selector).filter(visible=True).first
 
     def new_game(self):
@@ -91,10 +91,14 @@ class Bellmont(unittest.TestCase):
         self.new_game()
         for width, height in [(1920, 1080), (1366, 768), (1024, 768), (768, 1024), (390, 844), (320, 568), (844, 390)]:
             self.page.set_viewport_size({"width": width, "height": height})
-            frame = self.page.locator(".entre-stage-frame")
+            frame = self.page.locator(".bloom-stage")
             expect(frame).to_be_visible()
-            expect(self.page.locator(".rail12")).to_be_hidden()
-            expect(self.page.locator(".entre-icon-rail")).to_be_visible()
+            if width < 768:
+                expect(self.page.locator(".rail12")).to_be_hidden()
+                expect(self.page.locator(".bloom-mobile-nav")).to_be_visible()
+            else:
+                expect(self.page.locator(".rail12")).to_be_visible()
+                expect(self.page.locator(".bloom-mobile-nav")).to_be_hidden()
             self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1)
             dialog = frame.locator(".dialog")
             self.assertEqual(dialog.evaluate("(el) => getComputedStyle(el).overflowY"), "visible")
@@ -104,8 +108,8 @@ class Bellmont(unittest.TestCase):
     def test_mobile_menu_width(self):
         self.page.set_viewport_size({"width": 320, "height": 568})
         self.new_game()
-        self.page.locator(".entre-full-menu summary").click()
-        nav = self.page.locator(".entre-full-menu > .nav")
+        self.page.locator("[data-act="bloomMenu"]").click()
+        nav = self.page.locator(".rail12 .nav")
         expect(nav).to_be_visible()
         bounds = nav.bounding_box()
         self.assertGreaterEqual(bounds["width"], 240)

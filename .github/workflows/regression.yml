@@ -1,7 +1,7 @@
 name: Build e regressão
 on:
   push:
-    branches: [main, feature/v017-entrelinhas]
+    branches: [main, feature/v017-entrelinhas, feature/bloom-edition]
   pull_request:
   workflow_dispatch:
 permissions:
