@@ -109,7 +109,7 @@ function syncSocial13(){if(!state)return false;const d=social13(),day=roomData11
 
  return changed}
 
-const render13=render;render=function(){if(state&&screen==='game'&&syncSocial13())persistMemoryStage();render13()};
+
 let feedFilter13='all',storyOpen13=null,feedLimit13=12,compose13=null;
 function feedPosts13(){
   const d=social13(),

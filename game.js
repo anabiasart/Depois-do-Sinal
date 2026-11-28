@@ -507,7 +507,35 @@ function mapView(){return `<div class="map"><div class="tag">Intervalo • Explo
 
 // episodio-01-motor | v0.14
 function current(){const n=state.node,e=encounters[state.loc],f=finals[state.ending];switch(n){case 'intro0':return dialogue(null,'Meu primeiro dia em Bellmont. Um colégio novo, pessoas novas, e a sensação de que eu vou me perder pelo menos três vezes antes do almoço.');case 'intro1':return dialogue('me','Respira. Hoje é só o começo. Escolhe uma roupa, pega a mochila e tenta não criar inimigos antes da primeira aula.');case 'gate0':return dialogue(null,'Os portões de Bellmont parecem a entrada de um filme. Antes que você consiga encontrar a secretaria, alguém acena para você.');case 'gate1':return dialogue('mabel','Você é a novata! Eu sou Mabel. Tenho duas missões hoje: te mostrar o colégio e descobrir se o café da cantina é realmente comestível.', ['Aceito as duas missões.','Só se você prometer me salvar das fofocas.','Obrigada, acho que consigo me virar.'],'smile');case 'gate2':return dialogue('mabel',state.flags.mabel===0?'Excelente. Finalmente uma pessoa sensata!':state.flags.mabel===1?'Das fofocas? Eu sou a fonte. Mas vou tentar.':'Independente. Gostei! Mas pega meu número mesmo assim. ',null,'smile');case 'gate3':return dialogue('mabel','A aula acabou mais cedo por causa dos preparativos do festival. Você pode conhecer os clubes antes do último sinal. Ah, e cuidado com a Scarlett. Ela leva o festival muito a sério.',null,'smile');case 'map':return mapView();case 'enc0':return dialogue(null,e.intro);case 'enc1':return dialogue(e.who,e.line,e.choices);case 'enc2':return dialogue(e.who,e.choices[state.sceneChoice][3],null,e.choices[state.sceneChoice][1]>0?'smile':'annoyed');case 'enc3':return dialogue(null,e.extra+' Você guardou o objeto como lembrança do primeiro dia.');case 'scarlett':return dialogue('scarlett','Então você é a aluna nova. Mabel já falou de você. O festival está chegando e eu preciso de gente competente. Espero que não seja só mais uma distração.', ['Pode contar comigo.','Isso depende do que você está planejando.','Não prometo nada.']);case 'scarlett2':return dialogue('scarlett',['Ótimo. Vou cobrar essa promessa.','Gostei. Pelo menos você faz perguntas.','Sincera. Espero que seja igualmente responsável.'][state.flags.scarlett],null,'smile');case 'select':return `<div class="map"><div class="tag">Fim de tarde</div><h2>Antes de ir embora...</h2><p>Você tem tempo para mais um encontro. Quem ficou na sua cabeça?</p><div class="places">${state.visited.map(l=>{let id=encounters[l].who;return `<button class="place" data-act="route" data-id="${id}">${bg(l)}<span>${chars[id].name}<small>Afinidade ${state.aff[id]>0?'+':''}${state.aff[id]} • Confiança ${state.trust[id]}</small></span></button>`}).join('')}<button class="place" data-act="route" data-id="solo">${bg('gate')}<span>Ir para casa<small>Escolher meu próprio caminho</small></span></button></div></div>`;case 'final0':return dialogue(state.ending,f.line,f.choices);case 'final1':return dialogue(state.ending,f.choices[state.sceneChoice][3],null,f.choices[state.sceneChoice][1]>0?'shy':'annoyed');case 'solo':return dialogue('me','Não preciso decidir nada hoje. Bellmont ainda é um mistério, e eu tenho muito tempo para descobrir o que quero.');case 'ending':return `<div class="ending"><div class="tag">Episódio 01 concluído</div><h2>${state.ending==='solo'?'Meu próprio caminho':esc(f.title)}</h2><p>${state.ending==='solo'?'O seu primeiro dia foi só o começo.':`Você escolheu passar os últimos minutos do dia com ${chars[state.ending].name}. ${state.aff[state.ending]>=12?'A química entre vocês ficou difícil de ignorar.':'O encontro deixou espaço para novas possibilidades.'}`}</p><p>À noite, uma mensagem de Mabel chega: “Você não vai acreditar no que aconteceu depois que você saiu. Amanhã te conto TUDO.”</p><div class="tag">Continua no episódio 02 • Péssimas primeiras impressões</div><p class="hint">${state.visited.length}/5 encontros • ${state.items.length} lembranças • ${state.gallery.length} cena desbloqueada</p><button class="primary" data-act="episode2">Jogar episódio 02 ›</button> <button class="soft" data-act="gallery">Ver galeria</button> <button class="soft" data-act="home">Menu inicial</button></div>`;default:return mapView()}}
-function render(){let root=document.getElementById('root');if(screen==='cover'){root.innerHTML=cover();return;}root.innerHTML=`<div class="app"><header class="top"><div><div class="brand">Depois do Sinal</div><div class="sub">Colégio Bellmont</div></div><nav class="nav"><button data-act="wardrobe">♙ Guarda-roupa</button><button data-act="phone">▣ Celular${state.messages.length?' ('+state.messages.length+')':''}</button><button data-act="gallery">▧ Galeria</button><button data-act="journal">☷ Diário</button><button data-act="stats">✦ Perfil</button><button data-act="cast">♡ Elenco</button><button data-act="sound">♫ Som</button><button data-act="saves">⇩ Progresso</button><button data-act="home">⌂ Menu</button></nav></header><div class="layout"><main class="main"><div class="episode"><span>${state.episode===3?'EPISÓDIO 03 / ALGUÉM DEIXOU UM BILHETE':state.episode===2?'EPISÓDIO 02 / PÉSSIMAS PRIMEIRAS IMPRESSÕES':'EPISÓDIO 01 / A GAROTA NOVA'}</span><span>${esc(state.name)} • ${state.episode===3?state.visited3.length:state.episode===2?state.visited2.length:state.visited.length}/5 encontros</span></div>${current()}<div class="foot">Bellmont • Protótipo independente • Todas as escolhas ficam salvas automaticamente</div></main>${side()}</div></div>`;}
+function renderBaseScreen(){let root=document.getElementById('root');if(screen==='cover'){root.innerHTML=cover();return;}root.innerHTML=`<div class="app"><header class="top"><div><div class="brand">Depois do Sinal</div><div class="sub">Colégio Bellmont</div></div><nav class="nav"><button data-act="wardrobe">♙ Guarda-roupa</button><button data-act="phone">▣ Celular${state.messages.length?' ('+state.messages.length+')':''}</button><button data-act="gallery">▧ Galeria</button><button data-act="journal">☷ Diário</button><button data-act="stats">✦ Perfil</button><button data-act="cast">♡ Elenco</button><button data-act="sound">♫ Som</button><button data-act="saves">⇩ Progresso</button><button data-act="home">⌂ Menu</button></nav></header><div class="layout"><main class="main"><div class="episode"><span>${state.episode===3?'EPISÓDIO 03 / ALGUÉM DEIXOU UM BILHETE':state.episode===2?'EPISÓDIO 02 / PÉSSIMAS PRIMEIRAS IMPRESSÕES':'EPISÓDIO 01 / A GAROTA NOVA'}</span><span>${esc(state.name)} • ${state.episode===3?state.visited3.length:state.episode===2?state.visited2.length:state.visited.length}/5 encontros</span></div>${current()}<div class="foot">Bellmont • Protótipo independente • Todas as escolhas ficam salvas automaticamente</div></main>${side()}</div></div>`;}
+// The order is intentional: synchronize before drawing, then enhance the new DOM.
+function render() {
+    if (state && screen === 'game' && syncSocial13()) {
+        persistMemoryStage();
+    }
+    finishTyping11();
+
+    let newMessages = false;
+    if (state && screen === 'game') {
+        newMessages = seed90();
+        grant8(state);
+    }
+
+    renderBaseScreen();
+    renderSoundStatus();
+    renderEpisodeFourDetails();
+    renderEpisodeFiveDetails();
+    renderWardrobeBalance();
+    renderPhoneStatus(newMessages);
+    renderRavenInvitation();
+    renderCityNavigation();
+    renderRoomNavigation();
+    renderWorldLayout();
+    renderSaveWarning();
+    renderStoryFocus();
+    renderBellmontIdentity();
+}
+
 function update() {
     if (state) {
         addOutfitComment();
@@ -1309,12 +1337,10 @@ function toggleSound(){
   render()
 }
 
-const v3render=render;
-render=function(){
-  v3render();
-  const b=document.querySelector('[data-act="sound"]');
+function renderSoundStatus() {
+    const b=document.querySelector('[data-act="sound"]');
   if(b)b.textContent=state?.sound?'♫ Som ligado':'♫ Som desligado'
-};
+}
 
 document.addEventListener('click',e=>{let b=e.target.closest('[data-act]');if(!b||b.disabled||!state)return;let a=b.dataset.act,id=b.dataset.id;switch(a){case'episode3':start3();break;case'visit3':if(state.node==='e3map'&&ep3[id]&&!state.visited3.includes(id)){state.loc=id;state.node='e3meet';update()}break;case'extra3':if(state.node==='e3map'&&encounters3[id]&&!state.extras3.includes(id)&&(id==='gate'||(id==='cafe'&&state.visited3.length>=1)||(id==='roof'&&state.visited3.length>=2))){state.loc=id;state.node='e3extra';update()}break;case'deduce3':if(state.node==='e3map'&&state.clues.length>=3){state.loc='hall';state.node='e3deduce';update()}break;case'route3':if(state.node==='e3select'&&(id==='solo'||state.visited3.some(l=>ep3[l].who===id))){state.ending3=id;state.loc=id==='solo'?'gate':finals3[id].loc;state.node=id==='solo'?'e3solo':'e3final';update()}break;case'sound':toggleSound();break;case'saves':modal('saves');break;case'export4':{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='bellmont-salvamento.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);break}case'home':stopSound();break;case'continue':case'start':if(state.sound)playSound();else stopSound();break;}});
 document.addEventListener('change',async e=>{
@@ -1564,7 +1590,9 @@ function give5(id,i){
 }
 
 const modal5=modal;modal=function(type){if(type==='gifts5')return giftPanel();if(type==='girls5'){modalType=type;showPanel('Amigas e rivais',`<div class="girlsgrid">${Object.entries(girls5).map(([id,g])=>`<div class="girlcard"><div class="girlart">${sprite(id)}</div><b>${g.full} • ${g.age}</b><p>${g.bio}</p></div>`).join('')}</div>`);return}if(type==='phone'){modalType=type;let unread=state.messages.length;showPanel('Celular • Bellmont',`<div class="phone">${state.messages.length?state.messages.map((m,i)=>`<div class="msg"><b>${esc(chars[m.who]?.name||'Bellmont')}</b>${esc(m.text)}${m.invite5?`<div class="replychoices">${state.e4.invites[m.who]==='pending'?`<button class="soft" data-act="invite5" data-id="${m.who}" data-i="1">Topo trabalhar com você ♡</button><button class="soft" data-act="invite5" data-id="${m.who}" data-i="0">Prefiro escolher sem convite</button>`:`<span class="sent">${({accepted:'Convite aceito',declined:'Convite recusado',closed:'Convite encerrado'})[state.e4.invites[m.who]]||'Convite encerrado'}</span>`}</div>`:routes.includes(m.who)?state.replied[i]!==undefined?`<div class="sent">Você: ${esc(state.replied[i].text)}<br>${chars[m.who].name}: ${esc(state.replied[i].answer)}</div>`:`<div class="replychoices">${replyOptions(m.who).map((o,j)=>`<button class="soft" data-act="reply" data-i="${i}" data-j="${j}">${esc(o[0])}</button>`).join('')}</div>`:''}</div>`).reverse().join(''):'<div class="empty">Nenhuma mensagem ainda.</div>'}</div>`);state.read5.count=unread;persist();render();return}if(type==='gallery'){modal5(type);let g=document.querySelector('#modal .gallery');if(g)g.insertAdjacentHTML('beforeend',routes.map(id=>`<div class="cg">${state.e4.memories.includes(id)?scene5(id):'<div class="lock">♡</div>'}<b>${state.e4.memories.includes(id)?pairs5[id].title:'Episódio 04 • '+chars[id].name}</b>${state.e4.memories.includes(id)?`<p class="memquote">“${esc(pairs5[id].yes)}”</p>`:''}</div>`).join(''));return}if(type==='about'){modalType=type;showPanel('Depois do Sinal • v0.6.1','<p>Quatro episódios, cinco rotas, quatro personagens secundárias em anime, convites, presentes e memórias do coração. Funciona offline.</p><p>Cinco expressões ilustradas para cada pretendente e a protagonista, mais duas poses especiais para Dante e Soren. As memórias são composições de sprites e fundos. A personalização de cores ainda é aproximada.</p>');return}modal5(type);if(type==='cast'){let p=document.querySelector('#modal .panel');p?.insertAdjacentHTML('beforeend','<p><button class="primary" data-act="girls5">Conheça as garotas de Bellmont ♡</button></p>')}};
-const render5=render;render=function(){render5();if(screen!=='game'||!state)return;const nav=document.querySelector('.nav');nav?.insertAdjacentHTML('afterbegin','<button data-act="gifts5">♧ Presentes</button>');const phone=document.querySelector('[data-act="phone"]');if(phone){let n=Math.max(0,state.messages.length-(state.read5.count||0));phone.textContent='▣ Celular'+(n?' • '+n+' novas':'')}if(state.episode===4){const ep=document.querySelector('.episode');if(ep)ep.innerHTML=`<span>EPISÓDIO 04 / DUPLAS INCONVENIENTES</span><span>${esc(state.name)} • ${state.e4.partner?state.e4.partner==='solo'?'Íris':chars[state.e4.partner].name:'Festival'}</span>`;const ob=document.querySelector('.objective');if(ob)ob.textContent=state.node==='e4pick'?'Escolha uma dupla e confira os convites no celular.':state.node==='e4ending'?'Episódio concluído.':'Prepare o festival e decida como reagir.'}};
+function renderEpisodeFourDetails() {
+    if(screen!=='game'||!state)return;const nav=document.querySelector('.nav');nav?.insertAdjacentHTML('afterbegin','<button data-act="gifts5">♧ Presentes</button>');const phone=document.querySelector('[data-act="phone"]');if(phone){let n=Math.max(0,state.messages.length-(state.read5.count||0));phone.textContent='▣ Celular'+(n?' • '+n+' novas':'')}if(state.episode===4){const ep=document.querySelector('.episode');if(ep)ep.innerHTML=`<span>EPISÓDIO 04 / DUPLAS INCONVENIENTES</span><span>${esc(state.name)} • ${state.e4.partner?state.e4.partner==='solo'?'Íris':chars[state.e4.partner].name:'Festival'}</span>`;const ob=document.querySelector('.objective');if(ob)ob.textContent=state.node==='e4pick'?'Escolha uma dupla e confira os convites no celular.':state.node==='e4ending'?'Episódio concluído.':'Prepare o festival e decida como reagir.'}
+}
 document.addEventListener('click',e=>{
   let b=e.target.closest('[data-act]');if(!b||b.disabled)return;let a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i);if(a==='girls5'){
     modal('girls5');return
@@ -2068,7 +2096,9 @@ choose=function(i){
 };
 
 // integracao-bellmont-life | v0.14
-const baseRender7=render;render=function(){baseRender7();if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}};
+function renderEpisodeFiveDetails() {
+    if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}
+}
 
 // Capture only new actions so the existing narrative listeners remain intact.
 document.addEventListener('click',e=>{
@@ -2207,16 +2237,12 @@ modal=function(t){
 };
 
 
-const render8base=render;
-render=function(){
-  if(state&&screen==='game')grant8(state);
-  render8base();
-  if(state&&screen==='game'){
+function renderWardrobeBalance() {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="wardrobe"]');
     if(b)b.textContent='♙ Ateliê • '+wallet8(state).coins+' ✦'
   }
-  
-};
+}
 
 const cover8base=cover;cover=function(){return cover8base().replace(/Edição 0\.7[^<]*/,'Edição 0.8.1 • Estilo & Conexões')};
 document.addEventListener('click',e=>{
@@ -2737,12 +2763,8 @@ function publish90(i){
 
 function meet90(id){const p=phoneData90[id];if(!p||data90().invites[id]?.status!=='accepted')return;modalType='phone';showPanel('Encontro · '+name90(id),`<div class="bpmeet"><div class="bpmeetart">${bg(p.loc==='garden'?'gate':p.loc)}<div>${sprite(id,'smile')}</div></div><p class="bpmuted">${p.place} · encontro opcional</p><p>${esc(p.scene)}</p><h3>${esc(p.question)}</h3><div class="bpchoices">${p.answers.map((a,i)=>button90('bp90dateanswer',esc(a[0]),`data-id="${id}" data-i="${i}"`)).join('')}</div>${button90('bp90app','Voltar sem concluir','data-id="invites"')}</div>`)}
 const modal90base=modal;modal=function(t){if(t==='phone'){if(modalType!=='phone'){app90='home';chat90=null;filter90='all'}return phone7()}if(t==='about'){modalType=t;return showPanel('Depois do Sinal · v0.9','<p>BellPhone 2.0 · Cinco episódios, ateliê Signature, conversas, convites jogáveis, BellFeed, agenda, álbum e perfil. Tudo funciona offline.</p><p>Os diálogos são roteirizados; o mural é uma simulação local.</p>')}return modal90base(t)};
-const render90base=render;
-render=function(){
-  let changed=false;
-  if(state&&screen==='game')changed=seed90();
-  render90base();
-  if(state&&screen==='game'){
+function renderPhoneStatus(changed) {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="phone"]'),
     n=unread90();
     if(b)b.textContent='▣ BellPhone'+(n?' · '+n+' novas':'');
@@ -2752,8 +2774,7 @@ render=function(){
     }
     
   }
-  
-};
+}
 
 const cover90base=cover;cover=function(){return cover90base().replace(/Edição 0\.8\.3[^<]*/,'Edição 0.9 • BellPhone 2.0')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||!state||!b.dataset.act.startsWith('bp90'))return;e.stopImmediatePropagation();const a=b.dataset.act,id=b.dataset.id,i=Number(b.dataset.i),j=Number(b.dataset.j),d=data90();if(a==='bp90app'&&phoneApps90[id]){app90=id;phone7();return}if(a==='bp90shop'){modal('wardrobe');return}if(a==='bp90chat'){openChat90(id);return}if(a==='bp90filter'){filter90=id;phone7();return}if(a==='bp90star'&&state.messages[i])d.stars=d.stars.includes(i)?d.stars.filter(x=>x!==i):[...d.stars,i];
@@ -2951,7 +2972,9 @@ const ravenScenes93=[
 },
 {loc:'garden',title:'Entre duas linhas',text:'Raven segura um bilhete dobrado. “Eu sou boa com palavras, mas com você é diferente. Gosto de você. Se for recíproco, quero descobrir onde isso pode dar. Se não, tudo bem.”',opts:[['Eu também gosto de você. Quero tentar.','Então temos nossa própria história. Sem prazo de entrega.',9,6,8],['Você é importante para mim como amiga.','Obrigada por ser sincera. Nossa amizade importa.',3,5,0],['Ainda preciso de tempo.','Eu respeito isso. Sem pressão.',1,4,0]]}];
 function ravenMeet93(){if(!ravenAvailable93())return;const idx=state.raven93.step,c=ravenScenes93[idx];modalType='raven93';showPanel(c.title,`<div class="bpmeet"><div class="bpmeetart">${bg(c.loc==='garden'?'gate':c.loc)}<div>${sprite('raven')}</div></div><p>${esc(c.text)}</p><div class="bpchoices">${c.opts.map((o,i)=>button90('ravensay93',esc(o[0]),`data-i="${i}"`)).join('')}</div><button class="soft" data-act="close">Voltar à história</button></div>`)}
-const render93base=render;render=function(){render93base();if(!state||screen!=='game')return;const node=state.node;if(ravenAvailable93()&&['map','e2map','e3map','e4pick','e5pick','ending','e2ending','e3ending','e4ending','e5ending'].includes(node)){const main=document.querySelector('.main');main?.insertAdjacentHTML('beforeend',`<div class="event9"><b>✒ ${state.raven93.step?'Um encontro com Raven':'Jornal escolar · Conheça Raven'}</b><p>Evento opcional. Seu episódio continua de onde parou.</p><button class="soft" data-act="ravenmeet93">Encontrar Raven ♡</button></div>`)} };
+function renderRavenInvitation() {
+    if(!state||screen!=='game')return;const node=state.node;if(ravenAvailable93()&&['map','e2map','e3map','e4pick','e5pick','ending','e2ending','e3ending','e4ending','e5ending'].includes(node)){const main=document.querySelector('.main');main?.insertAdjacentHTML('beforeend',`<div class="event9"><b>✒ ${state.raven93.step?'Um encontro com Raven':'Jornal escolar · Conheça Raven'}</b><p>Evento opcional. Seu episódio continua de onde parou.</p><button class="soft" data-act="ravenmeet93">Encontrar Raven ♡</button></div>`)}
+}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||!state||b.disabled)return;const a=b.dataset.act;if(!['ravenmeet93','ravensay93','ravenchat93'].includes(a))return;e.stopImmediatePropagation();if(a==='ravenchat93'){modalType='phone';openChat90('raven');return}if(a==='ravenmeet93'){ravenMeet93();return}if(!ravenAvailable93())return;const step=state.raven93.step,idx=Number(b.dataset.i),o=ravenScenes93[step].opts[idx];if(!o)return;state.aff.raven+=o[2];state.trust.raven+=o[3];state.attraction.raven+=o[4];state.raven93.step++;if(step===2&&idx===0)state.raven93.romance=true;state.log.push({who:'raven',choice:o[0],aff:o[2],trust:o[3]});state.items.push(ravenScenes93[step].title);state.messages.push({day94:roomData11().day,who:'raven',text:step===0?'Aqui é a Raven. Salva meu número. A matéria não vai se escrever sozinha.':step===1?'Obrigada por me ouvir hoje. Foi importante.':idx===0?'Gostei de começar nossa história. ♡':'Obrigada por conversar comigo com sinceridade.',day90:roomData11().day});persist();render();modalType='raven93';showPanel(ravenScenes93[step].title,`<div class="bpsection"><div class="bpdateportrait">${sprite('raven')}</div><p>${esc(o[1])}</p><p class="hint">Afinidade +${o[2]} · confiança +${o[3]} · atração +${o[4]}</p><button class="primary" data-act="close">Voltar à história</button></div>`);},true);
 const cover93base=cover;cover=function(){return cover93base().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.9.3 • Entrelinhas de Raven')};
 
@@ -3350,7 +3373,9 @@ const cgInfo10={
 
 function gallery10(){const d=cityData10();modalType='cg10';showPanel('Galeria · Momentos da cidade',`<div class="city10"><p>Ilustrações especiais desbloqueadas por escolhas. As quatro demais rotas já têm encontros próprios; suas CGs ilustradas serão acrescentadas em outra coleção.</p><div class="cggrid10">${Object.entries(cgInfo10).map(([k,[t,sub]])=>`<button class="cgcard10" data-act="viewcg10" data-id="${k}" ${!d.cg.includes(k)?'disabled':''}>${d.cg.includes(k)?img10('cg',k):'<div class="cglocked10">♡</div>'}<b>${t}</b><small>${sub} · ${d.cg.includes(k)?'Desbloqueada':'Bloqueada'}</small></button>`).join('')}</div><h3>Encontros registrados</h3>${d.done.length?d.done.map(s=>{let [type,id]=s.split(':');return `<p class="hint">✓ ${esc(type==='date'?city10[id]?.title||id:groups10[id]?.title||id)}</p>`}).join(''):'<p class="hint">Explore a cidade para criar lembranças.</p>'}<button class="soft" data-act="city10">Voltar à cidade</button><button class="soft" data-act="gallery">Galeria original</button></div>`);document.querySelector('#modal .panel')?.classList.add('citypanel10')}
 const modal10=modal;modal=function(t){if(t==='city10')return cityPanel10();if(t==='cg10')return gallery10();modal10(t);if(t==='gallery'&&state){document.querySelector('#modal .panel')?.insertAdjacentHTML('beforeend',`<div class="event9"><b>Momentos da cidade · ${cityData10().cg.length}/3 ilustrações</b><p>Encontros e lembranças de Além dos Portões.</p><button class="soft" data-act="cg10">Abrir coleção ♡</button></div>`);}};
-const render10=render;render=function(){render10();if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="city10"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="city10">⌖ Cidade</button>')};
+function renderCityNavigation() {
+    if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="city10"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="city10">⌖ Cidade</button>')
+}
 const cover10=cover;cover=function(){return cover10().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.10 • Além dos Portões')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||!state||b.disabled)return;const a=b.dataset.act,id=b.dataset.id;if(!['city10','time10','visit10','date10','group10','next10','choice10','cg10','viewcg10','ravenMood10'].includes(a))return;e.stopImmediatePropagation();switch(a){case'city10':scene10=null;cityPanel10();break;case'time10':if(['Tarde','Noite'].includes(id)){cityData10().time=id;persist();cityPanel10()}break;case'visit10':scene10=null;visit10(id);break;case'date10':startScene10('date',id);break;case'group10':startScene10('group',id);break;case'next10':if(scene10){scene10.step++;drawScene10()}break;case'choice10':finish10(Number(b.dataset.i));break;case'cg10':gallery10();break;case'viewcg10':if(cityData10().cg.includes(id)&&cgInfo10[id])showPanel(cgInfo10[id][0],`<div class="city10"><div class="cgzoom10">${img10('cg',id)}</div><button class="soft" data-act="cg10">‹ Voltar à galeria</button></div>`);break;case'ravenMood10':if(['neutral','smile','annoyed','shy','surprise','sad'].includes(id))showProfile('raven',id);break}},true);
 
@@ -3443,7 +3468,9 @@ function finishTyping11(){
 
 function animateText11(el){if(!el||!state||!roomData11().typing||matchMedia('(prefers-reduced-motion: reduce)').matches)return;finishTyping11();const text=el.textContent;if(!text||text.length<10)return;const button=document.createElement('button');button.className='soft typeSkip11';button.textContent='Mostrar texto';button.setAttribute('aria-label','Mostrar diálogo completo');button.addEventListener('click',finishTyping11);el.after(button);el.textContent='';const q={el,text,button,raf:0};typing11=q;let start=performance.now(),last=-1;function frame(t){if(typing11!==q||!el.isConnected){if(typing11===q)typing11=null;return}let n=Math.min(text.length,Math.floor((t-start)/12)+1);if(n!==last){el.textContent=text.slice(0,n);last=n}if(n>=text.length)finishTyping11();else q.raf=requestAnimationFrame(frame)}q.raf=requestAnimationFrame(frame)}
 function cinema11(root){if(!root||!state)return;let r=roomData11();root.classList.toggle('cinema11',r.cinema);const stage=root.querySelector('.scene,.stage10');if(r.cinema&&stage){stage.classList.add('film11');if(r.rain&&(state.loc==='bedroom'&&!root.querySelector('.stage10')||cityData10().time==='Noite'&&root.querySelector('.stage10'))&&!stage.querySelector('.rain11'))stage.insertAdjacentHTML('beforeend','<div class="rain11" aria-hidden="true"></div>')}animateText11(root.querySelector('.dialog p,.sceneTalk10 p'))}
-const render11base=render;render=function(){finishTyping11();render11base();if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))};
+function renderRoomNavigation() {
+    if(!state||screen!=='game')return;const nav=document.querySelector('.nav');if(nav&&!nav.querySelector('[data-act="room11"]'))nav.insertAdjacentHTML('afterbegin','<button data-act="room11">☾ Quarto</button>');cinema11(document.querySelector('.main'))
+}
 const panel11base=showPanel;
 showPanel=function(title,content){
   finishTyping11();
@@ -4031,9 +4058,7 @@ cinema11 = function (root) {
     cinemaBase12(root);
 };
 // INTERFACE E MENU PRINCIPAL
-const renderBase12 = render;
-render = function () {
-    renderBase12();
+function renderWorldLayout() {
     if (!state || screen !== 'game') return;
     const root = document.querySelector('.app');
     const nav = root?.querySelector('.nav');
@@ -4155,7 +4180,7 @@ render = function () {
         `
     );
     climate12(root);
-};
+}
 // CONFIGURAÇÕES DO JOGO
 function settings12() {
     modalType = 'world12';
@@ -4630,7 +4655,7 @@ function syncSocial13(){if(!state)return false;const d=social13(),day=roomData11
 
  return changed}
 
-const render13=render;render=function(){if(state&&screen==='game'&&syncSocial13())persistMemoryStage();render13()};
+
 let feedFilter13='all',storyOpen13=null,feedLimit13=12,compose13=null;
 function feedPosts13(){
   const d=social13(),
@@ -4765,18 +4790,15 @@ document.addEventListener('click',e=>{
 /* v0.14 — integrate common services once, after all existing feature modules. */
 const panelBase14=showPanel;showPanel=function(title,content){return panelBase14(title,compactMedia14(content))};
 const coverBase14=cover;cover=function(){let h=coverBase14().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.14 • Edição de estabilidade');return h.replace('<button class="soft" data-act="about">Sobre o jogo</button>','<button class="soft" data-act="about">Sobre o jogo</button><button class="soft" data-act="import14">Importar progresso</button>')};
-const renderBase14=render;
-render=function(){
-  renderBase14();
-  const root=document.getElementById('root');
+function renderSaveWarning() {
+    const root=document.getElementById('root');
   if(saveWarning14&&root&&!root.querySelector('.savewarn14')){
     const n=document.createElement('div');
     n.className='savewarn14';
     n.textContent=saveWarning14;
     root.append(n)
   }
-  
-};
+}
 
 const closeBase14=close;close=function(){finishTyping11();closeBase14()};
 const settingsBase14=settings12;settings12=function(){settingsBase14();document.querySelector('#modal .world12')?.insertAdjacentHTML('beforeend',`<h3>Recuperação de progresso</h3><p>${esc(saveWarning14||'Uma cópia do último salvamento válido é mantida no navegador, quando há espaço disponível.')}</p><button class="soft" data-act="backup14">Restaurar cópia anterior</button><p class="hint">Os arquivos JSON continuam compatíveis com as versões anteriores. Exporte antes de mudar de arquivo ou navegador.</p>`)};
@@ -4869,9 +4891,7 @@ function refreshCreator() {
 }
 
 // Reaproveita a navegação narrativa e os botões existentes, sem duplicar o motor.
-const renderBeforeFocus = render;
-render = function () {
-    renderBeforeFocus();
+function renderStoryFocus() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.toggle('story-focus', storyFocus);
@@ -4880,7 +4900,7 @@ render = function () {
         aria-pressed="${storyFocus}">${storyFocus ? 'Ver vínculos' : 'Focar na história'}</button>`);
     const next = app.querySelector('.dialog [data-act="next"]');
     if (next) next.textContent = 'Continuar ›';
-};
+}
 
 document.addEventListener('click', e => {
     const b = e.target.closest('[data-act]');
@@ -5583,16 +5603,14 @@ function arrangeBellNav43(app) {
     }
 }
 
-const renderBefore43 = render;
-render = function () {
-    renderBefore43();
+function renderBellmontIdentity() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.add('bell-editorial');
     arrangeBellNav43(app);
     const heading = app.querySelector('.main > .map h2');
     if (heading?.textContent === 'Onde você vai?') heading.textContent = 'Onde você quer ir?';
-};
+}
 
 // executar | v0.14
 render();

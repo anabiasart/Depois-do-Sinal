@@ -68,9 +68,7 @@ cinema11 = function (root) {
     cinemaBase12(root);
 };
 // INTERFACE E MENU PRINCIPAL
-const renderBase12 = render;
-render = function () {
-    renderBase12();
+function renderWorldLayout() {
     if (!state || screen !== 'game') return;
     const root = document.querySelector('.app');
     const nav = root?.querySelector('.nav');
@@ -192,7 +190,7 @@ render = function () {
         `
     );
     climate12(root);
-};
+}
 // CONFIGURAÇÕES DO JOGO
 function settings12() {
     modalType = 'world12';

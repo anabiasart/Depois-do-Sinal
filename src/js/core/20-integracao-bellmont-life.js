@@ -1,5 +1,7 @@
 // integracao-bellmont-life | v0.14
-const baseRender7=render;render=function(){baseRender7();if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}};
+function renderEpisodeFiveDetails() {
+    if(screen!=='game'||!state)return;const n=state.messages.filter((m,i)=>pending7(m,i)).length;const b=document.querySelector('.nav [data-act="phone"]');if(b)b.textContent='▣ Celular'+(n?' • '+n+' pendentes':'');if(state.episode===5){document.querySelector('.episode').innerHTML='<span>EPISÓDIO 05 / O SEGREDO DO TERRAÇO</span><span>'+esc(state.name)+' • Dia 5</span>';const o=document.querySelector('.objective');if(o)o.textContent=state.node==='e5ending'?'Episódio concluído.':'Investigue a caixa e descubra a história do antigo festival.'}
+}
 
 // Capture only new actions so the existing narrative listeners remain intact.
 document.addEventListener('click',e=>{

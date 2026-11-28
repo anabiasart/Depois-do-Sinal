@@ -63,12 +63,10 @@ function toggleSound(){
   render()
 }
 
-const v3render=render;
-render=function(){
-  v3render();
-  const b=document.querySelector('[data-act="sound"]');
+function renderSoundStatus() {
+    const b=document.querySelector('[data-act="sound"]');
   if(b)b.textContent=state?.sound?'♫ Som ligado':'♫ Som desligado'
-};
+}
 
 document.addEventListener('click',e=>{let b=e.target.closest('[data-act]');if(!b||b.disabled||!state)return;let a=b.dataset.act,id=b.dataset.id;switch(a){case'episode3':start3();break;case'visit3':if(state.node==='e3map'&&ep3[id]&&!state.visited3.includes(id)){state.loc=id;state.node='e3meet';update()}break;case'extra3':if(state.node==='e3map'&&encounters3[id]&&!state.extras3.includes(id)&&(id==='gate'||(id==='cafe'&&state.visited3.length>=1)||(id==='roof'&&state.visited3.length>=2))){state.loc=id;state.node='e3extra';update()}break;case'deduce3':if(state.node==='e3map'&&state.clues.length>=3){state.loc='hall';state.node='e3deduce';update()}break;case'route3':if(state.node==='e3select'&&(id==='solo'||state.visited3.some(l=>ep3[l].who===id))){state.ending3=id;state.loc=id==='solo'?'gate':finals3[id].loc;state.node=id==='solo'?'e3solo':'e3final';update()}break;case'sound':toggleSound();break;case'saves':modal('saves');break;case'export4':{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='bellmont-salvamento.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);break}case'home':stopSound();break;case'continue':case'start':if(state.sound)playSound();else stopSound();break;}});
 document.addEventListener('change',async e=>{

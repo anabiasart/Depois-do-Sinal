@@ -101,13 +101,11 @@ function arrangeBellNav43(app) {
     }
 }
 
-const renderBefore43 = render;
-render = function () {
-    renderBefore43();
+function renderBellmontIdentity() {
     const app = document.querySelector('.shell12');
     if (!app || screen !== 'game') return;
     app.classList.add('bell-editorial');
     arrangeBellNav43(app);
     const heading = app.querySelector('.main > .map h2');
     if (heading?.textContent === 'Onde você vai?') heading.textContent = 'Onde você quer ir?';
-};
+}

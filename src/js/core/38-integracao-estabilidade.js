@@ -2,18 +2,15 @@
 /* v0.14 — integrate common services once, after all existing feature modules. */
 const panelBase14=showPanel;showPanel=function(title,content){return panelBase14(title,compactMedia14(content))};
 const coverBase14=cover;cover=function(){let h=coverBase14().replace(/Edição 0\.[0-9.]+[^<]*/,'Edição 0.14 • Edição de estabilidade');return h.replace('<button class="soft" data-act="about">Sobre o jogo</button>','<button class="soft" data-act="about">Sobre o jogo</button><button class="soft" data-act="import14">Importar progresso</button>')};
-const renderBase14=render;
-render=function(){
-  renderBase14();
-  const root=document.getElementById('root');
+function renderSaveWarning() {
+    const root=document.getElementById('root');
   if(saveWarning14&&root&&!root.querySelector('.savewarn14')){
     const n=document.createElement('div');
     n.className='savewarn14';
     n.textContent=saveWarning14;
     root.append(n)
   }
-  
-};
+}
 
 const closeBase14=close;close=function(){finishTyping11();closeBase14()};
 const settingsBase14=settings12;settings12=function(){settingsBase14();document.querySelector('#modal .world12')?.insertAdjacentHTML('beforeend',`<h3>Recuperação de progresso</h3><p>${esc(saveWarning14||'Uma cópia do último salvamento válido é mantida no navegador, quando há espaço disponível.')}</p><button class="soft" data-act="backup14">Restaurar cópia anterior</button><p class="hint">Os arquivos JSON continuam compatíveis com as versões anteriores. Exporte antes de mudar de arquivo ou navegador.</p>`)};

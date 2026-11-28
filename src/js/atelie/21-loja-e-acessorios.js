@@ -97,16 +97,12 @@ modal=function(t){
 };
 
 
-const render8base=render;
-render=function(){
-  if(state&&screen==='game')grant8(state);
-  render8base();
-  if(state&&screen==='game'){
+function renderWardrobeBalance() {
+    if(state&&screen==='game'){
     const b=document.querySelector('.nav [data-act="wardrobe"]');
     if(b)b.textContent='♙ Ateliê • '+wallet8(state).coins+' ✦'
   }
-  
-};
+}
 
 const cover8base=cover;cover=function(){return cover8base().replace(/Edição 0\.7[^<]*/,'Edição 0.8.1 • Estilo & Conexões')};
 document.addEventListener('click',e=>{
