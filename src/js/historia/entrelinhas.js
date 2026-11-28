@@ -157,7 +157,7 @@ function renderEntrelinhasIdentity(app) {
     const quick = document.createElement('nav');
     quick.className = 'entre-icon-rail';
     quick.setAttribute('aria-label', 'Acesso rápido');
-    const actions = ['home', 'calendar12', 'journal', 'settings12'];
+    const actions = ['home', 'calendar12', 'phone', 'journal'];
     for (const act of actions) {
         const original = nav.querySelector('[data-act="' + act + '"]');
         if (!original) continue;
@@ -177,6 +177,8 @@ function renderEntrelinhasIdentity(app) {
     const menu = document.createElement('details');
     menu.className = 'entre-full-menu';
     menu.innerHTML = '<summary aria-label="Todas as opções" title="Todas as opções">☰</summary>';
+    const groupMore = nav.querySelector('.bell-nav-more');
+    if (groupMore) groupMore.open = true;
     menu.append(nav);
     frame.append(menu);
 
@@ -188,6 +190,7 @@ function renderEntrelinhasIdentity(app) {
     const next = dialog.querySelector('.nextrow');
     if (next) controls.append(next);
     controls.append(tools);
+    tools.insertAdjacentHTML('beforeend', '<button data-act="cast">Elenco</button>');
     dialog.append(controls);
 }
 

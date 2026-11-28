@@ -4601,431 +4601,278 @@ body:has(#modal .overlay) { overflow: hidden; }
 @media(max-width:560px) { .entre-grid { grid-template-columns: 1fr; } .entre-stage { min-height: 190px; } }
 @media(prefers-reduced-motion:reduce) { .entrelinhas-edition .scene,.entre-panel .choice { animation: none; transition: none; } }
 
-/* Immersive visual novel composition. Existing artwork remains independent of the UI. */
-.entre-premiere.bell-cover {
+/* Responsive narrative shell. One grid, with artwork spanning the entire stage. */
+.shell12.bell-editorial.entre-immersive {
+    --vn-ink: #fff5ef;
+    --vn-line: #e5b5a8;
+    --vn-glass: #352631ed;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    position: relative;
+    width: 100%;
+    max-width: none;
     min-height: 100dvh;
+    height: 100dvh;
+    margin: 0;
+    background: #302631;
+    color: var(--vn-ink);
+    overflow: hidden;
 }
-.entre-immersive {
-    --vn-glass: linear-gradient(135deg, #392b35ed, #29222de8);
-    --vn-line: #e9b6ac;
-    --vn-ink: #fff6ef;
-    --vn-accent: #f1b6c4;
+.shell12.bell-editorial.entre-immersive > .top {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 14px;
+    padding: 8px clamp(12px, 2vw, 28px);
+    min-height: 0;
+    background: #302631;
+    border: 0;
+    color: var(--vn-ink);
+    box-shadow: none;
 }
+.entre-immersive .top .brand { color: var(--vn-ink); font: italic clamp(20px, 2vw, 30px)/1.1 Georgia, serif; }
+.entre-immersive .top .sub { color: #e8bfbd; font-size: 9px; }
+.entre-immersive .topStatus12 { display: flex; min-width: 0; margin: 0; gap: 6px; flex-wrap: wrap; }
+.entre-immersive .top .dateBadge12,
+.entre-immersive .top .coins12 {
+    padding: 5px 10px;
+    background: #473341;
+    color: var(--vn-ink);
+    border: 1px solid #b48a8b;
+    border-radius: 20px;
+    font: 13px system-ui, sans-serif;
+}
+.entre-immersive .top .dateBadge12 small { color: var(--vn-ink); font-size: 11px; margin: 0; }
+.entre-immersive .top .dateBadge12 b { display: none; }
+.entre-immersive .top [data-act="fullscreen12"] { min-height: 32px; padding: 5px 9px; }
+.shell12.bell-editorial.entre-immersive .layout,
+.shell12.bell-editorial.entre-immersive.story-focus .layout {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+.shell12.bell-editorial.entre-immersive .main {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+.entre-immersive .rail12, .entre-immersive .foot { display: none !important; }
+.entre-immersive .episode { display: none; }
 .entre-immersive .entre-stage-frame {
+    display: grid;
     position: relative;
     isolation: isolate;
-    min-width: 0;
+    grid-template-columns: 60px minmax(0, 1fr) minmax(0, 40%) 20px;
+    grid-template-rows: minmax(220px, 1fr) auto;
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 12px;
+    padding: 14px 0 16px;
 }
-.entre-immersive .entre-stage-frame > .scene {
+.shell12.bell-editorial.entre-immersive .entre-stage-frame > .scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
     border: 0;
     border-radius: 0;
     box-shadow: none;
+    z-index: -1;
 }
-.entre-immersive .entre-stage-frame > .dialog {
-    color: var(--vn-ink);
+.entre-immersive .entre-stage-frame .scene::before { background: linear-gradient(180deg,#30263133,transparent 25%); }
+.entre-immersive .entre-stage-frame .scene::after { background: linear-gradient(0deg,#30263177,transparent 45%); }
+.entre-immersive .entre-stage-frame .scene .loc,
+.entre-immersive .entre-stage-frame .scene .timechip,
+.entre-immersive .entre-stage-frame .scene .moodchip { display: none; }
+.entre-immersive .entre-stage-frame .scene .sprite,
+.entre-immersive .entre-stage-frame .scene .sprite:has(.anime-sprite),
+.entre-immersive .entre-stage-frame .scene .sprite.protagonist:has(.anime-sprite) {
+    left: 34%;
+    bottom: 0;
+    height: 94%;
+    max-width: 55%;
+}
+.entre-immersive .entre-stage-frame:not(.entre-stage-choices) .scene .sprite,
+.entre-immersive .entre-stage-frame:not(.entre-stage-choices) .scene .sprite:has(.anime-sprite) { left: 50%; }
+.shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog {
+    grid-area: 2 / 2 / 3 / 4;
+    align-self: end;
+    position: relative;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    padding: 12px clamp(16px, 2.5vw, 32px);
     background: var(--vn-glass);
+    color: var(--vn-ink);
     border: 1px solid var(--vn-line);
-    border-radius: 18px;
-    box-shadow: 0 5px 18px #25132126;
-    padding: 24px 28px 12px;
+    border-radius: 14px;
+    box-shadow: none;
+    overflow: visible;
 }
-.entre-immersive .entre-stage-frame > .dialog::before {
-    content: none;
-    position: absolute;
-    top: -17px;
-    right: 22px;
-    color: #f4b4c6;
-    font-size: 25px;
-}
+.entre-immersive .entre-stage-frame .dialog::before { content: none; }
 .entre-immersive .entre-stage-frame .speaker {
-    color: #fff6ef;
-    background: linear-gradient(135deg,#92506c,#543449);
-    border: 1px solid var(--vn-line);
-    border-radius: 30px;
     display: inline-block;
-    padding: 6px 22px;
-    font: 400 clamp(18px,1.6vw,25px)/1.2 Georgia,serif;
-    letter-spacing: .02em;
+    color: #f5d0c9;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    font: 600 15px/1.3 system-ui, sans-serif;
+    letter-spacing: .04em;
 }
 .entre-immersive .entre-stage-frame .dialog p {
     color: var(--vn-ink);
-    font: 400 clamp(16px,1.4vw,23px)/1.5 Georgia,serif;
+    font: 400 clamp(16px, 1.25vw, 21px)/1.5 Georgia, serif;
     min-height: 0;
-    margin: 8px 0;
-    text-shadow: 0 1px 2px #201622;
+    margin: 7px 0;
+    overflow-wrap: anywhere;
 }
 .entre-immersive .entre-stage-frame > .choices {
+    grid-area: 1 / 3;
+    align-self: center;
     display: grid;
-    gap: 10px;
+    gap: 8px;
+    min-width: 0;
     margin: 0;
+    padding: 0;
 }
 .entre-immersive .entre-stage-frame > .choices .choice {
     width: 100%;
     min-width: 0;
     min-height: 44px;
+    padding: 10px 18px;
     text-align: left;
-    padding: 11px 22px;
-    border: 1px solid var(--vn-line);
-    border-radius: 40px;
-    background: #30232de8;
     color: var(--vn-ink);
-    font: 400 clamp(15px,1.25vw,21px)/1.35 Georgia,serif;
-    box-shadow: 0 3px 12px #25132133;
-    text-shadow: 0 1px 2px #201622;
-}
-.entre-immersive .entre-stage-frame > .choices .choice:hover,
-.entre-immersive .entre-stage-frame > .choices .choice:focus-visible {
-    background: linear-gradient(100deg,#a55d7c,#73445e);
-    color: white;
-    box-shadow: 0 0 0 1px #ffe4d5;
-    outline: 2px solid #ffe4d5;
-    outline-offset: 2px;
-}
-.entre-icon-rail {
-    display: flex;
-    gap: 4px;
-    padding: 6px;
-    background: var(--vn-glass);
+    background: #30232dee;
     border: 1px solid var(--vn-line);
     border-radius: 24px;
+    font: 400 clamp(15px, 1.2vw, 19px)/1.35 Georgia, serif;
+    overflow-wrap: anywhere;
+    box-shadow: none;
+}
+.entre-immersive .entre-stage-frame > .choices .choice::before { content: none; }
+.entre-immersive .entre-stage-frame > .choices .choice:hover,
+.entre-immersive .entre-stage-frame > .choices .choice:focus-visible { background: #844c66; outline: 2px solid #ffe4d5; outline-offset: 1px; }
+.entre-icon-rail {
+    grid-area: 1 / 1;
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 4px;
+    border: 1px solid var(--vn-line);
+    border-radius: 26px;
+    background: var(--vn-glass);
 }
 .entre-icon-rail button {
-    position: relative;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    position: relative;
+    width: 40px;
+    height: 40px;
     padding: 8px;
+    color: var(--vn-ink);
+    background: transparent;
     border: 0;
     border-radius: 50%;
-    background: transparent;
-    color: #ffe5d4;
 }
-.entre-icon-rail button svg { width: 24px; height: 24px; }
-.entre-icon-rail button:hover,.entre-icon-rail button:focus-visible { background: #a55d7c; }
-.entre-icon-rail button em { position:absolute; top:0; right:0; color:#fff; background:#a55d7c; border-radius:50%; padding:2px 5px; font-size:10px; }
-.entre-full-menu { position: relative; z-index: 15; }
+.entre-icon-rail svg { width: 22px; height: 22px; }
+.entre-icon-rail button:hover, .entre-icon-rail button:focus-visible { background: #844c66; }
+.entre-full-menu { grid-area: 2 / 1; align-self: end; justify-self: center; position: relative; z-index: 15; }
 .entre-full-menu > summary {
     list-style: none;
     cursor: pointer;
-    color: #ffe5d4;
+    color: var(--vn-ink);
     background: var(--vn-glass);
     border: 1px solid var(--vn-line);
     border-radius: 24px;
-    padding: 9px 14px;
+    padding: 10px 13px;
 }
-.entre-full-menu > summary::-webkit-details-marker { display:none; }
+.entre-full-menu > summary::-webkit-details-marker { display: none; }
 .entre-full-menu[open] > .nav {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
     display: grid;
     gap: 6px;
-    padding: 12px;
-    background: #493448;
+    width: min(260px, 80vw);
+    max-height: 55dvh;
+    overflow: auto;
+    padding: 10px;
+    background: #473341;
     border: 1px solid var(--vn-line);
     border-radius: 12px;
-    max-height: 65dvh;
-    overflow: auto;
 }
-.entre-full-menu .nav button { color: #fff6ef; background: transparent; min-height: 40px; }
-.entre-dialog-tools { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 5px; }
-.entre-dialog-tools button,.entre-stage-frame .typeSkip11 {
-    font: 12px system-ui;
-    color: #ffe5d4;
-    background: #39283b99;
-    border: 1px solid #e9b6ac66;
-    border-radius: 20px;
-    padding: 6px 12px;
-    min-height: 30px;
+.entre-full-menu .nav button { display:flex; align-items:center; gap:8px; width:100%; min-height:40px; padding:8px; color:var(--vn-ink); background:transparent; text-align:left; }
+.entre-full-menu .nav .bell-nav-icon { width:20px; height:20px; flex:0 0 20px; }
+.entre-dialog-controls,.entre-dialog-tools { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:6px; }
+.entre-immersive .entre-dialog-controls .nextrow { display:flex; margin:0; padding:0; }
+.entre-dialog-tools button,.entre-immersive .entre-stage-frame .typeSkip11 {
+    width:auto; min-height:32px; padding:5px 10px; color:var(--vn-ink);
+    background:transparent; border:1px solid #b48a8b; border-radius:20px; font:12px system-ui;
 }
-.entre-immersive .entre-stage-frame .nextrow { margin: 6px 0; }
-.entre-immersive .entre-stage-frame .nextrow .primary {
-    background: #8b4e6b;
-    color: #fff6ef;
-    border: 1px solid var(--vn-line);
-    border-radius: 24px;
-    min-height: 36px;
-    padding: 7px 20px;
+.entre-immersive .entre-dialog-controls .nextrow .primary {
+    min-height:36px; padding:7px 18px; background:#844c66; color:var(--vn-ink);
+    border:1px solid var(--vn-line); border-radius:20px; font:500 14px system-ui; box-shadow:none;
 }
-@media (min-width: 768px) and (min-height: 480px) {
-    .shell12.bell-editorial.entre-immersive {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100dvh;
-        min-height: 0;
-        overflow: hidden;
-        background: #332536;
-    }
-    .shell12.bell-editorial.entre-immersive .layout,
-    .shell12.bell-editorial.entre-immersive.story-focus .layout {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-    }
-    .shell12.bell-editorial.entre-immersive .main {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-    }
+.entre-immersive:not(.story-focus) .side { position:absolute; z-index:20; top:8px; right:8px; width:min(240px,80vw); max-height:75%; overflow:auto; }
+@media (max-width:767px) {
+    .entre-immersive .top .brand { font-size:20px; }
+    .entre-immersive .top .sub { display:none; }
+    .entre-immersive .topStatus12 { margin-left:auto; }
+    .entre-immersive .top .dateBadge12 { padding:4px 7px; }
+    .entre-immersive .top .coins12 { padding:4px 7px; font-size:12px; }
     .entre-immersive .entre-stage-frame {
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        width: 100%;
+        grid-template-columns:minmax(0,1fr) auto;
+        grid-template-rows:minmax(200px,1fr) auto auto auto;
+        gap:0;
+        padding:0;
     }
     .shell12.bell-editorial.entre-immersive .entre-stage-frame > .scene {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        max-height: none;
+        position:relative;
+        grid-area:1 / 1 / 2 / 3;
+        z-index:0;
+        height:100%;
+        min-height:220px;
     }
     .entre-immersive .entre-stage-frame .scene .sprite,
     .entre-immersive .entre-stage-frame .scene .sprite:has(.anime-sprite),
-    .entre-immersive .entre-stage-frame .scene .sprite.protagonist:has(.anime-sprite) {
-        left: 34%;
-        bottom: -3%;
-        height: 91%;
-        max-width: 49%;
-        filter: drop-shadow(0 4px 12px #37213644);
-    }
-    .entre-immersive .entre-stage-frame:not(.entre-stage-choices) .scene .sprite { left: 50%; }
-    .entre-immersive .entre-stage-frame .scene::before { background: linear-gradient(180deg,#34233644,transparent 20%); }
-    .entre-immersive .entre-stage-frame .scene::after { background: linear-gradient(0deg,#38223544,transparent 30%); }
-    .entre-immersive .entre-stage-frame .scene .loc { top: 11%; left: 7%; color: #fff6ef; background: #4c2c41b5; }
-    .entre-immersive .entre-stage-frame .scene .timechip { top: 11%; right: 4%; color: #fff6ef; background: #4c2c41b5; }
-    .entre-immersive .entre-stage-frame .scene .moodchip { display: none; }
+    .entre-immersive .entre-stage-frame .scene .sprite.protagonist:has(.anime-sprite) { left:50%; height:94%; max-width:94%; }
     .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog {
-        position: absolute;
-        z-index: 6;
-        bottom: 5%;
-        left: 3.5%;
-        right: 3.5%;
-        width: auto;
-        max-height: none;
-        height: auto;
-        overflow: visible;
-        margin: 0;
-        padding: 14px clamp(18px,2.5vw,36px) 12px;
+        grid-area:2 / 1 / 3 / 3;
+        z-index:1; margin:-18px 8px 0; padding:12px 14px;
+        border-radius:12px; background:#352631;
     }
     .entre-immersive .entre-stage-frame > .choices {
-        position: absolute;
-        z-index: 7;
-        top: 24%;
-        bottom: 36%;
-        right: 4%;
-        width: 40%;
-        align-content: center;
-        overflow: auto;
-        padding: 4px;
+        grid-area:3 / 1 / 4 / 3;
+        gap:6px; padding:8px;
     }
-    .entre-icon-rail {
-        position: absolute;
-        z-index: 9;
-        top: 18%;
-        left: 1.6%;
-        flex-direction: column;
-        border-radius: 40px;
-    }
-    .entre-icon-rail button { width: clamp(34px,3.8vw,56px); height: clamp(34px,6vh,56px); }
-    .entre-full-menu { position: absolute; left: 1%; bottom: 5%; }
-    .entre-full-menu[open] > .nav {
-        position: absolute;
-        bottom: calc(100% + 8px);
-        left: 0;
-        width: 240px;
-    }
-    .shell12.bell-editorial.entre-immersive > .top {
-        position: absolute;
-        z-index: 12;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(180deg,#352438b5,transparent);
-        border: 0;
-        box-shadow: none;
-        min-height: 0;
-        padding: 12px 22px;
-        color: #fff6ef;
-    }
-    .entre-immersive .top .brand { color: #fff6ef; font: italic clamp(22px,2.2vw,35px) Georgia,serif; }
-    .entre-immersive .top .sub { color: #ffe5d4; }
-    .entre-immersive .top .dateBadge12,.entre-immersive .top .coins12 {
-        background: #4c2c41c9;
-        color: #fff6ef;
-        border: 1px solid var(--vn-line);
-        border-radius: 30px;
-    }
-    .entre-immersive .top .dateBadge12 small { color: #ffe5d4; }
-    .entre-immersive .rail12,.entre-immersive .foot { display: none; }
-    .entre-immersive .episode {
-        position: absolute;
-        z-index: 10;
-        top: 10%;
-        left: 7%;
-        right: 7%;
-        margin: 0;
-        pointer-events: none;
-        background: transparent;
-        color: #fff6ef;
-        text-shadow: 0 1px 4px #241622;
-    }
-    .entre-immersive .episode > span { display: none; }
-    .entre-immersive .episode .story-toggle { pointer-events: auto; margin-left: auto; }
-    .entre-immersive:not(.story-focus) .side {
-        display: block;
-        position: absolute;
-        z-index: 20;
-        top: 16%;
-        right: 1%;
-        bottom: 35%;
-        width: 240px;
-        overflow: auto;
-        border-radius: 12px;
-        box-shadow: 0 8px 30px #24162266;
-    }
+    .entre-immersive .entre-stage-frame > .choices .choice { border-radius:10px; min-height:44px; padding:9px 12px; }
+    .entre-icon-rail { grid-area:4 / 1; align-self:end; justify-self:stretch; flex-direction:row; justify-content:space-evenly; border:0; border-radius:0; padding:4px; background:#302631; }
+    .entre-full-menu { grid-area:4 / 2; align-self:center; padding:0 8px; }
+    .entre-full-menu[open] > .nav { left:auto; right:8px; }
+    .entre-dialog-controls .nextrow { margin-left:auto; }
+    .entre-immersive .entre-stage-frame .dialog p { font-size:16px; }
 }
-@media (max-width:767px), (max-height:479px) {
-    .entre-immersive .entre-stage-frame { display: grid; gap: 8px; }
-    .entre-immersive .entre-stage-frame > .dialog { position: relative; }
-    .entre-immersive .entre-stage-frame > .choices .choice { border-radius: 12px; }
-    .entre-icon-rail { flex-wrap: wrap; justify-content: center; }
-    .entre-immersive .entre-stage-frame .scene .sprite { max-width: 90%; }
-}
-
-/* Minimal romantic HUD: secondary details remain in the full menu. */
-@media (min-width:768px) and (min-height:480px) {
-    .entre-immersive .entre-stage-frame .scene .loc,
-    .entre-immersive .entre-stage-frame .scene .timechip { display:none; }
-    .entre-immersive .episode { top: 12%; right: 3%; left: auto; }
-    .entre-immersive .episode .story-toggle { background:#392b35d9; color:#fff6ef; border:1px solid #e9b6ac88; font-size:11px; }
-    .entre-immersive .entre-stage-frame .speaker { font-weight:400; padding:4px 18px; }
-    .entre-immersive .entre-stage-frame .dialog p { font-weight:400; }
-    .entre-immersive .entre-stage-frame > .choices .choice::before { content:none; }
-    .entre-immersive .topStatus12 { gap:6px; }
-    .entre-immersive .top .dateBadge12,.entre-immersive .top .coins12 { font:400 14px Georgia,serif; }
-}
-
-/* Let the dialogue size itself; keep controls in one compact row. */
-.entre-immersive .entre-stage-frame > .dialog {
-    box-sizing: border-box;
-    min-height: 0;
-    height: auto;
-    max-height: none;
-    overflow: visible;
-}
-.entre-dialog-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 6px 12px;
-    margin-top: 6px;
-}
-.entre-immersive .entre-dialog-controls .nextrow {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    flex: 0 0 auto;
-}
-.entre-immersive .entre-dialog-controls .nextrow .primary {
-    font: 500 14px/1.25 system-ui,sans-serif;
-    min-height: 34px;
-    padding: 6px 18px;
-    box-shadow: none;
-}
-.entre-dialog-controls .entre-dialog-tools { margin: 0; }
-.entre-immersive .entre-stage-frame .dialog p {
-    font-size: clamp(15px,1.25vw,21px);
-    line-height: 1.45;
-    margin: 6px 0;
-    min-height: 0;
-    overflow-wrap: anywhere;
-}
-.entre-immersive .entre-stage-frame .dialog .typeSkip11 {
-    display: inline-flex;
-    width: auto;
-    min-height: 24px;
-    padding: 3px 10px;
-}
-@media (min-width:768px) and (max-height:720px) {
-    .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog {
-        bottom: 3%;
-        padding: 10px 22px;
-    }
-    .entre-immersive .entre-stage-frame .speaker { font-size: 17px; }
-    .entre-immersive .entre-stage-frame .dialog p { font-size: 16px; }
-}
-
-/* Keep the immersive shell consistent even when browser zoom changes CSS pixels. */
-.shell12.bell-editorial.entre-immersive .rail12 { display: none; }
-.entre-immersive .entre-full-menu .nav button {
-    display: flex; align-items: center; gap: 8px; width: 100%;
-    text-align: left; padding: 8px 10px; border-radius: 6px;
-}
-.entre-immersive .entre-full-menu .nav .bell-nav-icon {
-    width: 20px; height: 20px; flex: 0 0 20px;
-}
-.entre-immersive .entre-full-menu .nav .bell-nav-more summary { color: #ffe5d4; }
-.entre-immersive .entre-full-menu .nav button:hover { background: #73445e; }
-@media (min-width:768px) and (min-height:480px) {
-    .shell12.bell-editorial.entre-immersive .layout,
-    .shell12.bell-editorial.entre-immersive.story-focus .layout {
-        display: block !important;
-        grid-template-columns: none !important;
-    }
-    .shell12.bell-editorial.entre-immersive > .top {
-        display:flex !important; flex-wrap:nowrap; gap:8px;
-        padding: 8px 16px;
-    }
-    .entre-immersive .topStatus12 { flex-wrap:nowrap; min-width:0; }
-    .entre-immersive .top .dateBadge12 { font-size:12px; padding:6px 12px; }
-    .entre-immersive .top .dateBadge12 small { font-size:11px; }
-    .entre-immersive .top .coins12 { white-space:nowrap; padding:6px 12px; }
-    .entre-immersive .episode .story-toggle { min-height:28px; padding:4px 9px; }
-    .entre-immersive .entre-stage-frame > .choices { gap:6px; }
-    .entre-immersive .entre-stage-frame > .choices .choice {
-        min-height:38px; padding:8px 14px;
-    }
-}
-@media (min-width:768px) and (max-width:1100px) and (min-height:480px) {
-    .entre-immersive .top .brand { font-size:22px; }
-    .entre-immersive .top .sub { font-size:9px; }
-    .entre-immersive .entre-stage-frame > .choices { width:43%; right:3%; top:22%; bottom:39%; }
-    .entre-icon-rail { left:1%; padding:4px; }
-    .entre-icon-rail button { width:36px; height:36px; }
-    .entre-icon-rail button svg { width:20px; height:20px; }
-    .shell12.bell-editorial.entre-immersive .entre-stage-frame > .dialog { left:5%; right:3%; }
-}
-@media (max-width:767px), (max-height:479px) {
-    .shell12.bell-editorial.entre-immersive {
-        min-height:100dvh; height:auto; background:#302631; color:#fff6ef;
-    }
-    .shell12.bell-editorial.entre-immersive .layout,
-    .shell12.bell-editorial.entre-immersive.story-focus .layout {
-        display:block !important; width:100%; min-width:0;
-    }
-    .shell12.bell-editorial.entre-immersive .main { width:100%; padding:8px; background:transparent; }
-    .shell12.bell-editorial.entre-immersive > .top {
-        display:flex !important; flex-wrap:wrap; padding:8px 12px;
-        background:#392b35; color:#fff6ef;
-    }
-    .entre-immersive .top .brand { font-size:22px; color:#fff6ef; }
-    .entre-immersive .episode { color:#fff6ef; }
-    .entre-immersive .entre-stage-frame { display:flex; flex-direction:column; gap:8px; }
-    .shell12.bell-editorial.entre-immersive .entre-stage-frame > .scene {
-        height:clamp(200px,42dvh,400px); width:100%; border-radius:12px;
-    }
-    .entre-immersive .entre-stage-frame > .dialog { order:1; padding:12px 16px; border-radius:12px; }
-    .entre-immersive .entre-stage-frame > .choices { order:2; }
-    .entre-icon-rail { order:3; align-self:center; }
-    .entre-full-menu { order:4; align-self:center; }
-    .entre-full-menu[open] > .nav { width:min(280px,85vw); }
-    .entre-immersive .foot { color:#e9b6ac; }
+@media (max-height:500px) and (min-width:768px) {
+    .entre-immersive .entre-stage-frame { grid-template-rows:minmax(140px,1fr) auto; padding:6px 0; gap:6px; }
+    .entre-icon-rail button { width:32px; height:32px; }
+    .entre-immersive .entre-stage-frame .dialog p { font-size:15px; }
 }

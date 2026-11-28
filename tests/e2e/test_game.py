@@ -45,6 +45,10 @@ class Bellmont(unittest.TestCase):
         selector = f'[data-act="{act}"]'
         if id is not None:
             selector += f'[data-id="{id}"]'
+        visible = self.page.locator(selector).filter(visible=True)
+        menu = self.page.locator(".entre-full-menu")
+        if not visible.count() and menu.count() and not menu.evaluate("(el) => el.open"):
+            menu.locator("summary").click()
         return self.page.locator(selector).filter(visible=True).first
 
     def new_game(self):
@@ -58,13 +62,13 @@ class Bellmont(unittest.TestCase):
         self.new_game()
         # Avança até a primeira escolha real, sem pressupor duração da digitação.
         for _ in range(20):
-            choice = self.page.locator(".dialog .choice").first
+            choice = self.page.locator(".main .choice").first
             if choice.is_visible():
                 break
             self.page.locator(".dialog [data-act=next]").click()
         else:
             self.fail("Primeira escolha não encontrada")
-        self.page.locator(".dialog .choice").first.click()
+        self.page.locator(".main .choice").first.click()
         self.assertEqual(self.save()["flags"]["mabel"], 0)
         self.action("phone").click()
         expect(self.page.locator(".bppanel .bpnav")).to_be_visible()
@@ -72,10 +76,6 @@ class Bellmont(unittest.TestCase):
         expect(self.page.locator(".feed13")).to_be_visible()
         self.page.locator("#modal .close").click()
         expect(self.page.locator("#modal .panel")).to_have_count(0)
-        self.action("saves").count()  # Progresso fica em Mais opções.
-        more = self.page.locator(".bell-nav-more")
-        if more.count() and not more.evaluate("(el) => el.open"):
-            more.locator("summary").click()
         self.action("saves").click()
         with self.page.expect_download() as downloaded:
             self.action("export4").click()
@@ -86,6 +86,20 @@ class Bellmont(unittest.TestCase):
         expect(self.page.locator("#modal .panel")).to_have_count(0)
         self.assertEqual(self.save()["name"], data["name"])
         self.assertEqual(self.save()["node"], data["node"])
+
+    def test_responsive_narrative(self):
+        self.new_game()
+        for width, height in [(1920, 1080), (1366, 768), (1024, 768), (768, 1024), (390, 844), (320, 568), (844, 390)]:
+            self.page.set_viewport_size({"width": width, "height": height})
+            frame = self.page.locator(".entre-stage-frame")
+            expect(frame).to_be_visible()
+            expect(self.page.locator(".rail12")).to_be_hidden()
+            expect(self.page.locator(".entre-icon-rail")).to_be_visible()
+            self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1)
+            dialog = frame.locator(".dialog")
+            self.assertEqual(dialog.evaluate("(el) => getComputedStyle(el).overflowY"), "visible")
+            self.action("next").scroll_into_view_if_needed()
+            expect(self.action("next")).to_be_in_viewport()
 
     def test_legacy_import(self):
         self.action("import14").click()
