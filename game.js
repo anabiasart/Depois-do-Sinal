@@ -5523,7 +5523,7 @@ function coverPortrait43(id, mood) {
 cover = function () {
     const cast = ['dante','soren','theo','ezra','valentim'];
     const moods = ['neutral','neutral','smile','shy','smile'];
-    return `<section class="bell-cover entre-premiere">
+    return `<section class="bell-cover">
         <div class="bell-cover-visual" aria-hidden="true">
             <div class="bell-cover-bg">${bg('gate')}</div>
             <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
@@ -5540,7 +5540,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.3</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.4</small>
         </div>
     </section>`;
 };
@@ -5744,67 +5744,62 @@ function showEntrelinhas(sceneId = null) {
 
 function renderEntrelinhasIdentity(app) {
     if (!app || !state) return;
-    app.classList.add('entrelinhas-edition', 'entre-cinema');
+    app.classList.add('entrelinhas-edition');
     app.dataset.entrePhase = world12().phase;
 
     const main = app.querySelector('.main');
     const scene = main?.querySelector(':scope > .scene');
     const dialog = main?.querySelector(':scope > .dialog');
-    app.classList.toggle('entre-in-scene', Boolean(scene && dialog));
-
-    // Move existing elements rather than clone them: typing and click handlers keep working.
-    if (scene && dialog) {
-        const frame = document.createElement('section');
-        frame.className = 'entre-film';
-        scene.before(frame);
-        frame.append(scene, dialog);
-        const choices = dialog.querySelector('.choices');
-        if (choices) {
-            frame.classList.add('entre-has-choices');
-            const options = document.createElement('section');
-            options.className = 'entre-options';
-            options.setAttribute('aria-label', 'Suas escolhas');
-            const label = document.createElement('span');
-            label.className = 'entre-options-label';
-            label.textContent = 'O que você responde?';
-            options.append(label, choices);
-            frame.append(options);
-        }
-    }
-
-    const rail = app.querySelector('.rail12');
-    const nav = rail?.querySelector('.nav');
+    const nav = app.querySelector('.rail12 .nav');
     const group = nav?.querySelector('.bell-nav-group');
-    if (group && !group.querySelector('[data-act="entreArchive"]')) {
-        group.insertAdjacentHTML('beforeend', '<button data-act="entreArchive"><span aria-hidden="true">◇</span><span>Arquivo</span></button>');
+    if (group) {
+        group.insertAdjacentHTML('beforeend', '<button data-act="entreArchive">◇ Arquivo</button>');
     }
-    if (rail && nav) {
-        rail.querySelector('.bell-rail-brand')?.remove();
-        const tools = document.createElement('details');
-        tools.className = 'entre-toolbox';
-        tools.innerHTML = '<summary>Menu de Bellmont <span aria-hidden="true">＋</span></summary>';
-        tools.append(nav);
-        rail.append(tools);
+    if (!scene || !dialog || !nav) return;
 
-        const dock = document.createElement('nav');
-        dock.className = 'entre-dock';
-        dock.setAttribute('aria-label', 'Acesso rápido');
-        for (const [act, label, symbol] of [
-            ['calendar12','Agenda','◷'], ['phone','BellPhone','▣'],
-            ['journal','Diário','✎'], ['city10','Cidade','⌖'], ['entreArchive','Arquivo','◇']
-        ]) {
-            const original = nav.querySelector('[data-act="' + act + '"]');
-            if (!original) continue;
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.dataset.act = act;
-            button.innerHTML = '<span aria-hidden="true">' + symbol + '</span><span>' + label + '</span>';
-            const badge = original.querySelector('em');
-            if (badge) button.append(badge.cloneNode(true));
-            dock.append(button);
-        }
-        rail.prepend(dock);
+    app.classList.add('entre-immersive');
+    const frame = document.createElement('section');
+    frame.className = 'entre-stage-frame';
+    scene.before(frame);
+    frame.append(scene, dialog);
+
+    const choices = dialog.querySelector('.choices');
+    if (choices) {
+        frame.classList.add('entre-stage-choices');
+        frame.append(choices);
+        choices.setAttribute('aria-label', 'Suas escolhas');
     }
+
+    const quick = document.createElement('nav');
+    quick.className = 'entre-icon-rail';
+    quick.setAttribute('aria-label', 'Acesso rápido');
+    const actions = ['home', 'calendar12', 'phone', 'journal', 'city10', 'entreArchive', 'settings12'];
+    for (const act of actions) {
+        const original = nav.querySelector('[data-act="' + act + '"]');
+        if (!original) continue;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.act = act;
+        const [label, path] = bellNav43[act] || ['Arquivo', 'M4 6h16v4H4z M5 10h14v11H5z M9 14h6'];
+        button.title = label;
+        button.setAttribute('aria-label', label);
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + path + '"/></svg>';
+        const badge = original.querySelector('em');
+        if (badge) button.append(badge.cloneNode(true));
+        quick.append(button);
+    }
+    frame.append(quick);
+
+    const menu = document.createElement('details');
+    menu.className = 'entre-full-menu';
+    menu.innerHTML = '<summary aria-label="Todas as opções" title="Todas as opções">☰</summary>';
+    menu.append(nav);
+    frame.append(menu);
+
+    const tools = document.createElement('div');
+    tools.className = 'entre-dialog-tools';
+    tools.innerHTML = '<button data-act="saves">▣ Salvar</button><button data-act="history12">◷ Histórico de escolhas</button>';
+    dialog.append(tools);
 }
 
 document.addEventListener('click', event => {

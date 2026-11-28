@@ -20,7 +20,7 @@ function coverPortrait43(id, mood) {
 cover = function () {
     const cast = ['dante','soren','theo','ezra','valentim'];
     const moods = ['neutral','neutral','smile','shy','smile'];
-    return `<section class="bell-cover entre-premiere">
+    return `<section class="bell-cover">
         <div class="bell-cover-visual" aria-hidden="true">
             <div class="bell-cover-bg">${bg('gate')}</div>
             <div class="bell-cast">${cast.map((id,i)=>`<div class="bell-hero bell-hero-${id}">${coverPortrait43(id,moods[i])}</div>`).join('')}</div>
@@ -37,7 +37,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.3</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17.4</small>
         </div>
     </section>`;
 };
