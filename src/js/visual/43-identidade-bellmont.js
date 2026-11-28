@@ -29,7 +29,7 @@ cover = function () {
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
             <h1 class="bell-title">${bellmontTitle43()}</h1>
             <div class="bell-ornament" aria-hidden="true">✦</div>
-            <p class="bell-cover-line">Algumas histórias começam<br>quando a aula termina.</p>
+            <p class="bell-cover-line">Algumas histórias começam<br>quando a aula termina.<br><small>Entrelinhas</small></p>
             <nav class="bell-cover-actions" aria-label="Menu inicial">
                 <button class="primary" data-act="new">Novo jogo ♡</button>
                 <button class="soft" data-act="continue" ${saved?'':'disabled'}>Continuar</button>
@@ -37,7 +37,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · EDIÇÃO 0.14</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17</small>
         </div>
     </section>`;
 };
@@ -106,6 +106,7 @@ function renderBellmontIdentity() {
     if (!app || screen !== 'game') return;
     app.classList.add('bell-editorial');
     arrangeBellNav43(app);
+    renderEntrelinhasIdentity(app);
     const heading = app.querySelector('.main > .map h2');
     if (heading?.textContent === 'Onde você vai?') heading.textContent = 'Onde você quer ir?';
 }

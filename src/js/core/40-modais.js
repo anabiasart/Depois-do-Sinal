@@ -42,6 +42,7 @@ function showPanel(title, content) {
 }
 
 function backModal(title) {
+    if (modalType === 'entrelinhas') return calendar12();
     if (modalType === 'profile') return modal('cast');
     if (modalType === 'phone') {
         if (app90 === 'feed' && storyOpen13) {

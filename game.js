@@ -820,6 +820,7 @@ function showPanel(title, content) {
 }
 
 function backModal(title) {
+    if (modalType === 'entrelinhas') return calendar12();
     if (modalType === 'profile') return modal('cast');
     if (modalType === 'phone') {
         if (app90 === 'feed' && storyOpen13) {
@@ -3738,7 +3739,7 @@ const oldThread12=thread90;thread90=function(id){let html=oldThread12(id);if(peo
 
 // agenda-e-encontros-cotidianos | v0.14
 let monthOffset12=0,selectedDay12=null;
-function calendar12(){modalType='world12';let day=roomData11().day,d=date12(),month=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+monthOffset12,1)),n=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+1,0)).getUTCDate(),first=month.getUTCDay(),pick=selectedDay12??day;const grid=weekdays12.map(x=>`<span>${x}</span>`).join('')+Array.from({length:first},()=>'<span></span>').join('')+Array.from({length:n},(_,i)=>{let j=Math.round((Date.UTC(month.getUTCFullYear(),month.getUTCMonth(),i+1)-epoch12)/dayMs12)+1;return `<button class="soft day12 ${j===day?'today12':''}" data-act="calpick12" data-i="${j}" ${j<1?'disabled':''} aria-pressed="${j===pick}">${i+1}</button>`}).join('');showPanel('Agenda de Bellmont',`<div class="world12"><div class="worldhero12"><small>CALENDÁRIO / VIDA LIVRE</small><h3>${esc(status12(day))}</h3><p>Dia ${day} · ${world12().phase}. O tempo livre não pula episódios nem altera escolhas.</p>${phaseButtons12()}<button class="primary" data-act="advance12">Avançar horário ›</button></div><div class="calLayout12"><section><div class="calTitle12"><button class="soft" data-act="month12" data-i="-1">‹</button><b>${new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'}).format(month)}</b><button class="soft" data-act="month12" data-i="1">›</button></div><div class="calGrid12">${grid}</div><p class="hint">Selecione uma data para consultar a programação, sem viajar no tempo.</p></section><section><h3>${esc(status12(pick))}</h3>${routineRows12(pick)}</section></div><button class="primary" data-act="living16">Vida em Bellmont</button> <button class="soft" data-act="city10">Explorar cidade</button> <button class="soft" data-act="room11">Meu quarto</button></div>`);document.querySelector('#modal .panel')?.classList.add('worldPanel12')}
+function calendar12(){modalType='world12';let day=roomData11().day,d=date12(),month=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+monthOffset12,1)),n=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+1,0)).getUTCDate(),first=month.getUTCDay(),pick=selectedDay12??day;const grid=weekdays12.map(x=>`<span>${x}</span>`).join('')+Array.from({length:first},()=>'<span></span>').join('')+Array.from({length:n},(_,i)=>{let j=Math.round((Date.UTC(month.getUTCFullYear(),month.getUTCMonth(),i+1)-epoch12)/dayMs12)+1;return `<button class="soft day12 ${j===day?'today12':''}" data-act="calpick12" data-i="${j}" ${j<1?'disabled':''} aria-pressed="${j===pick}">${i+1}</button>`}).join('');showPanel('Agenda de Bellmont',`<div class="world12"><div class="worldhero12"><small>CALENDÁRIO / VIDA LIVRE</small><h3>${esc(status12(day))}</h3><p>Dia ${day} · ${world12().phase}. O tempo livre não pula episódios nem altera escolhas.</p>${phaseButtons12()}<button class="primary" data-act="advance12">Avançar horário ›</button></div><div class="calLayout12"><section><div class="calTitle12"><button class="soft" data-act="month12" data-i="-1">‹</button><b>${new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'}).format(month)}</b><button class="soft" data-act="month12" data-i="1">›</button></div><div class="calGrid12">${grid}</div><p class="hint">Selecione uma data para consultar a programação, sem viajar no tempo.</p></section><section><h3>${esc(status12(pick))}</h3>${routineRows12(pick)}</section></div><button class="primary" data-act="living16">Vida em Bellmont</button> <button class="soft" data-act="entreArchive">Entrelinhas · Arquivo</button> <button class="soft" data-act="city10">Explorar cidade</button> <button class="soft" data-act="room11">Meu quarto</button></div>`);document.querySelector('#modal .panel')?.classList.add('worldPanel12')}
 function phaseButtons12(){return `<div class="phase12">${phases12.map(p=>`<button class="soft" data-act="phase12" data-id="${p}" aria-pressed="${world12().phase===p}">${p}</button>`).join('')}</div>`}
 function routineRows12(day=roomData11().day){return `<div class="routine12">${people12.map(id=>`<article><div class="routineFace12">${sprite(id)}</div><div><b>${name90(id)}</b><small>${phases12.map(p=>`${p}: ${place12(when12(id,day,p))}`).join(' · ')}</small>${day===roomData11().day&&profileKnown(id)?`<small>${emotional12(id)}</small>`:''}</div></article>`).join('')}</div>`}
 const cityBase12=cityPanel10;cityPanel10=function(){cityBase12();let p=document.querySelector('#modal .city10'),time=p?.querySelector('.citytime10');if(!p||!time)return;time.innerHTML=`<span>Dia ${roomData11().day} · ${esc(status12())}</span>${phaseButtons12()}<button class="soft" data-act="advance12">Avançar horário ›</button><button class="soft" data-act="calendar12">Agenda</button>`;p.querySelectorAll('.citycard10').forEach(b=>{let id=b.dataset.id,c=city10[id];if(!c?.who||state.episode<c.day)return;let span=b.querySelector('div>span');if(span)span.textContent=cityData10().done.includes('date:'+id)?'♡ Encontro concluído':when12(c.who)===id?name90(c.who)+' · '+(profileKnown(c.who)?'Por aqui':'Ainda não conhece'):'Agora: '+place12(when12(c.who));});p.insertAdjacentHTML('beforeend',`<details class="routineDetails12"><summary>Rotina dos personagens hoje</summary>${routineRows12()}</details>`)};
@@ -5531,7 +5532,7 @@ cover = function () {
             <div class="bell-cover-brand">${bellmontCrest43()}<span>COLÉGIO BELLMONT</span></div>
             <h1 class="bell-title">${bellmontTitle43()}</h1>
             <div class="bell-ornament" aria-hidden="true">✦</div>
-            <p class="bell-cover-line">Algumas histórias começam<br>quando a aula termina.</p>
+            <p class="bell-cover-line">Algumas histórias começam<br>quando a aula termina.<br><small>Entrelinhas</small></p>
             <nav class="bell-cover-actions" aria-label="Menu inicial">
                 <button class="primary" data-act="new">Novo jogo ♡</button>
                 <button class="soft" data-act="continue" ${saved?'':'disabled'}>Continuar</button>
@@ -5539,7 +5540,7 @@ cover = function () {
                 <button class="soft" data-act="about">Sobre o jogo</button>
                 <button class="soft" data-act="import14">Importar progresso</button>
             </nav>
-            <small class="bell-version">TEMPORADA 01 · EDIÇÃO 0.14</small>
+            <small class="bell-version">TEMPORADA 01 · ENTRELINHAS 0.17</small>
         </div>
     </section>`;
 };
@@ -5608,9 +5609,162 @@ function renderBellmontIdentity() {
     if (!app || screen !== 'game') return;
     app.classList.add('bell-editorial');
     arrangeBellNav43(app);
+    renderEntrelinhasIdentity(app);
     const heading = app.querySelector('.main > .map h2');
     if (heading?.textContent === 'Onde você vai?') heading.textContent = 'Onde você quer ir?';
 }
+
+// Entrelinhas: a side story that uses the existing calendar, cast and save system.
+const entrelinhasScenes = [
+    {
+        id: 'photograph', who: 'ezra', loc: 'library', mood: 'neutral',
+        title: 'A fotografia sem legenda',
+        text: 'Encontrei isto dentro de um anuário. A turma está reunida no festival, mas alguém arrancou a legenda. Não sei se foi por acaso.',
+        choices: [
+            ['Vamos procurar a legenda antes de tirar conclusões.', 'investigate', 1, 'Então começamos pelo arquivo. Prefiro perguntas a certezas inventadas.'],
+            ['Talvez alguém tenha motivos para não aparecer.', 'privacy', 1, 'É verdade. Uma fotografia não dá a ninguém o direito de invadir uma vida.'],
+            ['Mostre a foto ao conselho. Eles podem reconhecer alguém.', 'share', 0, 'Vou perguntar sem entregar o original. Ainda não sei em quem confiar.']
+        ],
+        clue: 'Fotografia do antigo festival sem identificação.'
+    },
+    {
+        id: 'schedule', who: 'soren', loc: 'hall', mood: 'neutral',
+        title: 'Uma data riscada',
+        text: 'O registro oficial diz que o festival terminou normalmente. Mas esta cópia do cronograma tem uma apresentação cancelada e nenhuma justificativa.',
+        choices: [
+            ['Compare as duas versões comigo.', 'investigate', 1, 'Podemos conferir o que mudou sem acusar ninguém.'],
+            ['Não quero transformar isso em exposição pública.', 'privacy', 1, 'Concordo. As pessoas envolvidas merecem ser ouvidas primeiro.'],
+            ['O jornal deveria saber que existe uma divergência.', 'share', 0, 'Desde que fique claro que uma divergência não é prova de culpa.']
+        ],
+        clue: 'Cronograma com uma apresentação cancelada.'
+    },
+    {
+        id: 'rehearsal', who: 'dante', loc: 'music', mood: 'neutral',
+        title: 'A música que ficou',
+        text: 'Achei uma partitura antiga. Tem uma frase escrita na margem: depois do sinal. O estranho é que conheço essa melodia. Alguém ainda toca isso.',
+        choices: [
+            ['Vamos descobrir de onde veio a música.', 'investigate', 1, 'Posso tocar um trecho. Talvez alguém reconheça.'],
+            ['Guarde a partitura até sabermos de quem é.', 'privacy', 1, 'Tudo bem. Não quero que vire atração de festival.'],
+            ['Convide os outros para ouvir.', 'share', 0, 'Posso fazer isso. Mas sem transformar uma suspeita em boato.']
+        ],
+        clue: 'Partitura com a mesma frase do bilhete.'
+    },
+    {
+        id: 'archive', who: 'raven', loc: 'library', mood: 'neutral',
+        title: 'Aquilo que não dizemos',
+        text: 'As três pistas apontam para a mesma apresentação. O arquivo não explica por que ela foi cancelada. Quero investigar, mas não quero repetir os erros de quem apagou essa história.',
+        choices: [
+            ['Vamos procurar os antigos estudantes e ouvir o que têm a dizer.', 'investigate', 1, 'Uma história contada por quem viveu nela. Faz sentido.'],
+            ['Prometo preservar a identidade de quem não quiser falar.', 'privacy', 2, 'Obrigada. Era isso que eu precisava ouvir antes de continuar.'],
+            ['Vamos reunir o grupo e decidir juntos.', 'share', 1, 'Certo. Mas precisamos combinar o que não será divulgado.']
+        ],
+        clue: 'O cancelamento permanece sem explicação. Uma nova investigação começa.'
+    }
+];
+
+function getEntrelinhas(save) {
+    if (!save.entrelinhas || typeof save.entrelinhas !== 'object' || Array.isArray(save.entrelinhas)) {
+        save.entrelinhas = {};
+    }
+    const journal = save.entrelinhas;
+    if (!journal.answers || typeof journal.answers !== 'object' || Array.isArray(journal.answers)) journal.answers = {};
+    for (const scene of entrelinhasScenes) {
+        const answer = journal.answers[scene.id];
+        if (!answer || !Number.isInteger(answer.choice) || !scene.choices[answer.choice] || !Number.isInteger(answer.day) || answer.day < 1) {
+            delete journal.answers[scene.id];
+        }
+    }
+    return journal;
+}
+
+function nextEntrelinhasScene(save, day, phase, knows) {
+    if ((save.episode || 1) < 5 || phase !== 'Tarde' || !Number.isInteger(day)) return null;
+    const journal = getEntrelinhas(save);
+    const index = entrelinhasScenes.findIndex(scene => !journal.answers[scene.id]);
+    if (index < 0) return null;
+    const scene = entrelinhasScenes[index];
+    if (!knows(scene.who)) return null;
+    if (index > 0 && day <= journal.answers[entrelinhasScenes[index - 1].id].day) return null;
+    return scene;
+}
+
+function recordEntrelinhasChoice(save, day, phase, sceneId, choice, knows) {
+    const scene = nextEntrelinhasScene(save, day, phase, knows);
+    if (!scene || scene.id !== sceneId || !Number.isInteger(choice) || !scene.choices[choice]) return false;
+    const [text, approach, trust] = scene.choices[choice];
+    getEntrelinhas(save).answers[scene.id] = { choice, day };
+    save.trust[scene.who] = (save.trust[scene.who] || 0) + trust;
+    save.log.push({ who: scene.who, choice: text, aff: 0, trust, chapter42: save.episode });
+    const facts = story42(save).facts;
+    (facts[scene.who] ||= {}).entrelinhas = approach;
+    return true;
+}
+
+function entrelinhasRecall(save, scene) {
+    const answers = getEntrelinhas(save).answers;
+    const previous = entrelinhasScenes[entrelinhasScenes.indexOf(scene) - 1];
+    if (!previous || !answers[previous.id]) return '';
+    const approach = previous.choices[answers[previous.id].choice][1];
+    return {
+        investigate: 'Soube que você preferiu conferir as pistas antes de concluir qualquer coisa.',
+        privacy: 'Me disseram que você está tentando preservar as pessoas envolvidas. Isso importa.',
+        share: 'Ouvi que você quer envolver outras pessoas. Espero que possamos fazer isso com cuidado.'
+    }[approach] || '';
+}
+
+function showEntrelinhas(sceneId = null) {
+    if (!state) return;
+    const journal = getEntrelinhas(state);
+    const day = roomData11().day;
+    const phase = world12().phase;
+    const available = nextEntrelinhasScene(state, day, phase, profileKnown);
+    modalType = 'entrelinhas';
+    const cards = entrelinhasScenes.map((scene, index) => {
+        const answer = journal.answers[scene.id];
+        if (!answer) return '<article class="entre-clue"><small>FRAGMENTO ' + (index + 1) + '</small><p>Não descoberto.</p></article>';
+        return '<article class="entre-clue"><small>FRAGMENTO ' + (index + 1) + '</small><h3>' + esc(scene.title) + '</h3><p>' + esc(scene.clue) + '</p><small>Dia ' + answer.day + '</small></article>';
+    }).join('');
+    const completed = entrelinhasScenes.every(scene => journal.answers[scene.id]);
+    let content = '<p class="entre-note">Disponível a partir do episódio 05, durante a tarde. Conheça os personagens e avance os dias pela agenda.</p>';
+    if (completed) content = '<p class="entre-note">Quatro fragmentos reunidos. A verdade ainda depende das pessoas que viveram aquela história.</p>';
+    if (available) {
+        const recall = entrelinhasRecall(state, available);
+        content = '<div class="stage10 entre-stage"><div class="entre-bg">' + bg(available.loc) + '</div><div class="actor10 speaking10" style="--slot:50%"><div class="actorart10">' + sprite(available.who, available.mood) + '</div><span>' + esc(name90(available.who)) + '</span></div></div>' +
+            '<div class="entre-talk"><small>ENTRELINHAS / ' + esc(available.title) + '</small>' +
+            (recall ? '<p class="entre-recall">' + esc(recall) + '</p>' : '') +
+            '<p>' + esc(available.text) + '</p>' +
+            available.choices.map((choice, index) => '<button class="choice" data-act="entreChoice" data-id="' + available.id + '" data-i="' + index + '">' + esc(choice[0]) + '</button>').join('') + '</div>';
+    } else if (sceneId && journal.answers[sceneId]) {
+        const scene = entrelinhasScenes.find(item => item.id === sceneId);
+        if (scene) content = '<div class="entre-talk"><small>' + esc(name90(scene.who)) + '</small><p>' + esc(scene.choices[journal.answers[sceneId].choice][3]) + '</p><p class="entre-recall">Fragmento registrado. Volte em outra tarde para continuar.</p></div>';
+    }
+    showPanel('Entrelinhas · Arquivo', '<div class="entre-panel"><header class="entre-header"><small>BELLMONT / ECOS DO PASSADO</small><h3>Nem toda lembrança foi preservada.</h3><p>Dia ' + day + ' · ' + esc(phase) + '</p></header>' + content + '<h3>Fragmentos da investigação</h3><div class="entre-grid">' + cards + '</div><button class="soft" data-act="calendar12">Voltar à agenda</button></div>');
+    document.querySelector('#modal .panel')?.classList.add('entre-modal');
+}
+
+function renderEntrelinhasIdentity(app) {
+    if (!app || !state) return;
+    app.classList.add('entrelinhas-edition');
+    app.dataset.entrePhase = world12().phase;
+    const nav = app.querySelector('.bell-nav-group');
+    if (nav && !nav.querySelector('[data-act="entreArchive"]')) {
+        nav.insertAdjacentHTML('beforeend', '<button data-act="entreArchive"><span aria-hidden="true">◇</span><span>Entrelinhas</span></button>');
+    }
+}
+
+document.addEventListener('click', event => {
+    const button = event.target.closest('[data-act]');
+    if (!button || button.disabled || !state) return;
+    if (button.dataset.act === 'entreArchive') showEntrelinhas();
+    if (button.dataset.act === 'entreChoice') {
+        const day = roomData11().day;
+        const sceneId = button.dataset.id;
+        if (!recordEntrelinhasChoice(state, day, world12().phase, sceneId, Number(button.dataset.i), profileKnown)) return;
+        persist();
+        render();
+        showEntrelinhas(sceneId);
+    }
+});
 
 // executar | v0.14
 render();
